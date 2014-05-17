@@ -38,7 +38,11 @@ local hiragananumber
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
+local function goToMenu()
 
+    storyboard.gotoScene("menu")
+    storyboard.removeScene("numbers.numbers5")
+end
 
 local function restart()
 	storyboard.purgeScene("numbers.numbers5")
@@ -59,10 +63,15 @@ local function incorrect1(n)
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-	reText = display.newText("Restart?",display.contentWidth-50*xscale,30*yscale,native.systemFont, 18 )
-	reText:setFillColor(0)
+	reText = display.newImage("images/Restart.png",display.contentWidth-50*xscale,30*yscale)
+	reText:scale(0.4,0.4)
 	reText:addEventListener("tap",restart)
 	screenGroup:insert(reText)
+
+	menu = display.newImage("images/Menu.png",display.contentWidth-50*xscale,60*yscale)
+	menu:scale(0.4,0.4)
+	menu:addEventListener("tap",goToMenu)
+	screenGroup:insert(menu)
 end
 
 local function incorrect(n)

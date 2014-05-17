@@ -110,7 +110,7 @@ syl[96] = {syl[77][2]..syl[15][2]}
 syl[97] = {syl[23][2]..syl[33][2]}
 syl[98] = {syl[47][2]..syl[33][2]}
 syl[99] = {syl[15][2]}
-syl[100] = {syl[24][2]..syl[69][2]..syl[5][2]}
+syl[100] = {syl[24][2]..syl[69][2]..syl[6][2]}
 syl[101] = {syl[100][1]..syl[91][1]}
 syl[102] = {syl[100][1]..syl[92][1]}
 syl[103] = {syl[100][1]..syl[93][1]}
@@ -173,6 +173,6 @@ db:exec( tablesetup )
 
 
 --this tells the program where to go next, after everything is initialized
-storyboard.gotoScene( "numbers.numbers1")
---storyboard.gotoScene( "splash","fade",500)
+--storyboard.gotoScene( "menu")
+storyboard.gotoScene( "splash","fade",500)
 
