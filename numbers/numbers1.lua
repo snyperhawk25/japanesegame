@@ -55,6 +55,8 @@ local function rotate() --set up the times
 	
 	hourtime =(0.5*(r1))%12
 	minutetime = (6*(r1))%30
+	--b test
+	print("\nRotate()\nhourtime: "..hourtime.."\nminutetime: "..minutetime..".\n")
 end
 
 
@@ -153,6 +155,9 @@ local function generateAnswers()
 		ma3text = han
 	end
 
+	--btest TEST PRINT
+	print("\nGENERATE_ANSWERS():\nAnswer0\nha="..ha..". ma="..ma.."\t"..ha..":"..ma.."\nAnswer1\nha1="..ha1..". ma1="..ma1.."\t"..ha1..":"..ma1.."\nAnswer2\nha2="..ha2..". ma2="..ma2.."\t"..ha2..":"..ma2.."\nAnswer3\nha3="..ha3..". ma3="..ma3.."\t"..ha3..":"..ma3.."\n")
+
 end
 
 local function goToMenu()
@@ -223,17 +228,38 @@ end
 local function showAnswers(n)
 	local screenGroup = n
 
+	--b Randomize x,y values, put into "b"
 	local a={{-200,65},{-200,120},{200,120},{200,65}}
 	local b = {}
 	local count = 4
-
+	print("\nShowAnswers():")
 	while (count>0) do --randomize the array of x values
 		local r = math.random(1,count)
 		b[count] = a[r]
+		--btest TEST PRINT
+		print("b["..count.."] is a["..r.."];\t"..a[r][1]..","..a[r][2]..".")
 		table.remove(a, r)
 		count=count-1
 	end
 
+
+	--btest TEST PRINT
+	--correct box to click //!@#resume
+	print("b11:"..b[1][1].."b12:"..b[1][2]..".")
+	if(b[1][2]<65) then
+		if(b[1][1]>0) then
+			print("-- Click Top Right --")
+		else
+			print("-- Click Top Left --")
+		end	
+	else
+		if(b[1][1]>0) then
+			print("-- Click Bottom Right --")
+		else
+			print("-- Click Bottom Left --")
+		end
+	end	
+	--b A - Correct
 	asign = display.newImage("images/bubble.png",centerX+b[1][1]*xscale,b[1][2]*yscale)
 	asign:scale(0.24*xscale,0.14*yscale)
 	local function  myFunction()
@@ -250,6 +276,7 @@ local function showAnswers(n)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
+	--b B - Incorrect
 	bsign = display.newImage("images/bubble.png",centerX+b[2][1]*xscale,b[2][2]*yscale)
 	bsign:scale(0.24*xscale,0.14*yscale)
 	local function  myFunction()
@@ -265,6 +292,7 @@ local function showAnswers(n)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
+	--b C - Incorrect
 	csign = display.newImage("images/bubble.png",centerX+b[3][1]*xscale,b[3][2]*yscale)
 	csign:scale(0.24*xscale,0.14*yscale)
 	local function  myFunction()
@@ -280,6 +308,7 @@ local function showAnswers(n)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
+	--b D - Incorrect
 	dsign = display.newImage("images/bubble.png",centerX+b[4][1]*xscale,b[4][2]*yscale)
 	dsign:scale(0.24*xscale,0.14*yscale)
 	local function  myFunction()
@@ -295,7 +324,7 @@ local function showAnswers(n)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
-
+	--b Text Bubble
 	bubble = display.newImage("images/bubble.png", centerX,centerY+90*yscale)
 	bubble:scale(0.74*xscale,0.43*yscale)
 	screenGroup:insert(bubble)
