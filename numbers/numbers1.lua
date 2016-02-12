@@ -80,36 +80,51 @@ end
 
 
 local function generateAnswers()
+	--b NOTE: Only acceptable values are [1-12]:[00 or 30]. These values are distrubuted from 0 to 23, where 0 is converted to 12.
 	math.randomseed( os.time() )
-	r1 = math.random(23)*30
 
+	--b ANSWER 0
+	r1 = math.random(23)*30
 	ha = math.floor(r1/60) --hours answer
 	ma = ((r1/30)%2)*30 
+
+	--b ANSWER 1
 	r2 = math.random(23)*30
 	ha1 = math.floor(r2/60) --hours answer
 	ma1 = ((r2/30)%2)*30  --minutes answer
+
+	--b If Answer 1 is same as 0, regenerate 1
 	while(((ha1*60)+ma1 == (ha*60)+ma)) do
 		r2 = math.random(23)*30
 		ha1 = math.floor(r2/60) --hours answer
-		ma1 = ((r2/30)%2)*30  
+		ma1 = ((r2/30)%2)*30  --minutes answer
 	end
+
+	--b ANSWER 2
 	r3 = math.random(23)*30
 	ha2 = math.floor(r3/60) --hours answer
-	ma2 = ((r3/30)%2)*30  
-	while(((ha2*60)+ma2 == (ha*60)+ma)or((ha2*60)+ma2 == (ha1*60)+ma1)) do
+	ma2 = ((r3/30)%2)*30
+
+	--b If ANSWER 2 same as 0 or 1, regenrate 2
+	while( ((ha2*60)+ma2 == (ha*60)+ma) or ((ha2*60)+ma2 == (ha1*60)+ma1) ) do
 		r3 = math.random(23)*30
 		ha2 = math.floor(r3/60) --hours answer 
 		ma2 = ((r3/30)%2)*30
 	end
+	
+	--b ANSWER 3
 	r4 = math.random(23)*30
 	ha3 = math.floor(r4/60) --hours answer
 	ma3 =  ((r4/30)%2)*30
+
+	--b If ANSWER 3 same as 0, 1, or 2, regenrate 3
 	while((((ha3*60)+ma3 == (ha*60)+ma)or((ha3*60)+ma3 == (ha1*60)+ma1))or((ha3*60)+ma3 == (ha2*60)+ma2)) do
 		r4 = math.random(23)*30
 		ha3 = math.floor(r4/60) --hours answer
 		ma3 =  ((r4/30)%2)*30 
 	end
 	
+	--b Correct for 0:00 --> 12:00 
 	if ha == 0 then 
 		ha = 12
 	end
@@ -123,6 +138,7 @@ local function generateAnswers()
 		ha3 = 12
 	end
 
+	--b Correct Minute Answer Text if time is :30
 	local han = " "..syl[47][2]..syl[83][2]
 	if ma == 30 then
 		matext = han
