@@ -242,6 +242,8 @@ local function showAnswers(n)
 		count=count-1
 	end
 
+	--b REMOVING RANDOMIZER
+	local b = a
 
 	--btest TEST PRINT
 	--correct box to click //!@#resume
