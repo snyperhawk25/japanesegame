@@ -245,22 +245,7 @@ local function showAnswers(n)
 	--b REMOVING RANDOMIZER
 	local b = a
 
-	--btest TEST PRINT
-	--correct box to click //!@#resume
-	print("b11:"..b[1][1].."b12:"..b[1][2]..".")
-	if(b[1][2]<65) then
-		if(b[1][1]>0) then
-			print("-- Click Top Right --")
-		else
-			print("-- Click Top Left --")
-		end	
-	else
-		if(b[1][1]>0) then
-			print("-- Click Bottom Right --")
-		else
-			print("-- Click Bottom Left --")
-		end
-	end	
+
 	--b A - Correct
 	asign = display.newImage("images/bubble.png",centerX+b[1][1]*xscale,b[1][2]*yscale)
 	asign:scale(0.24*xscale,0.14*yscale)

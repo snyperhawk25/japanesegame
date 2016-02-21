@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------
 --
--- menu.lua
---
+-- numbers3.lua
+-- Notes:
+--10+ bad guys too amny to count
 ---------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
@@ -152,13 +153,21 @@ local function showAnswers(n)
 	local b = {}
 	local count = 4
 
-	while (count>0) do --randomize the array of x values
-		local r = math.random(1,count)
-		b[count] = a[r]
-		table.remove(a, r)
-		count=count-1
-	end
+	-- while (count>0) do --randomize the array of x values
+	-- 	local r = math.random(1,count)
+	-- 	b[count] = a[r]
+	-- 	table.remove(a, r)
+	-- 	count=count-1
+	-- end
 
+	--b Remove Randomization
+	count=4
+	a={-210,-120,95,190}
+	for i=1,count,1 do
+		b[i] = a[i]
+	end	
+
+	--A
 	asign = display.newImage("images/bubble.png",centerX+b[1]*xscale,65*yscale)
 	asign:scale(0.12*xscale,0.1*yscale)
 	local function  myFunction()
@@ -175,6 +184,7 @@ local function showAnswers(n)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
+	--B
 	bsign = display.newImage("images/bubble.png",centerX+b[2]*xscale,65*yscale)
 	bsign:scale(0.12*xscale,0.1*yscale)
 	local function  myFunction()
@@ -190,6 +200,7 @@ local function showAnswers(n)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
+	--C
 	csign = display.newImage("images/bubble.png",centerX+b[3]*xscale,65*yscale)
 	csign:scale(0.12*xscale,0.1*yscale)
 	local function  myFunction()
@@ -205,6 +216,7 @@ local function showAnswers(n)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
+	--D
 	dsign = display.newImage("images/bubble.png",centerX+b[4]*xscale,65*yscale)
 	dsign:scale(0.12*xscale,0.1*yscale)
 	local function  myFunction()
@@ -245,9 +257,9 @@ local function showAnswers(n)
 	for i = 1,answernum,1 do
 		badguys[i] = display.newImage("images/numbers/stickfig.png",d[i],centerY-10*yscale)
 		if i%2==0 then
-			badguys[i]:scale(0.2*xscale,0.2*yscale)
+			badguys[i]:scale(0.3*xscale,0.3*yscale)
 		else
-			badguys[i]:scale(-0.2*xscale,0.2*yscale)
+			badguys[i]:scale(-0.3*xscale,0.3*yscale)
 		end
 		screenGroup:insert(badguys[i])
 	end

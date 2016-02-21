@@ -27,8 +27,9 @@ local function goToGame3()
 	storyboard.gotoScene("game3")
 	storyboard.removeScene("menu")
 end
+--b Numbers Game. Switched to numbers2.lua
 local function goToNum()
-	storyboard.gotoScene("numbers.numbers1")
+	storyboard.gotoScene("numbers.numbers5")
 	storyboard.removeScene("menu")
 end
 

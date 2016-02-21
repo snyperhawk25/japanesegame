@@ -157,7 +157,9 @@ local function showAnswers(n)
 			screenGroup:insert(buttons[(3*i)+j])
 		end
 	end
-	--zero
+	
+
+	--b Zero Button
 	local function myFunction(event)
 		if event.phase == "ended" then
 			recordPress(0)
@@ -169,7 +171,6 @@ local function showAnswers(n)
 		    overFile ="images/numbers/buttonpressed.png",
 		    onEvent = myFunction
 		}
-
 	zerobg.x = 100*xscale
 	zerobg.y = centerY+20*yscale
 	zerobg:scale(0.14*xscale,0.14*yscale)
@@ -179,19 +180,19 @@ local function showAnswers(n)
 	screenGroup:insert(zerobg)
 	screenGroup:insert(zerobutton)
 
+
+	--b Call Button
 	local function myFunction(event)
 		if event.phase == "ended" then
 			checkEndGame(screenGroup)
 		end
 	end
-
 	callbg = widget.newButton
 		{
 		    defaultFile = "images/numbers/button.png",
 		    overFile ="images/numbers/buttonpressed.png",
 		    onEvent = myFunction
 		}
-
 	callbg.x = centerX+100*xscale
 	callbg.y = centerY-50*yscale
 	callbg:scale(0.3*xscale,0.14*yscale)
@@ -201,6 +202,7 @@ local function showAnswers(n)
 	screenGroup:insert(callbg)
 	screenGroup:insert(callbutton)
 
+	--b Clear Button
 	local function myFunction(event)
 		if event.phase == "ended" then
 			answertext.text=""
@@ -213,7 +215,6 @@ local function showAnswers(n)
 		    overFile ="images/numbers/buttonpressed.png",
 		    onEvent = myFunction
 		}
-
 	clearbg.x = centerX+100*xscale
 	clearbg.y = centerY+10*yscale
 	clearbg:scale(0.3*xscale,0.14*yscale)
@@ -224,7 +225,7 @@ local function showAnswers(n)
 	screenGroup:insert(clearbutton)
 
 
-
+	--b Bubble
 
 	bubble = display.newImage("images/bubble.png", centerX,centerY+100*yscale)
 	bubble:scale(0.74*xscale,0.43*yscale)

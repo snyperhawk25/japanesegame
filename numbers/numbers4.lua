@@ -1,6 +1,6 @@
 ---------------------------------------------------------------------------------
 --
--- menu.lua
+-- numbers4.lua
 --
 ---------------------------------------------------------------------------------
 
@@ -153,13 +153,21 @@ local function showAnswers(n)
 	local b = {}
 	local count = 4
 
-	while (count>0) do --randomize the array of x values
-		local r = math.random(1,count)
-		b[count] = a[r]
-		table.remove(a, r)
-		count=count-1
+	-- while (count>0) do --randomize the array of x values
+	-- 	local r = math.random(1,count)
+	-- 	b[count] = a[r]
+	-- 	table.remove(a, r)
+	-- 	count=count-1
+	-- end
+
+	--b Remove Randomization
+	count=4
+	a={-160,-60,10,90}
+	for i=1,count,1 do
+		b[i] = a[i]
 	end
 
+	--A
 	asign = display.newImage("images/numbers/sign.png",centerX+b[1]*xscale,85*yscale)
 	asign:scale(0.4*xscale,0.4*yscale)
 	local function  myFunction()
@@ -170,7 +178,6 @@ local function showAnswers(n)
 	end
 	asign:addEventListener("tap",myFunction)
 	screenGroup:insert(asign)
-
 
 	atext = display.newText(answer,centerX+b[1]*xscale,85*yscale,native.systemFont,16)
 	atext:setFillColor(0)
@@ -183,6 +190,7 @@ local function showAnswers(n)
 		atext.y = atext.y+10*yscale
 	end
 
+	--B
 	bsign = display.newImage("images/numbers/sign.png",centerX+b[2]*xscale,85*yscale)
 	bsign:scale(0.4*xscale,0.4*yscale)
 	local function  myFunction()
@@ -193,7 +201,6 @@ local function showAnswers(n)
 	end
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
-
 
 	btext = display.newText(opt1,centerX+b[2]*xscale,85*yscale,native.systemFont,16)
 	btext:setFillColor(0)
@@ -206,6 +213,7 @@ local function showAnswers(n)
 		btext.y = btext.y+10*yscale
 	end
 
+	--C
 	csign = display.newImage("images/numbers/sign.png",centerX+b[3]*xscale,85*yscale)
 	csign:scale(0.4*xscale,0.4*yscale)
 	local function  myFunction()
@@ -228,6 +236,7 @@ local function showAnswers(n)
 		ctext.y = ctext.y+10*yscale
 	end
 
+	--D
 	dsign = display.newImage("images/numbers/sign.png",centerX+b[4]*xscale,85*yscale)
 	dsign:scale(0.4*xscale,0.4*yscale)
 	local function  myFunction()
@@ -250,7 +259,7 @@ local function showAnswers(n)
 		dtext.y = dtext.y+10*yscale
 	end
 
-
+	--Bubble
 	bubble = display.newImage("images/bubble.png", centerX,centerY+90*yscale)
 	bubble:scale(0.74*xscale,0.43*yscale)
 	screenGroup:insert(bubble)
