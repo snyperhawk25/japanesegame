@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------
 --
--- menu.lua
---
+-- numbers6.lua
+-- Notes:
+-- Need a screen to land on after win state and to display points on.
 ---------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
@@ -137,6 +138,8 @@ local function checkEnd(focus)
 			end
 		end
 		if toggle1 and toggle2 and toggle3 and toggle4 then
+			--b TESTPRINT
+			print("You Did It! All four toggles are ture")
 			storyboard.gotoScene("numbers.numbers1")
 		end
   	end
@@ -227,13 +230,19 @@ local function showAnswers(n)
 	local b = {}
 	local count = 4
 
-	while (count>0) do --randomize the array of x values
-		local r = math.random(1,count)
-		b[count] = a[r]
-		table.remove(a, r)
-		count=count-1
-	end
+	-- while (count>0) do --randomize the array of x values
+	-- 	local r = math.random(1,count)
+	-- 	b[count] = a[r]
+	-- 	table.remove(a, r)
+	-- 	count=count-1
+	-- end
 
+	--b Override Randomizer
+	count = 4
+	a={-200,-90,55,200}
+	for i=1,count,1 do
+		b[i]=a[i]
+	end	
 
 	bl1= display.newImage("images/numbers/bomblistener.png",centerX-155*xscale,centerY+0*yscale)
 	bl1:scale(0.35*xscale,0.28*yscale)

@@ -1,7 +1,8 @@
 ---------------------------------------------------------------------------------
 --
--- menu.lua
---
+-- number5.lua
+-- Notes:
+-- Potential random generate phone number positions.
 ---------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
@@ -133,7 +134,7 @@ local function showAnswers(n)
 
 	buttons = {}
 	buttonbgs = {}
-	--1 to 9
+	--b Buttons 1 - 9
 	for i = 0,2,1 do
 		for j = 1,3,1 do
 			local function myFunction(event)
@@ -158,6 +159,11 @@ local function showAnswers(n)
 		end
 	end
 	
+	--Phone Orientation
+	-- 7 8 9
+	-- 4 5 6
+	-- 1 2 3
+	--   0
 
 	--b Zero Button
 	local function myFunction(event)
