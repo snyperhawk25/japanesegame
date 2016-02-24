@@ -143,7 +143,8 @@ local function generateAnswers()
 		opt3 = syl[num4+90][1]
 
 	end
-
+	--b TESTPrint results to console
+	print("\ngenerateAnswers()\nanswer="..answer.."\nopt1="..opt1.."\nopt2="..opt2.."\nopt3="..opt3.."\n")
 end
 
 local function showAnswers(n)

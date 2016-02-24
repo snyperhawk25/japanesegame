@@ -242,8 +242,9 @@ local function showAnswers(n)
 		count=count-1
 	end
 
-	--b REMOVING RANDOMIZER
-	local b = a
+	-- --b REMOVING RANDOMIZER
+	-- local b = a
+	b={{-200,65},{-200,120},{200,120},{200,65}}
 
 
 	--b A - Correct

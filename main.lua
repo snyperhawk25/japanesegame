@@ -123,7 +123,29 @@ syl[109] = {syl[100][1]..syl[99][1]}
 syl[110] = {syl[92][1]..syl[100][1]}
 
 
+--b Print Syl Array
+function printSylArray()
+	--size
+	---print("\ntable.getn()="..table.getn(syl)..".")
 
+	--Letters
+	for i=1,82,1 do
+		if syl[i] then
+			print("syl["..i.."]: "..syl[i][1]..",\t1)"..syl[i][2].."\t2)"..syl[i][3]..".")
+		end
+	end
+	--83 exception
+	print("syl[83]: "..syl[83][1]..",\t1)"..syl[83][2]..".")
+
+
+	--Numbers
+	local firstNumIndex=90
+	for i=firstNumIndex,110,1 do
+		print("syl["..i.."]: \t#"..(i-firstNumIndex).."\t"..syl[i][1]..".")
+		--print("HelloAgain"..i)
+	end
+end
+printSylArray()
 
 
 

@@ -3,13 +3,14 @@
 -- numbers6.lua
 -- Notes:
 -- Need a screen to land on after win state and to display points on.
+-- Create a reset function() to reset bl1-4 after playing game
 ---------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 require "dbFile"
 
-
+local a={-200,-90,55,200}
 local answer --answer
 local answernum --answer
 local opt1 --options
@@ -32,8 +33,8 @@ local toggle4 = false
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
-local function goToMenu()
 
+local function goToMenu()
     storyboard.gotoScene("menu")
     storyboard.removeScene("numbers.numbers6")
 end
@@ -43,7 +44,25 @@ local function restart()
 	storyboard.gotoScene("numbers.numbers1")
 end
 
+local function goToScorePage()
+	print("\nGoing to score page\n")
+	storyboard.purgeScene("numbers.numbers6")
+	storyboard.removeScene("numbers.numbers6")
+	storyboard.gotoScene("numbers.numbersScorePage","zoomOutInFadeRotate",1000)
+end
 
+local function correct(n)
+	local screenGroup = n
+	screenGroup:remove(myText)
+	
+	local instructions = "Awesome. You defused the bomb"
+	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText:setFillColor(0)
+	screenGroup:insert(myText)
+
+	awardPoints(100) --award points for completing minigame (score is currently not displayed anywhere)
+
+end
 
 local function incorrect1(n)
 	local screenGroup = n
@@ -140,7 +159,8 @@ local function checkEnd(focus)
 		if toggle1 and toggle2 and toggle3 and toggle4 then
 			--b TESTPRINT
 			print("You Did It! All four toggles are ture")
-			storyboard.gotoScene("numbers.numbers1")
+			--Once complete, go to the score page after timer
+			goToScorePage()
 		end
   	end
 end
@@ -179,23 +199,23 @@ local function drag(event)
  
 end
 
+--b To reset the objects after success
+local function resetObjects()
+	print("\nReseting Object x,y Positions\n")
+	asign.x=centerX+a[1]*xscale
+	asign.y=85*yscale
 
+	bsign.x=centerX+a[2]*xscale
+	bsign.y=85*yscale
 
+	csign.x=centerX+a[3]*xscale
+	csign.y=85*yscale
 
-
-
-local function correct(n)
-	local screenGroup = n
-	screenGroup:remove(myText)
-	
-	local instructions = "Awesome."
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
-	myText:setFillColor(0)
-	screenGroup:insert(myText)
-
-	awardPoints(100) --award points for completing minigame (score is currently not displayed anywhere)
+	dsign.x=centerX+a[1]*xscale
+	dsign.y=85*yscale
 
 end
+
 
 local function generateAnswers()
 
@@ -226,7 +246,7 @@ end
 local function showAnswers(n)
 	local screenGroup = n
 
-	local a={-200,-90,55,200}
+	--was a here.
 	local b = {}
 	local count = 4
 
@@ -319,8 +339,6 @@ local function showAnswers(n)
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-
-
 end
 
 
@@ -356,7 +374,7 @@ end
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	
+	resetObjects()
 end
 
 

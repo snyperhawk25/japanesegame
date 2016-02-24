@@ -2,7 +2,7 @@
 --
 -- number5.lua
 -- Notes:
--- Potential random generate phone number positions.
+-- Potential random generate phone number positions, or vary them in preprogramed ways, and randomly choose from them.
 ---------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
