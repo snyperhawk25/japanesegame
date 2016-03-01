@@ -16,7 +16,7 @@ local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
 local function goToGame1()
-	storyboard.gotoScene("game1")
+	storyboard.gotoScene("test.testPrintCharactersScreen")
 	storyboard.removeScene("menu")
 end
 local function goToGame2()
