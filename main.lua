@@ -14,6 +14,7 @@ physics = require "physics"	 --need physics to handle collisions. start/stop wit
 physics.start()
 physics.setGravity(0,0) --dont want gravity... might want it later but not yet 
 
+--syl {english, hiragana, katakana}
 syl ={}
 syl[1] = {'SML A','\227\129\129','\227\130\161'}
 syl[2] = {'A','\227\129\130','\227\130\162'}
@@ -97,10 +98,10 @@ syl[79] = {'WA','\227\130\143','\227\131\175'}
 syl[80] = {'WI','\227\130\144','\227\131\176'}
 syl[81] = {'WE','\227\130\145','\227\131\177'}
 syl[82] = {'WO','\227\130\146','\227\131\178'}
-syl[83] = {'N','\227\130\147'}
+syl[83] = {'N','\227\130\147','none'}
 
 --numbers start here
-syl[90] = {syl[76][2]..syl[3][2]}
+syl[90] = {syl[76][2]..syl[3][2]} --
 syl[91] = {syl[4][2]..syl[33][2]}
 syl[92] = {syl[43][2]}
 syl[93] = {syl[21][2]..syl[83][2]}
@@ -109,9 +110,9 @@ syl[95] = {syl[20][2]}
 syl[96] = {syl[77][2]..syl[15][2]}
 syl[97] = {syl[23][2]..syl[33][2]}
 syl[98] = {syl[47][2]..syl[33][2]}
-syl[99] = {syl[15][2]}
-syl[100] = {syl[24][2]..syl[69][2]..syl[6][2]}
-syl[101] = {syl[100][1]..syl[91][1]}
+syl[99] = {syl[15][2]} --change ku to kyu
+syl[100] = {syl[24][2]..syl[69][2]..syl[6][2]} --ju (10)
+syl[101] = {syl[100][1]..syl[91][1]} --ex. 10 + 1
 syl[102] = {syl[100][1]..syl[92][1]}
 syl[103] = {syl[100][1]..syl[93][1]}
 syl[104] = {syl[100][1]..syl[94][1]}
@@ -119,33 +120,11 @@ syl[105] = {syl[100][1]..syl[95][1]}
 syl[106] = {syl[100][1]..syl[96][1]}
 syl[107] = {syl[100][1]..syl[97][1]}
 syl[108] = {syl[100][1]..syl[98][1]}
-syl[109] = {syl[100][1]..syl[99][1]}
+syl[109] = {syl[100][1]..syl[99][1]} --19 is said two ways.
 syl[110] = {syl[92][1]..syl[100][1]}
 
 
---b Print Syl Array
-function printSylArray()
-	--size
-	---print("\ntable.getn()="..table.getn(syl)..".")
 
-	--Letters
-	for i=1,82,1 do
-		if syl[i] then
-			print("syl["..i.."]: "..syl[i][1]..",\t1)"..syl[i][2].."\t2)"..syl[i][3]..".")
-		end
-	end
-	--83 exception
-	print("syl[83]: "..syl[83][1]..",\t1)"..syl[83][2]..".")
-
-
-	--Numbers
-	local firstNumIndex=90
-	for i=firstNumIndex,110,1 do
-		print("syl["..i.."]: \t#"..(i-firstNumIndex).."\t"..syl[i][1]..".")
-		--print("HelloAgain"..i)
-	end
-end
-printSylArray()
 
 
 

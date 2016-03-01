@@ -18,7 +18,7 @@ question = {}
  -- bag
 question[0] = {}
 
-question[0].q = hiragana["ka"] .. hiragana["ba"] .. hiragana["n"] .. " " .. hiragana["wa"] .. " " .. hiragana["ha"] .. " " .. hiragana["do"] .. hiragana["re"] .. " " .. hiragana["de"] .. hiragana["su"] .. " " .. hiragana["ka"] .. "?" 
+question[0].q = syl[11][2] .. hiragana["ba"] .. hiragana["n"] .. " " .. hiragana["wa"] .. " " .. hiragana["ha"] .. " " .. hiragana["do"] .. hiragana["re"] .. " " .. hiragana["de"] .. hiragana["su"] .. " " .. hiragana["ka"] .. "?" 
 question[0].a1 = "art/Game2/bag.png"
 question[0].a2 = "art/Game2/book.png"
 question[0].a3 = "art/Game2/door.png"
@@ -64,7 +64,7 @@ question[3].a3 = "art/Game2/door.png"
 question[3].t1 = "bag"
 question[3].t2 = "book"
 question[3].t3 = "door"
-question[3].ans = 2
+question[3].ans = 3
 question[3].audio = "audio/doa.wav"
  
  -- hat
