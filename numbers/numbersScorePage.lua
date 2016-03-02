@@ -31,7 +31,7 @@ function scene:createScene( event )
 	local screenGroup = self.view
 
 	--Background image
-	bg = display.newImage("images/bg.png", centerX,centerY+(30*yscale))
+	bg = display.newImage("images/bg.png", centerX,centerY+30*yscale)
 	--bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
@@ -41,7 +41,7 @@ function scene:createScene( event )
 	screenGroup:insert(title)
 
 	--Menu Button
-	menu = display.newImage("images/Menu.png",centerX+100,centerY100)
+	menu = display.newImage("images/Menu.png",centerX+160,centerY+130*yscale)
 	menu:scale(0.4,0.4)
 	menu:addEventListener("tap",goToMenu)
 	screenGroup:insert(menu)
@@ -52,18 +52,25 @@ function scene:createScene( event )
 	-- game1:addEventListener("tap",goToGame1)
 	-- screenGroup:insert(game1)
 
+	--Text
+	local yourScore = "Your Final Score:"
+	text1 = display.newText(yourScore, centerX, centerY-50*yscale, native.systemFont, 26 )
+	text1:setFillColor(0)
+	screenGroup:insert(text1)
+
 	--Call the score function and print out
 	calculateScore()
 	local playerScore=finalScore
-	playerScoreText = display.newText(playerScore.." ", centerX,centerY+(30*yscale), native.systemFontBold, 64)
+	playerScoreText = display.newText(playerScore.." ", centerX,centerY+5, native.systemFontBold, 75)
 	playerScoreText:setFillColor(0)
 	screenGroup:insert(playerScoreText)
 
+
+
 	--from correct in numbers6
 	screenGroup:remove(myText)
-	
-	local instructions = "Awesome. You defused the bomb"
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	local instructions = "Awesome. You defused the bomb, and saved the day!"
+	myText = display.newText(instructions, centerX, centerY+75*yscale, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 

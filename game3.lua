@@ -116,14 +116,33 @@ function generateQuestion()
     Ans3Box.tap = Ans3BoxListener
     Ans3Box:addEventListener("tap", Ans3Box)
     
+    --Text in Box
+    -- questionText = display.newText(question[num].q , 60, 40, "Arial", 18)
+    -- questionText:setFillColor(1, 1, 1)
+    -- Ans1Text = display.newText(question[num].t1, 150, 230, "Arial", 18)
+    -- Ans1Text:setFillColor(0, 1, 0)
+    -- Ans2Text = display.newText(question[num].t2, 270, 230, "Arial", 18)
+    -- Ans2Text:setFillColor(0, 1, 0)
+    -- Ans3Text = display.newText(question[num].t3, 390, 230, "Arial", 18)
+    -- Ans3Text:setFillColor(0, 1, 0)
+    -- correctAns = question[num].ans
+    -- audioSample = audio.loadSound(question[num].audio)
+
+
+    --Pictures in box
+   
     questionText = display.newText(question[num].q , 60, 40, "Arial", 18)
     questionText:setFillColor(1, 1, 1)
-    Ans1Text = display.newText(question[num].t1, 150, 230, "Arial", 18)
-    Ans1Text:setFillColor(0, 1, 0)
-    Ans2Text = display.newText(question[num].t2, 270, 230, "Arial", 18)
-    Ans2Text:setFillColor(0, 1, 0)
-    Ans3Text = display.newText(question[num].t3, 390, 230, "Arial", 18)
-    Ans3Text:setFillColor(0, 1, 0)
+
+    Ans1Text = display.newImage(question[num].a1, 130, 230)
+    Ans1Text:scale(0.15,0.15)
+
+    Ans2Text = display.newImage(question[num].a2, 250, 230)
+    Ans2Text:scale(0.15,0.15)
+
+    Ans3Text = display.newImage(question[num].a3, 370, 230)
+    Ans3Text:scale(0.15,0.15)
+
     correctAns = question[num].ans
     audioSample = audio.loadSound(question[num].audio)
     

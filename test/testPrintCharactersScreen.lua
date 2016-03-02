@@ -17,7 +17,7 @@ local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 local myString = ""
 
---method
+
 --b Print Syl Array
 function printSylArray()
 	--size

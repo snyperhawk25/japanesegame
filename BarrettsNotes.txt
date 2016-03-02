@@ -1,7 +1,8 @@
 List of Visual Resources I Need:
 
-1) A "Final Score" Image - simmilar to the 
-images for restart, menu, and the title.
-
-2) (if possible) The name or font file used
-for the images in 1).
+We will be changing the font images to use something compatable on both iOS and Android.
+Update food vocab game. Bordered boxes (tansparent) around option images.
+Move Score into central area. Stand out?
+Speech in bubble and change colour to black.
+Counter for games???
+Script the language.

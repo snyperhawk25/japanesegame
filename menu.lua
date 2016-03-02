@@ -29,7 +29,7 @@ local function goToGame3()
 end
 --b Numbers Game.
 local function goToNum()
-	storyboard.gotoScene("numbers.numbers2")
+	storyboard.gotoScene("numbers.numbersScorePage")
 	storyboard.removeScene("menu")
 end
 
