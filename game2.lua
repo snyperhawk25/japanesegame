@@ -7,6 +7,7 @@
 require("questions")
 require("vocab")
 
+--local composer = require("composer")
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 require "dbFile"
@@ -17,6 +18,7 @@ require "dbFile"
 
 
 local enemy
+local player
 local questionBox
 local questionText
 local Ans1Box
@@ -57,12 +59,15 @@ end
 ------------------------ GAME INITIALIZE FUNCTION -------------------------- 
 
 function Game2()
+    drawCharacter()
     enemy = display.newImage("art/Game2/yakuza2.png")
+    enemy:scale(0.5, 0.5)
     enemy:translate(400, 130)
 
     lives = 3
     livesText = display.newText("Lives: "..lives, 40, 40, "Arial", 20)
-    
+    livesText:translate(200,30)
+
     generateQuestion()
 end
 
@@ -116,12 +121,15 @@ function generateQuestion()
         Ans3Box:removeSelf()
     end
     
-    Ans1Box = display.newRect(40, 280, 100, 60)
-    Ans1Box:setFillColor(0, 0.3, 0)
-    Ans2Box = display.newRect(220, 280, 100, 60)
-    Ans2Box:setFillColor(0, 0.3, 0)
-    Ans3Box = display.newRect(400, 280, 100, 60)
-    Ans3Box:setFillColor(0, 0.3, 0)
+    Ans1Box = display.newRect(40, 260, 100, 100)
+    Ans1Box:setFillColor(0.85,0.85,0.85)
+
+    Ans2Box = display.newRect(220, 260, 100, 100)
+    Ans2Box:setFillColor(0.85,0.85,0.85)
+
+    Ans3Box = display.newRect(400, 260, 100, 100)
+    Ans3Box:setFillColor(0.85,0.85,0.85)
+
     Ans1Box.tap = Ans1BoxListener
     Ans1Box:addEventListener("tap", Ans1Box)
     Ans2Box.tap = Ans2BoxListener
@@ -132,24 +140,48 @@ function generateQuestion()
     --b Change to "question[num].qj" for string literal japanese
     questionText = display.newText(question[num].qj , 60, 210, "Arial", 18)
     questionText:setFillColor(1, 1, 1)
-    Ans1Text = display.newText(question[num].t1, 10, 260, "Arial", 18)
-    Ans1Text:setFillColor(0, 1, 0)
-    Ans2Text = display.newText(question[num].t2, 190, 260, "Arial", 18)
-    Ans2Text:setFillColor(0, 1, 0)
-    Ans3Text = display.newText(question[num].t3, 370, 260, "Arial", 18)
-    Ans3Text:setFillColor(0, 1, 0)
+    --swapped to images from .t1 to .a1, etc
+    --Ans1Text = display.newText(question[num].t1, 10, 260, "Arial", 18)
+   -- Ans1Text:setFillColor(0, 1, 0)
+    --Ans2Text = display.newText(question[num].t2, 190, 260, "Arial", 18)
+    --Ans2Text:setFillColor(0, 1, 0)
+    --Ans3Text = display.newText(question[num].t3, 370, 260, "Arial", 18)
+    --Ans3Text:setFillColor(0, 1, 0)
+
+    Ans1Text = display.newImage(question[num].a1, 10, 260)
+    Ans1Text:scale(0.15,0.15)
+    Ans1Text:translate(20,5)
+    Ans2Text = display.newImage(question[num].a2, 190, 260)
+    Ans2Text:scale(0.15,0.15)
+    Ans2Text:translate(20,5)
+    Ans3Text = display.newImage(question[num].a3, 370, 260)
+    Ans3Text:scale(0.15,0.15)
+    Ans3Text:translate(20,5)
+    
     correctAns = question[num].ans
     audioSample = audio.loadSound(question[num].audio)
     
+
+    --Audio Box
     if audioBox ~= nil then
         audioBox:removeSelf()
     end
-    
-    audioBox = display.newImage("art/Game3/audio_icon.png",100,100)
+    audioBox = display.newImage("art/Game3/audio_icon.png",0,0)
     audioBox:scale(0.1,0.1)
+    audioBox:translate(475,30)
     audioBox.tap = AudioBoxListener
     audioBox:addEventListener("tap", audioBox)
 
+end
+
+-------------------------Draw Character-------------------------
+function drawCharacter()
+    if player ~= nil then
+        player:removeSelf()
+    end
+    player = display.newImage("art/Game1/mcanada.png",0,0)
+    player:scale(0.4,0.4)
+    player:translate(50, 150)
 end
 
 ------------------------ ENEMY MOVE FUNCTION --------------------------
@@ -158,11 +190,14 @@ function enemyMove()
     if lives == 2 then 
         enemy:removeSelf()
         enemy = display.newImage("art/Game2/yakuza2.png")
-        enemy:translate(300, 130)
+        enemy:scale(0.5,0.5)
+        --enemy:translate(300, 130)
+        transition.to(enemy,{x=300,y=130,time=2000})
     end
     if lives == 1 then
         enemy:removeSelf()
         enemy = display.newImage("art/Game2/yakuza2.png")
+        enemy:scale(0.5,0.5)
         enemy:translate(200, 130)
     end
 end
@@ -233,7 +268,7 @@ function scene:createScene( event )
     bg = display.newImage("images/bg.png", centerX,centerY+(30*yscale))
     --bg:scale(0.6*xscale,0.6*yscale)
     screenGroup:insert(bg)
-   
+    --main game function
     Game2()
 end
 
