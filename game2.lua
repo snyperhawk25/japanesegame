@@ -84,7 +84,8 @@ function gameOver()
     gameOver.tap = gameClear
     gameOver:addEventListener("tap", gameOver)
 
-    goToMenu()
+    --Dont go to menu immediately
+    --goToMenu()
 end
 
 ------------------------ GAME CLEAR FUNCTION -------------------------- 
@@ -128,7 +129,8 @@ function generateQuestion()
     Ans3Box.tap = Ans3BoxListener
     Ans3Box:addEventListener("tap", Ans3Box)
     
-    questionText = display.newText(question[num].q , 60, 210, "Arial", 18)
+    --b Change to "question[num].qj" for string literal japanese
+    questionText = display.newText(question[num].qj , 60, 210, "Arial", 18)
     questionText:setFillColor(1, 1, 1)
     Ans1Text = display.newText(question[num].t1, 10, 260, "Arial", 18)
     Ans1Text:setFillColor(0, 1, 0)

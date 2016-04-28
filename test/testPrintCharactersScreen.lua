@@ -46,7 +46,7 @@ end
 --console print characters.
 --printSylArray()
 
-function checkString()
+function checkQuestionString()
 
 	--Questions.lua (for non-numbers game)
 	local first=11
@@ -62,6 +62,11 @@ function checkString()
 	-- "\nhiragana[ke_small] = "..hiragana["ke_small"]
 end
 
+--tests printing katakana literal. Yes it works!
+function checkJapanesePrint()
+	myString="ボヨヨヨヨヨヨヨヨヨヨぁぁぁ"
+end
+
 function scene:createScene( event )
 	local screenGroup = self.view
 
@@ -74,7 +79,8 @@ function scene:createScene( event )
 	-- screenGroup:insert(title)
 
 	--myString
-	checkString()
+	--checkQuestionString()
+	checkJapanesePrint()
 	myText = display.newText(myString, centerX, centerY-5, native.systemFont, 24)
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
