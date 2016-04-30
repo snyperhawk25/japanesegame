@@ -140,7 +140,7 @@ question[7].audio = "audio/kasa.wav"
  -- wallet
 question[8] = {}
 
-question[8].qj = "8.	さいふ　は　どれですか？"
+question[8].qj = "さいふ　は　どれですか？"
 question[8].q = hiragana["sa"] .. hiragana["i"] .. " " .. hiragana["wa"] .. " " .. hiragana["do"] .. hiragana["re"] .. " " .. hiragana["de"] .. hiragana["su"] .. " " .. hiragana["ka"] .. "?" 
 question[8].a1 = "art/Game2/bag.png"
 question[8].a2 = "art/Game2/door.png"
