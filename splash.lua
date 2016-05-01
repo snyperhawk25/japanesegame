@@ -17,9 +17,8 @@ local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
 local function continue()
-	storyboard.gotoScene( "menu", "fade", 500 ) --b was 750
+	storyboard.gotoScene( "menu", "fade", 250 ) --b was 750
 end
-
 
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
@@ -39,7 +38,7 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
-	endSceneTimer = timer.performWithDelay( 500, continue, 1 )	--after 1 seconds, go to menu
+	endSceneTimer = timer.performWithDelay( 500, continue)	--after .5 seconds, go to menu
 end
 
 

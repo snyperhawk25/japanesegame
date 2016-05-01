@@ -14,22 +14,42 @@ require "dbFile"
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
+local audioClick = audio.loadSound("audio/click1.wav")
+local transitionOptions = {
+	effect="fade",
+	time=500
+}
+
+--Function to delay the removal of the scene, smoothing out the transition between scenes
+local function delayedSceneRemoval()
+	local function removeSceneListener(event)
+		storyboard.removeScene("menu")
+	end
+	timer.performWithDelay(500, removeSceneListener)
+end
 
 local function goToGame1()
-	storyboard.gotoScene("test.testPrintCharactersScreen")
-	storyboard.removeScene("menu")
+	audio.play(audioClick)
+	storyboard.gotoScene("test.testPrintCharactersScreen",transitionOptions)
+	delayedSceneRemoval()
 end
 local function goToGame2()
-	storyboard.gotoScene("game2")
-	storyboard.removeScene("menu")
+	audio.play(audioClick)
+	storyboard.gotoScene("game2",transitionOptions)
+	--storyboard.removeScene("menu")
+	delayedSceneRemoval()
 end
 local function goToGame3()
-	storyboard.gotoScene("game3")
-	storyboard.removeScene("menu")
+	audio.play(audioClick)
+	storyboard.gotoScene("game3",transitionOptions)
+	delayedSceneRemoval()
 end
---b Numbers Game.
+
+--b test Numbers Game.
 local function goToNum()
-	storyboard.gotoScene("numbers.numbersScorePage")
+	audio.play(audioClick)
+	storyboard.gotoScene("numbers.numbers1",transitionOptions)
+	--storyboard.gotoScene("numbers.numbersScorePage",transitionOptions)
 	storyboard.removeScene("menu")
 end
 
