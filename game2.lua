@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------
 -- game2.lua ("Vocab")
--- This is the Vocab game. It uses quesions[0-9] from Questions.lua.
--- Barrett Sharpe
+-- This is the Vocab game. It uses quesions[0-9] from Questions.lua that are basic objects.
+-- Barrett Sharpe, 2016. GitHub:"Snyperhawk25/japanesegame"
 --------------------------------------------------------------------------------
 
 ----------------------------------------
@@ -59,15 +59,14 @@ local enemyScale = 0.45
 
 local audioBoxX = 20
 local audioBoxY = 30
-local audioBoxScale = 0.1
+local audioBoxScale = 0.4
 
 local menuX = 465
 local menuY = 30
 
---//!@#Need some heart png's with alpha backgrounds from Kate
 local heartX = -10
 local heartY = 130
-local heartScale = 0.07
+local heartScale = 0.25
 local heartOffset = 30
 
 local AnsBoxSize = 90
@@ -115,13 +114,13 @@ local function drawEnemy()
         --Change position
         enemyX=enemyX-125
         --Transition animation
-        transition.to(enemy,{x=enemyX,y=enemyY,time=2000})
+        transition.to(enemy,{x=enemyX,y=enemyY,time=1500})
     end
     if lives == 1 then
         --Change position
         enemyX=enemyX-160
         --Transition animation
-        transition.to(enemy,{x=enemyX,y=enemyY,time=2000})
+        transition.to(enemy,{x=enemyX,y=enemyY,time=1500})
     end
     --No position for lives == 0, because the game doesn't need to draw the enemy after player loss (respectively)
 end
@@ -131,11 +130,11 @@ function updateHearts()
     --Based on player's lives remaining
     if lives == 3 then
         --Initial state. Add all 3 hearts to scene
-        heart1 = display.newImage("art/Game3/hamburger.png",heartX,heartY)
+        heart1 = display.newImage("images/heart.png",heartX,heartY)
         heart1:scale(heartScale,heartScale)
-        heart2 = display.newImage("art/Game3/hamburger.png",heartX,heartY+heartOffset)
+        heart2 = display.newImage("images/heart.png",heartX,heartY+heartOffset)
         heart2:scale(heartScale,heartScale)
-        heart3 = display.newImage("art/Game3/hamburger.png",heartX,heartY+(2*heartOffset))
+        heart3 = display.newImage("images/heart.png",heartX,heartY+(2*heartOffset))
         heart3:scale(heartScale,heartScale)
     end
     if lives == 2 then
@@ -154,17 +153,106 @@ function updateHearts()
     livesText = display.newText(""..lives, heartX, heartY-heartOffset, "Arial", 25)
 end
 
---Function to remove the text of the question and the answer images from the scene. Also to 'zero' the correct answer integer.
+--Function to remove the elements of the active question, including the answer images from the scene. Also to 'zero' the correct answer integer.
 function clearQuestion()
+    --Question Text
     questionText:removeSelf()
+    --Images
     Ans1Image:removeSelf()
     Ans2Image:removeSelf()
     Ans3Image:removeSelf()
+    --Reset Answer
     correctAns = 0
 end
+
 ---------------------------------------------
 --METHODS
 ---------------------------------------------
+
+--Function to generate the next question.
+function generateQuestion()
+    --Step 1: Random question number from 0-9 (random(n) goes form 1<n<9)
+    local num = math.random(0,9)
+    
+    --Step 2: Remove existing AnswerBoxes (not images)
+    if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?
+        Ans1Box:removeSelf()
+        Ans2Box:removeSelf()
+        Ans3Box:removeSelf()
+    end
+    
+    --Step 3: Create new AnswerBoxes
+    --Answer Box Rectangles
+    Ans1Box = display.newRect(Ans1BoxX, Ans1BoxY, AnsBoxSize, AnsBoxSize)
+    Ans1Box:setFillColor(0.85,0.85,0.85)
+    Ans2Box = display.newRect(Ans2BoxX, Ans2BoxY, AnsBoxSize, AnsBoxSize)
+    Ans2Box:setFillColor(0.85,0.85,0.85)
+    Ans3Box = display.newRect(Ans3BoxX, Ans3BoxY, AnsBoxSize, AnsBoxSize)
+    Ans3Box:setFillColor(0.85,0.85,0.85)
+    --Answer Box Listeners
+    Ans1Box:addEventListener("tap", Ans1BoxListener)
+    Ans2Box:addEventListener("tap", Ans2BoxListener)
+    Ans3Box:addEventListener("tap", Ans3BoxListener)
+    
+    --Step 4: Add Answer Object Images
+    --Answer Images
+    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, Ans1ImageY)
+    Ans1Image:scale(AnsTextScale,AnsTextScale)
+    Ans1Image:translate(AnsTextTranslateX,AnsTextTranslateY)
+
+    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,Ans2ImageY)
+    Ans2Image:scale(AnsTextScale,AnsTextScale)
+    Ans2Image:translate(AnsTextTranslateX,AnsTextTranslateY)
+
+    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, Ans3ImageY)
+    Ans3Image:scale(AnsTextScale,AnsTextScale)
+    Ans3Image:translate(AnsTextTranslateX,AnsTextTranslateY)
+
+    --Step 5: Add Question Text
+    questionText = display.newText(question[num].qj , questionTextX, questionTextY, "Arial", 24)
+    questionText:setFillColor(0, 0, 0)
+    
+    --Step 6: Set correct answer and correct audio sample
+    correctAns = question[num].ans
+    audioSample = audio.loadSound(question[num].audio)
+    
+
+    --Step 7: Initialize Audio Box
+    if audioBox ~= nil then
+        audioBox:removeSelf()
+    end
+    audioBox = display.newImage("images/Speaker_Icon.png",audioBoxX,audioBoxY)
+    audioBox:scale(audioBoxScale,audioBoxScale)
+    audioBox:addEventListener("tap", AudioBoxListener)
+
+end
+
+--Function to evaluate the player-selected answer
+function evaluateAnswer()
+    if chosenAns == correctAns then
+        --Print/Sound Correct
+        audio.play(audioCorrect)
+        print("Correct Answer")
+    else
+        --Print/Sound Incorrect
+        audio.play(audioIncorrect)
+        print("Wrong Answer")
+        --Decrement Lives
+        lives = lives - 1
+        --Draw Enemy and Update Hearts
+        drawEnemy()
+        updateHearts()
+    end
+    
+    --Check if remaining lives.
+    if lives == 0 then
+        gameOver()
+    else
+        --Continue playing with new question.
+        clearQuestion()
+        generateQuestion()  --r?
+    end
+end
 
 --Function to delay this scene's removal.
 local function delayedSceneRemoval()
@@ -178,66 +266,54 @@ end
 local function goToMenu()
     --Click Audio
     audio.play(audioClick)
-
     --Remove Objects
     display.remove(gameOverText)
-
     display.remove(Ans1Box)
     display.remove(Ans2Box)
     display.remove(Ans3Box)
-
     display.remove(Ans1Image)
     display.remove(Ans2Image)
     display.remove(Ans3Image)
-
     display.remove(questionText)
     display.remove(questionBubble)
-
     display.remove(enemy)
     display.remove(player)
     display.remove(heart1)
     display.remove(heart2)
     display.remove(heart3)
-
     display.remove(livesText)
     display.remove(audioBox)
     display.remove(menu)
-
     --Change Scenes and Delay Removal
     storyboard.gotoScene("menu","fade",500)
     delayedSceneRemoval()
 end
 
------------------------- GAME INITIALIZE FUNCTION -------------------------- 
-
---This function begins Game2.lua (Vocab)
+--This function begins Game2.lua (Vocab)*************************
 function Game2()
     --Start by setting 'lives' to 3.
     lives = 3
+    --Randomize Seed
+    math.randomseed(os.time())
 
-    --Now we draw our scene elements
+    --Now we draw our scene elements.
     --Question Bubble
     questionBubble = display.newImage("images/bubble.png", questionBubbleX,questionBubbleY)
     questionBubble:scale(0.5,0.18)
-
     --Menu Button
     menu = display.newImage("images/Menu.png",menuX,menuY)
     menu:scale(0.45,0.45)
-    menu:addEventListener("tap", goToMenu)
-
-    
-
-    --//!@#Loop?
-
-    --Draw Player and Enemy
+    menu:addEventListener("tap", goToMenu) 
+    --Draw Player and Enemy.
     drawPlayer()
     drawEnemy()
     --Set Hearts and Lives Text.
     updateHearts()
 
-    --Begin Playing by Generating Questions
+    --Finally, Begin Playing by Generating A Question.
     generateQuestion()
 end
+
 
 ------------------------ GAME OVER FUNCTION -------------------------- 
 
@@ -255,11 +331,7 @@ function gameOver()
     
     gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
     gameOverText:setFillColor(0.8, 0, 0)
-    gameOver.tap = gameClear
-    gameOver:addEventListener("tap", gameOver)
-
-    --Dont go to menu immediately
-    --timer.performWithDelay(1,goToMenu)
+    gameOver:addEventListener("tap", gameClear)
 end 
 
 function gameClear()
@@ -267,105 +339,11 @@ function gameClear()
     gameOverText:removeSelf()
 end
 
-
-
-
-
------------------------- GENERATE QUESTION FUNCTION -------------------------- 
-
---Function to generate the next question.
-function generateQuestion()
-    local num = math.random(9)
-    
-    if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --//!@#optmize? Something in one --> something in all?
-        Ans1Box:removeSelf()
-        Ans2Box:removeSelf()
-        Ans3Box:removeSelf()
-    end
-    
-    --Answer Box Rectangles
-    Ans1Box = display.newRect(Ans1BoxX, Ans1BoxY, AnsBoxSize, AnsBoxSize)
-    Ans1Box:setFillColor(0.85,0.85,0.85)
-    Ans2Box = display.newRect(Ans2BoxX, Ans2BoxY, AnsBoxSize, AnsBoxSize)
-    Ans2Box:setFillColor(0.85,0.85,0.85)
-    Ans3Box = display.newRect(Ans3BoxX, Ans3BoxY, AnsBoxSize, AnsBoxSize)
-    Ans3Box:setFillColor(0.85,0.85,0.85)
-    --Answer Box Listeners
-    Ans1Box.tap = Ans1BoxListener
-    Ans1Box:addEventListener("tap", Ans1Box)
-    Ans2Box.tap = Ans2BoxListener
-    Ans2Box:addEventListener("tap", Ans2Box)
-    Ans3Box.tap = Ans3BoxListener
-    Ans3Box:addEventListener("tap", Ans3Box)
-    
-    --Answer Images
-    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, Ans1ImageY)
-    Ans1Image:scale(AnsTextScale,AnsTextScale)
-    Ans1Image:translate(AnsTextTranslateX,AnsTextTranslateY)
-
-    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,Ans2ImageY)
-    Ans2Image:scale(AnsTextScale,AnsTextScale)
-    Ans2Image:translate(AnsTextTranslateX,AnsTextTranslateY)
-
-    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, Ans3ImageY)
-    Ans3Image:scale(AnsTextScale,AnsTextScale)
-    Ans3Image:translate(AnsTextTranslateX,AnsTextTranslateY)
-
-    --b Change to "question[num].qj" for string literal japanese
-    questionText = display.newText(question[num].qj , questionTextX, questionTextY, "Arial", 24)
-    questionText:setFillColor(0, 0, 0)
-
-    
-    --Set correct answer and correct audio
-    correctAns = question[num].ans
-    audioSample = audio.loadSound(question[num].audio)
-    
-
-    --Audio Box
-    if audioBox ~= nil then
-        audioBox:removeSelf()
-    end
-    audioBox = display.newImage("art/Game3/audio_icon.png",audioBoxX,audioBoxY)
-    audioBox:scale(audioBoxScale,audioBoxScale)
-    audioBox.tap = AudioBoxListener
-    audioBox:addEventListener("tap", audioBox)
-
-end
-
-
------------------------- ANSWER FUNCTION -------------------------- 
---Function to evaluate the player-selected answer
-function evaluateAnswer()
-    if chosenAns == correctAns then
-        --Print/Sound Correct
-        audio.play(audioCorrect)
-        print("Correct Answer")
-    else
-        --Print/Sound Correct
-        audio.play(audioIncorrect)
-        print("Wrong Answer")
-        --Decrement Lives
-        lives = lives - 1
-        --Draw Enemy and Update Hearts
-        drawEnemy()
-        updateHearts()
-    end
-    
-    --Check if remaining lives
-    if lives == 0 then
-        gameOver()
-    else
-        clearQuestion()
-        generateQuestion() --//!@#this is recurisive
-    end
-end    
-
------------------------- ANSBOX LISTENERS -------------------------- 
-
 -------------------------------------------
 --LISTENERS
 -------------------------------------------
---Answer box Listeners 1 - 3
+
+--Answer Box Listeners 1 - 3
 function Ans1BoxListener()
     local function animate(event)
         transition.from(Ans1Box,{time=200,x=Ans1BoxX,y=Ans1BoxY,xScale=0.9,yScale=0.9})
@@ -405,7 +383,7 @@ function AudioBoxListener()
     audio.play(audioSample)
     print("AudioBoxListener tapped.")
     --Then Animate
-    animate() --//!@#timer didnt work here
+    animate() --timer didnt work here    
 end
 
 -------------------------------------------------
@@ -442,13 +420,10 @@ end
 
 -- "createScene" event is dispatched if scene's view does not exist
 scene:addEventListener( "createScene", scene )
-
 -- "enterScene" event is dispatched whenever scene transition has finished
 scene:addEventListener( "enterScene", scene )
-
 -- "exitScene" event is dispatched before next scene's transition begins
 scene:addEventListener( "exitScene", scene )
-
 -- "destroyScene" event is dispatched before view is unloaded, which can be
 -- automatically unloaded in low memory situations, or explicitly via a call to
 -- storyboard.purgeScene() or storyboard.removeScene().
