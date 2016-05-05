@@ -28,7 +28,8 @@ function scene:createScene( event )
 	bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
-	local image = display.newImage( "images/title.png", centerX, centerY )
+	--local image = display.newImage( "images/title.png", centerX, centerY )
+	local image = display.newImage( "art/Logo/UBCOJLG.png", centerX, centerY )
 	image:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert( image )
 	
