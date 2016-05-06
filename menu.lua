@@ -30,7 +30,7 @@ end
 
 local function goToGame1()
 	audio.play(audioClick)
-	storyboard.gotoScene("test.testPrintCharactersScreen",transitionOptions)
+	storyboard.gotoScene("test.shufflingTest",transitionOptions)
 	delayedSceneRemoval()
 end
 local function goToGame2()
