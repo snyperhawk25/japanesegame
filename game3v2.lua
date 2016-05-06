@@ -1,8 +1,10 @@
 --game3v2.lua
 ---------------------------------------------------------------------------------
--- game2.lua ("Vocab")
--- This is the Vocab game. It uses quesions[0-9] from Questions.lua that are basic objects.
+-- game3v2.lua ("Food Vocab, version 2")
+-- This is the Food Vocab game. It uses quesions[10-20] from Questions.lua that are basic objects.
 -- Barrett Sharpe, 2016. GitHub:"Snyperhawk25/japanesegame"
+
+--Note, this is a structural copy of game2, with visual modifications.
 --------------------------------------------------------------------------------
 
 ----------------------------------------
@@ -20,19 +22,21 @@ require("vocab")
 --SCENE VARIABLES
 -----------------------------------------
 
-local enemy
-local player
+local customer, chef
+local score, scoreText
+
+
+
 local menu
-local heart1,heart2,heart3
 local questionBubble, questionText
 local Ans1Box, Ans2Box, Ans3Box
 local Ans1Image, Ans2Image, Ans3Image
-local lives, livesText
 local correctAns
 local chosenAns
 local gameOver, gameOverText
 local q1, q2, q3
 local audioBox, audioSample
+
 --Audio
 local audioCorrect = audio.loadSound("audio/ding1.wav")
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
@@ -44,19 +48,22 @@ local centerY = display.contentCenterY
 ----------------------------------------
 --COORDINATES
 ----------------------------------------
+local backgroundX = 300
+local backgroundY = 130
+local backgroundScale = 1.0
 
 local questionTextX = 240
 local questionTextY = 30
 local questionBubbleX = 240
 local questionBubbleY = 30
 
-local playerX = 40
-local playerY = 130
-local playerScale = 0.4
+local customerX = 100
+local customerY = 130
+local customerScale = 0.4
 
-local enemyX = 450
-local enemyY = 110
-local enemyScale = 0.45
+local chefX = 300
+local chefY = 130
+local chefScale = 0.45
 
 local audioBoxX = 20
 local audioBoxY = 30
@@ -64,11 +71,6 @@ local audioBoxScale = 0.4
 
 local menuX = 465
 local menuY = 30
-
-local heartX = -10
-local heartY = 130
-local heartScale = 0.25
-local heartOffset = 30
 
 local AnsBoxSize = 90
 local Ans1BoxX = 60
@@ -92,67 +94,39 @@ local Ans3ImageY = 260
 --VISUAL METHODS
 ---------------------------------------------
 
---Function to draw the Player image at the Player coordinates (playerX,playerY)
-local function drawPlayer()
-    --Remove Existing Player
-    if player ~= nil then
-        player:removeSelf()
+--Function to draw the customer image at the customer coordinates (customerX,customerY)
+local function drawScene()
+    --1) Draw Customer
+    if customer ~= nil then
+        customer:removeSelf()
     end
-    --Draw Player 
-    player = display.newImage("art/Game1/mcanada.png",playerX,playerY)
-    player:scale(playerScale,playerScale)
+    customer = display.newImage("art/Game3/customer.png",customerX,customerY)
+    customer:scale(customerScale,customerScale)
+
+    --2) Draw Chef
+    if chef ~= nil then
+        chef:removeSelf()
+    end
+    chef = display.newImage("art/Game3/chef.png", chefX,chefY)
+    chef:scale(chefScale, chefScale)
+
+    --3) Draw Question Bubble
+    if questionBubble~=nil then
+    	questionBubble:removeSelf()
+    end
+    questionBubble = display.newImage("images/bubble.png", questionBubbleX,questionBubbleY)
+    questionBubble:scale(0.5,0.18)
+
+    --4) Draw Menu Button
+    if menu~=nil then
+    	menu:removeSelf()
+    end
+    menu = display.newImage("images/Menu.png",menuX,menuY)
+    menu:scale(0.45,0.45)
+    menu:addEventListener("tap", goToMenu) 
+
 end
 
---Function to draw/animate the Enemy image at the Enemy coordinates (enemyX,enemyY)
-local function drawEnemy()
-    --Position based on the player's remaining lives
-    if lives == 3 then
-        --Initial state. Draw Enemy at enemy position
-        enemy = display.newImage("art/Game2/yakuza2.png", enemyX,enemyY)
-        enemy:scale(enemyScale, enemyScale)
-    end
-    if lives == 2 then 
-        --Change position
-        enemyX=enemyX-125
-        --Transition animation
-        transition.to(enemy,{x=enemyX,y=enemyY,time=1500})
-    end
-    if lives == 1 then
-        --Change position
-        enemyX=enemyX-160
-        --Transition animation
-        transition.to(enemy,{x=enemyX,y=enemyY,time=1500})
-    end
-    --No position for lives == 0, because the game doesn't need to draw the enemy after player loss (respectively)
-end
-
---Funtion to update the number of hearts on the screen above the player
-function updateHearts()
-    --Based on player's lives remaining
-    if lives == 3 then
-        --Initial state. Add all 3 hearts to scene
-        heart1 = display.newImage("images/heart.png",heartX,heartY)
-        heart1:scale(heartScale,heartScale)
-        heart2 = display.newImage("images/heart.png",heartX,heartY+heartOffset)
-        heart2:scale(heartScale,heartScale)
-        heart3 = display.newImage("images/heart.png",heartX,heartY+(2*heartOffset))
-        heart3:scale(heartScale,heartScale)
-    end
-    if lives == 2 then
-        --remove heart3
-        heart3:removeSelf()
-    end
-    if lives == 1 then
-        --remove heart2
-        heart2:removeSelf()
-    end
-
-    --Update the displayed lives value
-    if livesText ~= nil then
-        livesText:removeSelf()
-    end
-    livesText = display.newText(""..lives, heartX, heartY-heartOffset, "Arial", 25)
-end
 
 --Function to remove the elements of the active question, including the answer images from the scene. Also to 'zero' the correct answer integer.
 function clearQuestion()
@@ -172,8 +146,8 @@ end
 
 --Function to generate the next question.
 function generateQuestion()
-    --Step 1: Random question number from 0-9 (random(n) goes form 1<n<9)
-    local num = math.random(0,9)
+    --Step 1: Random question number from 10-20 (random(n) goes form 1<x<n)
+    local num = math.random(10,20)
     
     --Step 2: Remove existing AnswerBoxes (not images)
     if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?
@@ -183,13 +157,14 @@ function generateQuestion()
     end
     
     --Step 3: Create new AnswerBoxes
-    --Answer Box Rectangles
-    Ans1Box = display.newRect(Ans1BoxX, Ans1BoxY, AnsBoxSize, AnsBoxSize)
-    Ans1Box:setFillColor(0.85,0.85,0.85)
-    Ans2Box = display.newRect(Ans2BoxX, Ans2BoxY, AnsBoxSize, AnsBoxSize)
-    Ans2Box:setFillColor(0.85,0.85,0.85)
-    Ans3Box = display.newRect(Ans3BoxX, Ans3BoxY, AnsBoxSize, AnsBoxSize)
-    Ans3Box:setFillColor(0.85,0.85,0.85)
+    --Answer Box Plates (instead of Rectangles)
+    Ans1Box = display.newImage("images/plate.png",Ans1BoxX, Ans1BoxY)
+    Ans1Box:scale(AnsBoxSize, AnsBoxSize)
+    Ans2Box = display.newImage("images/plate.png",Ans2BoxX, Ans2BoxY)
+    Ans2Box:scale(AnsBoxSize, AnsBoxSize)
+    Ans3Box = display.newImage("images/plate.png",Ans3BoxX, Ans3BoxY)
+    Ans3Box:scale(AnsBoxSize, AnsBoxSize)
+
     --Answer Box Listeners
     Ans1Box:addEventListener("tap", Ans1BoxListener)
     Ans2Box:addEventListener("tap", Ans2BoxListener)
@@ -228,7 +203,7 @@ function generateQuestion()
 
 end
 
---Function to evaluate the player-selected answer
+--Function to evaluate the customer-selected answer
 function evaluateAnswer()
     if chosenAns == correctAns then
         --Print/Sound Correct
@@ -238,27 +213,19 @@ function evaluateAnswer()
         --Print/Sound Incorrect
         audio.play(audioIncorrect)
         print("Wrong Answer")
-        --Decrement Lives
-        lives = lives - 1
-        --Draw Enemy and Update Hearts
-        drawEnemy()
-        updateHearts()
+       
     end
-    
-    --Check if remaining lives.
-    if lives == 0 then
-        gameOver()
-    else
-        --Continue playing with new question.
-        clearQuestion()
-        generateQuestion()  --r?
-    end
+   
+    --Continue playing with new question.
+    clearQuestion()
+    generateQuestion()  --r?
+
 end
 
 --Function to delay this scene's removal.
 local function delayedSceneRemoval()
     local function removeSceneListener(event)
-        storyboard.removeScene("game2")
+        storyboard.removeScene("game3v2")
     end
     timer.performWithDelay(500, removeSceneListener)
 end
@@ -277,12 +244,8 @@ local function goToMenu()
     display.remove(Ans3Image)
     display.remove(questionText)
     display.remove(questionBubble)
-    display.remove(enemy)
-    display.remove(player)
-    display.remove(heart1)
-    display.remove(heart2)
-    display.remove(heart3)
-    display.remove(livesText)
+    display.remove(chef)
+    display.remove(customer)
     display.remove(audioBox)
     display.remove(menu)
     --Change Scenes and Delay Removal
@@ -290,26 +253,16 @@ local function goToMenu()
     delayedSceneRemoval()
 end
 
---This function begins Game2.lua (Vocab)*************************
-function Game2()
-    --Start by setting 'lives' to 3.
-    lives = 3
+--This function begins Game3.lua (Vocab)*************************
+function Game3()
+	--Set initial score to zero
+	score = 0
     --Randomize Seed
     math.randomseed(os.time())
 
-    --Now we draw our scene elements.
-    --Question Bubble
-    questionBubble = display.newImage("images/bubble.png", questionBubbleX,questionBubbleY)
-    questionBubble:scale(0.5,0.18)
-    --Menu Button
-    menu = display.newImage("images/Menu.png",menuX,menuY)
-    menu:scale(0.45,0.45)
-    menu:addEventListener("tap", goToMenu) 
-    --Draw Player and Enemy.
-    drawPlayer()
-    drawEnemy()
-    --Set Hearts and Lives Text.
-    updateHearts()
+
+    --Draw customer and chef in scene.
+    drawScene()
 
     --Finally, Begin Playing by Generating A Question.
     generateQuestion()
@@ -394,8 +347,8 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
     local screenGroup = self.view
-    --Load background image
-    bg = display.newImage("images/bg.png", centerX,centerY+(30*yscale))
+    --First load background image. --//!@# coords for background X and Y needed?
+    bg = display.newImage("art/Game3/sushibar.png", centerX,centerY+(30*yscale))
     screenGroup:insert(bg)
     --bg:scale(0.6*xscale,0.6*yscale)
 end
@@ -404,7 +357,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
     --Play Game
-    Game2()
+    Game3()
 end
 
 
