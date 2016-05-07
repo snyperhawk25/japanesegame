@@ -48,8 +48,8 @@ end
 --b test Numbers Game.
 local function goToNum()
 	audio.play(audioClick)
-	storyboard.gotoScene("numbers.numbers1",transitionOptions)
-	--storyboard.gotoScene("numbers.numbersScorePage",transitionOptions)
+	--storyboard.gotoScene("numbers.numbers1",transitionOptions)
+	storyboard.gotoScene("numbers.numbersScorePage",transitionOptions)
 	storyboard.removeScene("menu")
 end
 

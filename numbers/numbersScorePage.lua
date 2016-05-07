@@ -11,7 +11,23 @@ require "dbFile"
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
+
 local finalScore = 0
+local finalScoreUnit = ""
+local finalDescription = ""
+local NameOfGame = ""
+
+--------------------------------------------
+--Coordinates
+--------------------------------------------
+local titleX = centerX
+local titleY = 25
+
+local finalScoreTextX = centerX
+local finalScoreTextY = 75
+
+local playerScoreTextX = centerX
+local playerScoreTextY = 150
 
 --Return to the menu
 local function goToMenu()
@@ -19,24 +35,34 @@ local function goToMenu()
 	storyboard.removeScene("NumbersScorePage")
 end
 
---Calculate the score value
-local function calculateScore()
-	print("\nCalculating Score..\n")
-	--hard code for now
-	finalScore = 100
-end
-
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local screenGroup = self.view
+
+	--Collect gameOverOptions parameters
+	print("event.params.var1"..event.params.var1..".")
+	NameOfGame = event.params.gameName
+	finalScore = event.params.finalScore
+	finalScoreUnit = event.params.finalScoreUnit
+	finalDescription = event.params.finalDescription
+
+	--RENDER SCENE
 
 	--Background image
 	bg = display.newImage("images/bg.png", centerX,centerY+30*yscale)
 	--bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
-	--Title Image (Should be "Final Score")
-	title = display.newImage("images/title.png", centerX,centerY-100*yscale)
+
+end
+
+
+-- Called immediately after scene has moved onscreen:
+function scene:enterScene( event )
+	local screenGroup = self.view
+
+	--Title Image 
+	title = display.newImage("images/title.png", titleX, titleY)
 	title:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(title)
 
@@ -45,40 +71,26 @@ function scene:createScene( event )
 	menu:scale(0.4,0.4)
 	menu:addEventListener("tap",goToMenu)
 	screenGroup:insert(menu)
-	
-	-- 	--
-	-- game1 = display.newImage("images/Character-Creation.png", centerX,centerY-10*yscale)
-	-- game1:scale(0.4*xscale,0.4*yscale)
-	-- game1:addEventListener("tap",goToGame1)
-	-- screenGroup:insert(game1)
 
-	--Text
-	local yourScore = "Your Final Score:"
-	text1 = display.newText(yourScore, centerX, centerY-50*yscale, native.systemFont, 26 )
-	text1:setFillColor(0)
-	screenGroup:insert(text1)
+	--FinalScoreText
+	if gameName==nil then
+		gameName="[Name Error]"
+	end
+	local text = "Your "..gameName.." Final Score:"
+	finalScoreText = display.newText(text, finalScoreTextX, finalScoreTextY, native.systemFont, 26 )
+	finalScoreText:setFillColor(1)
+	screenGroup:insert(finalScoreText)
 
-	--Call the score function and print out
-	calculateScore()
-	local playerScore=finalScore
-	playerScoreText = display.newText(playerScore.." ", centerX,centerY+5, native.systemFontBold, 75)
+	--Final Score and Unit
+	playerScoreText = display.newText(finalScore.." "..finalScoreUnit, playerScoreTextX,playerScoreTextY, native.systemFontBold, 75)
 	playerScoreText:setFillColor(0)
 	screenGroup:insert(playerScoreText)
 
-
-
-	--from correct in numbers6
+	--Description
 	screenGroup:remove(myText)
-	local instructions = "Awesome. You defused the bomb, and saved the day!"
-	myText = display.newText(instructions, centerX, centerY+75*yscale, native.systemFont, 18 )
-	myText:setFillColor(0)
+	myText = display.newText(finalDescription, centerX, centerY+75*yscale, native.systemFont, 18 )
+	myText:setFillColor(1)
 	screenGroup:insert(myText)
-
-end
-
-
--- Called immediately after scene has moved onscreen:
-function scene:enterScene( event )
 end
 
 
