@@ -41,7 +41,7 @@ local function goToGame2()
 end
 local function goToGame3()
 	audio.play(audioClick)
-	storyboard.gotoScene("game3",transitionOptions)
+	storyboard.gotoScene("game3v2",transitionOptions)
 	delayedSceneRemoval()
 end
 
