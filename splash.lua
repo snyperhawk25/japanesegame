@@ -27,13 +27,16 @@ function scene:createScene( event )
 	local screenGroup = self.view
 	
 	--bg = display.newImage("images/bg.png", centerX,centerY+(30*yscale))
+	--UBC BLUE
+	--RGB:0,33,69
+	--HSL:141,240,32
 	bg = display.newRect(0,0,2000,2000)
-	bg:setFillColor(0,0.129,0.269)
+	bg:setFillColor(0,0.129,0.269) --RGB/256
 	--bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
-	--Play Welcome Audio
-	audio.play(audioWelcome)
+	--Play Welcome Audio (//!@#uncomment when done)
+	--audio.play(audioWelcome)
 
 	
 end
@@ -42,9 +45,7 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	local screenGroup = self.view
-	--UBC BLUE
-	--RGB:0,33,69
-	--HSL:141,240,32
+	
 	--local image = display.newImage( "images/title.png", centerX, centerY )
 	local image = display.newImage( "art/Logo/UBCOJLG.png", centerX, centerY )
 	image:scale(0.50*xscale,0.55*yscale) --0.6

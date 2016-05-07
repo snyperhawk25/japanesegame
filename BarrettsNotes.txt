@@ -12,6 +12,12 @@ Fix audio button in Food Vocab
 
 Need a Game Over screen and ?Success Screen.
 
+
+KATE:
+- Need a character (generic male & female) with hair. Give her access to resources. Maybe suggest versions for happy/netural/scared facial expressions corresponding to 3,2,1 lives remaining.
+
+
+
 --------------------------------------------
 FOOD VOCAB - game3.lua
 

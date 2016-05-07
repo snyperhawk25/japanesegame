@@ -171,7 +171,7 @@ end
 
 --Function to generate the next question.
 function generateQuestion()
-    --Step 1: Random question number from 0-9 (random(n) goes form 1<n<9)
+    --Step 1: Random question number from 0-9 (random(n) goes form 1<x<n)
     local num = math.random(0,9)
     
     --Step 2: Remove existing AnswerBoxes (not images)
@@ -340,7 +340,7 @@ function gameClear()
 end
 
 -------------------------------------------
---LISTENERS
+--LISTENERS //!@#messed up timer delay. 1000->1sec
 -------------------------------------------
 
 --Answer Box Listeners 1 - 3
