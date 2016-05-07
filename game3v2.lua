@@ -81,7 +81,7 @@ local audioBoxScale = 0.4
 local menuX = 465
 local menuY = 30
 
-local scoreTextX = 225
+local scoreTextX = 235
 local scoreTextY = 100
 
 
@@ -198,6 +198,7 @@ local function drawScene()
 
     --5) Initialize ScoreText
     scoreText = display.newText(""..score, scoreTextX, scoreTextY, "Arial", 30)
+	scoreText:setFillColor(1,1,1)    
 end
 
 
@@ -285,6 +286,7 @@ function updateScore(isCorrect,time,combo)
 	--Change scoreText
 	scoreText:removeSelf()
 	scoreText = display.newText(""..score, scoreTextX, scoreTextY, "Arial", 30)
+	scoreText:setFillColor(0,0,1)	
 
 end	
 

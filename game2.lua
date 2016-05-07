@@ -19,6 +19,8 @@ require("vocab")
 --SCENE VARIABLES
 -----------------------------------------
 
+local score=0
+local scoreText
 local enemy
 local player
 local menu
@@ -50,16 +52,19 @@ local questionBubbleX = 240
 local questionBubbleY = 30
 
 local playerX = 40
-local playerY = 130
-local playerScale = 0.4
+local playerY = 140
+local playerScale = 0.35
 
 local enemyX = 450
-local enemyY = 110
-local enemyScale = 0.45
+local enemyY = 120
+local enemyScale = 0.40
 
 local audioBoxX = 20
 local audioBoxY = 30
 local audioBoxScale = 0.4
+
+local scoreTextX = centerX
+local scoreTextY = 75
 
 local menuX = 465
 local menuY = 30
@@ -150,7 +155,7 @@ function updateHearts()
     if livesText ~= nil then
         livesText:removeSelf()
     end
-    livesText = display.newText(""..lives, heartX, heartY-heartOffset, "Arial", 25)
+    livesText = display.newText(""..lives, heartX, heartY-heartOffset, "Arial", 20)
 end
 
 --Function to remove the elements of the active question, including the answer images from the scene. Also to 'zero' the correct answer integer.
@@ -233,6 +238,11 @@ function evaluateAnswer()
         --Print/Sound Correct
         audio.play(audioCorrect)
         print("Correct Answer")
+        --Increment Score
+        score=score+1
+        scoreText:removeSelf()
+        scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
+        scoreText:setFillColor(0,1,0)
     else
         --Print/Sound Incorrect
         audio.play(audioIncorrect)
@@ -284,6 +294,7 @@ local function goToMenu()
     display.remove(livesText)
     display.remove(audioBox)
     display.remove(menu)
+    display.remove(scoreText)
     --Change Scenes and Delay Removal
     storyboard.gotoScene("menu","fade",500)
     delayedSceneRemoval()
@@ -309,6 +320,9 @@ function Game2()
     drawEnemy()
     --Set Hearts and Lives Text.
     updateHearts()
+    --Score Text
+    scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
+    scoreText:setFillColor(0,1,0)
 
     --Finally, Begin Playing by Generating A Question.
     generateQuestion()
