@@ -8,6 +8,7 @@
 
 
 --//!@# click spam for points to solve
+--//!@# remember to remove event listeners on game over
 --------------------------------------------------------------------------------
 
 ----------------------------------------
@@ -119,12 +120,9 @@ local function delayedSceneRemoval()
     timer.performWithDelay(500, removeSceneListener)
 end
 
---Function to return to the Main Menu (menu.lua)
-local function goToMenu()
-    --Click Audio
-    audio.play(audioClick)
-    --Remove Objects
-    display.remove(gameOverText)
+--Function to remove all display objects.
+local function removeAllDisplayObjects()
+	display.remove(gameOverText)
     display.remove(Ans1Box)
     display.remove(Ans2Box)
     display.remove(Ans3Box)
@@ -146,6 +144,15 @@ local function goToMenu()
     display.remove(customer)
     display.remove(chef)
     display.remove(scoreText)
+end	
+
+--Function to return to the Main Menu (menu.lua)
+local function goToMenu()
+    --Click Audio
+    audio.play(audioClick)
+    --Remove Objects
+    removeAllDisplayObjects()
+
     --Change Scenes and Delay Removal
     storyboard.gotoScene("menu","fade",500)
     delayedSceneRemoval()
@@ -198,7 +205,7 @@ local function drawScene()
 
     --5) Initialize ScoreText
     scoreText = display.newText(""..score, scoreTextX, scoreTextY, "Arial", 30)
-	scoreText:setFillColor(1,1,1)    
+	scoreText:setFillColor(0,1,0)    
 end
 
 
@@ -447,6 +454,7 @@ function gameOver()
     Ans1Box:removeEventListener("tap", Ans1Box)
     Ans2Box:removeEventListener("tap", Ans1Box)
     Ans3Box:removeEventListener("tap", Ans1Box)
+    removeAllDisplayObjects()
 
     gameOver = display.newRect(-100, -100, 2000, 2000)
     gameOver:setFillColor(0, 0, 0)

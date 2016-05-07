@@ -8,7 +8,7 @@
 --REQUIRE
 ----------------------------------------
 
---local composer = require("composer")
+local composer = require("composer") --required for getting current scene name. getSceneName()
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 require "dbFile"
@@ -272,11 +272,8 @@ local function delayedSceneRemoval()
     timer.performWithDelay(500, removeSceneListener)
 end
 
---Function to return to the Main Menu (menu.lua)
-local function goToMenu()
-    --Click Audio
-    audio.play(audioClick)
-    --Remove Objects
+--Function to remove all display objects from the scene.
+local function removeAllDisplayObjects()
     display.remove(gameOverText)
     display.remove(Ans1Box)
     display.remove(Ans2Box)
@@ -295,6 +292,15 @@ local function goToMenu()
     display.remove(audioBox)
     display.remove(menu)
     display.remove(scoreText)
+end
+
+--Function to return to the Main Menu (menu.lua)
+local function goToMenu()
+    --Click Audio
+    audio.play(audioClick)
+    --Remove Display Objects
+    removeAllDisplayObjects()
+
     --Change Scenes and Delay Removal
     storyboard.gotoScene("menu","fade",500)
     delayedSceneRemoval()
@@ -331,21 +337,42 @@ end
 
 ------------------------ GAME OVER FUNCTION -------------------------- 
 
---//!@#THis function will need to be changed
+--Function to transition to the game over screen, to display score and option.
 function gameOver()
-
+    --Print to Console
     print("GAME OVER")
 
+    --Remove All Event Listeners and Display Objects //!@# expand
     Ans1Box:removeEventListener("tap", Ans1Box)
-    Ans2Box:removeEventListener("tap", Ans1Box)
-    Ans3Box:removeEventListener("tap", Ans1Box)
+    Ans2Box:removeEventListener("tap", Ans2Box)
+    Ans3Box:removeEventListener("tap", Ans3Box)
+    removeAllDisplayObjects()
 
-    gameOver = display.newRect(-100, -100, 2000, 2000)
-    gameOver:setFillColor(0, 0, 0)
+    --Collect Important Information (along with transition info)
+    local gameOverOptions = {
+        effect = "fade",
+        time = 500,
+        params = {
+            var1 = "test",
+            gameName = "Item Vocab",
+            finalScore = score,
+            finalScoreUnit = "Correct",
+            finalDescription = "You got "..score.." correct word(s) before the Yakusa got you.",
+            reloadScene = composer.getSceneName("current")
+        }
+    }
+
+    --gameOver = display.newRect(-100, -100, 2000, 2000)
+    --gameOver:setFillColor(0, 0, 0)
     
-    gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
-    gameOverText:setFillColor(0.8, 0, 0)
-    gameOver:addEventListener("tap", gameClear)
+    --gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
+    --gameOverText:setFillColor(0.8, 0, 0)
+    --gameOver:addEventListener("tap", gameClear)
+
+    --Change Scenes and Delay Removal
+    storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
+    delayedSceneRemoval()
+
 end 
 
 function gameClear()
