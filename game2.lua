@@ -8,7 +8,7 @@
 --REQUIRE
 ----------------------------------------
 
-local composer = require("composer") --required for getting current scene name. getSceneName()
+--local composer = require("composer") --required for getting current scene name. getSceneName() //was not working
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 require "dbFile"
@@ -353,12 +353,13 @@ function gameOver()
         effect = "fade",
         time = 500,
         params = {
-            var1 = "test",
+            --var1 = "test",
+            retryScene = "game2",
             gameName = "Item Vocab",
             finalScore = score,
             finalScoreUnit = "Correct",
             finalDescription = "You got "..score.." correct word(s) before the Yakusa got you.",
-            reloadScene = composer.getSceneName("current")
+            var2 = "hi"
         }
     }
 
