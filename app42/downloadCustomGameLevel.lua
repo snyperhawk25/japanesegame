@@ -1,74 +1,77 @@
 --downloadCustomGameLevel.lua
 --to download from our upload service
+--//!@# modifiying from 419B
 ---------------------------------------------------------------------
 local composer = require( "composer" )
-local myData = require("Code.mydata")
+local myData = require("mydata")
 local App42API = require("App42-Lua-API.App42API")
-local tools=require("App42Tools") --this is for App42:Initialize
-require("Code.Game2.gameReader")
+local tools=require("app42.App42Tools") --this is for App42:Initialize
 ----------------------------------------------------------------------- 
 local ACL= require("App42-Lua-API.ACL")   
 require("App42-Lua-API.UploadFileType")   
 require("App42-Lua-API.Permission") 
-local g2reader=require("Code.Game2.gameReader")
+local gr=require("app42.gameReader")
 --------------------------------------
---------------------------------
+
 --Global Variables
 local uploadService  = App42API:buildUploadService()  
 
+------------------------------------------------------------
+--File Properties
 local cgl_nameOfFile = "customGameLevels"
-local cgl_nameOfFileWithTxt = "customGameLevels.txt"
-local filePath = system.pathForFile(cgl_nameOfFileWithTxt,system.DocumentsDirectory)
+local cgl_nameOfFileWithExtension = "customGameLevels.txt"
+local filePath = system.pathForFile(cgl_nameOfFileWithExtension,system.DocumentsDirectory)
 local fileType = UploadFileType.TXT
 local description = "the custom game file"
 
+--------------------------------------------------------------
 
---------------------------------------Upload-----------------------------------------------------------------
 
-
---This uploads the file
+--This function uploads the file, specified in the properties, to the app cloud server.
 function cgl_uploadFile2()
 
-	--notification
-	print("FileName: "..cgl_nameOfFileWithTxt.."\nFilepath: "..filePath.."\nFileType: "..tostring(fileType).."\nDescription: "..description)
+	--Print Notification to Console
+	print("FileName: "..cgl_nameOfFileWithExtension.."\nFilepath: "..filePath.."\nFileType: "..tostring(fileType).."\nDescription: "..description)
 
+	--Upload
 	local App42CallBack = {}
-
-	--test sys.DocDir
-	uploadService:uploadFile(cgl_nameOfFileWithTxt,filePath,fileType,description,App42CallBack)  
-
 	function App42CallBack:onSuccess(object)     
-		print("Upload Success.")
+		print("Uploaded "..cgl_nameOfFile.." Successfully.")
 	    --print("fileName is :".. object:getFileList():getName());   
 	    --print("Type is :".. object:getFileList():getType());       
 	    ---print("Url is :".. object:getFileList():getUrl());    
 	    --print("fileDescription is: ".. object:getFileList():getDescription());           
 	end    
 	function App42CallBack:onException(exception)  
-		print("Upload failure.")
+		print("Upload of "..cgl_nameOfFile.." Failed.")
 	    print("Message is : "..exception:getMessage())  
 	    print("App Error code is : "..exception:getAppErrorCode())  
 	    print("Http Error code is "..exception:getHttpErrorCode())  
 	    print("Detail is : "..exception:getDetails())  
 	end  
+	uploadService:uploadFile(cgl_nameOfFileWithExtension,filePath,fileType,description,App42CallBack)
 end
 
 --------------------------------------Download------------------------------------------------------------
 
-
+-- This listener is given to the networkDownload function, to handle its events .
 local networkListener = function( event )
 	    if ( event.isError ) then
-	        print( "Network error - download failed" )
+	    	--Failure
+	        print( "Network Download Error. Download Failed. :(" )
 	    elseif ( event.phase == "began" ) then
-	        print( "Progress Phase: began" )
+	    	--Begining Dowload
+	        print( "Progress Phase: Downloading..." )
 	    elseif ( event.phase == "ended" ) then
-	    	--file download success
-	        print("File Downloaded!")
+	    	--Success
+	        print("File Downloaded. :)")
 	        --Once downloadd, call the GameReader to read in the new file.
-			initializeGameReader()
+	        --gameReader transition
+			--initializeGameReader()
 	    end
 end
 
+--This function calls the API's Download method
 local networkDownload = function(url)
 	--if url good
 	if url~=nil then
@@ -77,22 +80,23 @@ local networkDownload = function(url)
 		params.timeout = 15  --changed from 30
 
 
-		--test cgl_nameOfFileWithTxt
+		--test cgl_nameOfFileWithExtension
 		network.download(
 			url,
 			"GET",
 		    networkListener,
 		    params,
-		    cgl_nameOfFileWithTxt,
+		    cgl_nameOfFileWithExtension,
 		    system.DocumentsDirectory
 		)
 	end
 end
 
+--This function downloads the file, specified in the properties, from the app cloud server.
 function cgl_app42download(fxn)
 	local App42CallBack = {}
-	--test withtxt
-	uploadService:getFileByName(cgl_nameOfFileWithTxt,App42CallBack)  
+	--test withtxt 
+	uploadService:getFileByName(cgl_nameOfFileWithExtension,App42CallBack) 
 	--
 	function App42CallBack:onSuccess(object)     
 		print("File Found..")
@@ -127,7 +131,7 @@ end
 function cgl_uploadFile()
 	local App42CallBack = {}
 	local result=false
-	uploadService:removeFileByName(cgl_nameOfFileWithTxt,App42CallBack)  
+	uploadService:removeFileByName(cgl_nameOfFileWithExtension,App42CallBack)  
 	function App42CallBack:onSuccess(object)          
 	    print("Remote File Deleted.")
 		--print("Response is :"..object:getStrResponse()); 
@@ -161,6 +165,7 @@ function testUpload()
 	--OLD delte remote
 	--cgl_deleteRemoteFile()
 	--upload new file
+	
 	cgl_uploadFile()
 
 	--check server for 6666666

@@ -1,5 +1,5 @@
 -----------------------------------------------------------------------------------------
---
+-- //!@# In progress
 -- This is the main class. It initializes the database, as well as the unicode-table for japanese characters.
 --
 -----------------------------------------------------------------------------------------
@@ -9,6 +9,72 @@ require "dbFile" --where all the db commands come from
 
 audio.setSessionProperty(audio.MixMode, audio.AmbientMixMode)  --allows device audio to continue uninterrupted 
 display.setStatusBar( display.HiddenStatusBar )  --hides the status bar on the top of the device
+
+
+local centerX = display.contentCenterX
+local centerY = display.contentCenterY
+
+local storyboard = require( "storyboard" )
+
+
+--this methods gives appropriate x and y scale values for use when displaying text, images, etc. based
+--on the devices screen size. This way everything shows up the same on all devices
+function toScale()
+	local iphone5x = 640
+	local iphone5y = 1136
+	local x = display.pixelWidth
+	local y = display.pixelHeight
+	xscale = y/iphone5y		--opposite since this game is letterbox
+	yscale = x/iphone5x
+
+	if string.sub(system.getInfo("model"),1,4) == "iPad" and display.pixelHeight>1500 then
+		xscale = xscale/1.9
+		yscale = yscale/1.9
+	end
+	if string.sub(system.getInfo("model"),1,5) == "Droid" then
+		xscale = xscale*1.44
+		yscale = yscale*1.44
+	end
+	if string.sub(system.getInfo("model"),1,9) == "Nexus One" then
+		xscale = xscale*1.4
+		yscale = yscale*1.4
+	end
+	if string.sub(system.getInfo("model"),1,2) == "GT" then
+		xscale = xscale*0.9
+		yscale = yscale*0.9
+	end
+	if string.sub(system.getInfo("model"),1,9) == "Sensation" then
+		xscale = xscale*1.2
+		yscale = yscale*1.2
+	end
+end
+toScale()
+
+--database setup starts here
+local tablesetup = [[CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, amount INTEGER);]]
+db:exec( tablesetup )
+
+
+---------------------------------------
+--App42
+----------------------------------------
+local App42API = require("App42-Lua-API.App42API")
+require("app42.app42UserCheck")
+require("app42.aliasLocationWriter")
+require("app42.downloadCustomGameLevel")
+
+--Step 1) User Authenticate
+userAuthenticate()
+
+--Step 2) Download Nina's Custom Game Levels
+cgl_downloadFile()
+
+--DEV STEP. FORCE UPLOAD TO SERVER
+--cgl_uploadFile()
+
+
+
+---------------------------------------
 
 physics = require "physics"	 --need physics to handle collisions. start/stop with physics.start() and physics.stop()
 physics.start()
@@ -129,48 +195,8 @@ syl[110] = {syl[92][1]..syl[100][1]}
 
 
 
-local centerX = display.contentCenterX
-local centerY = display.contentCenterY
-
-local storyboard = require( "storyboard" )
 
 
---this methods gives appropriate x and y scale values for use when displaying text, images, etc. based
---on the devices screen size. This way everything shows up the same on all devices
-function toScale()
-	local iphone5x = 640
-	local iphone5y = 1136
-	local x = display.pixelWidth
-	local y = display.pixelHeight
-	xscale = y/iphone5y		--opposite since this game is letterbox
-	yscale = x/iphone5x
-
-	if string.sub(system.getInfo("model"),1,4) == "iPad" and display.pixelHeight>1500 then
-		xscale = xscale/1.9
-		yscale = yscale/1.9
-	end
-	if string.sub(system.getInfo("model"),1,5) == "Droid" then
-		xscale = xscale*1.44
-		yscale = yscale*1.44
-	end
-	if string.sub(system.getInfo("model"),1,9) == "Nexus One" then
-		xscale = xscale*1.4
-		yscale = yscale*1.4
-	end
-	if string.sub(system.getInfo("model"),1,2) == "GT" then
-		xscale = xscale*0.9
-		yscale = yscale*0.9
-	end
-	if string.sub(system.getInfo("model"),1,9) == "Sensation" then
-		xscale = xscale*1.2
-		yscale = yscale*1.2
-	end
-end
-toScale()
-
---database setup starts here
-local tablesetup = [[CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, amount INTEGER);]]
-db:exec( tablesetup )
 
 
 --this tells the program where to go next, after everything is initialized

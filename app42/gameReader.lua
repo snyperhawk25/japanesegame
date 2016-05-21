@@ -1,10 +1,14 @@
 --GameReader.lua
 --this class will read/update the levels for Game 2
 local composer = require( "composer" )
-local myData = require("Code.mydata")
+local myData = require("mydata")
 ----------------------------------------------------------
---Variables
+
+
 local nameOfFile = "customGameLevels.txt"
+
+
+
 --test questions
 local newQuestionEasy = "123456789\nThis is a test question. Answer = A.\nMe\nNot me\nMe neither\nCertainly not me\nA\nEasy\n"
 local newQuestionMedium = "234567891\nThis is a test question. Answer = A.\nMe\nNot me\nMe neither\nCertainly not me\nA\nMedium\n"
@@ -22,51 +26,44 @@ myData.custom.Hard = {}
 
 
 function initializeGameReader()
-	--at startup of Logical Overflow, read in the file
+	--Console Notify
 	print("[gameReader.lua]")
 	print("Game 2 Custom Levels: "..tostring(gR_doesFileExist(nameOfFile, system.DocumentsDirectory)))
 
-	--check if file exists
+	--Check If File Exists In System
 	if gR_doesFileExist(nameOfFile, system.DocumentsDirectory)==true then
-		--custom Game 2 levels exist
-		--set Game 2 values appropriately
-
-		--read questions
+		--Exists. Read in.
 		gR_readFile()
-
 	else
-		--no custom levels downloaded
-		--set Game 2 values appropriately
-
-		--set up default file
+		--DNE. Create Default
 		gR_writeDefaultFile()
-
 	end
 
 	--test
 	--printMyDataDifs()
 end
 
+--Function to check whether a specified file, at a specified path, exists.
 function gR_doesFileExist( fname, path )
-    local results = false
-    -- Path for the file
+    local result = false
+    -- Locate path for file
     local filePath = system.pathForFile( fname, path )
+    --If path is good
     if ( filePath ) then
+    	--Attempt to read
         local file, errorString = io.open( filePath, "r" )
-        if not file then
-            result=false
-        else
-            results = true
-            -- Close the file handle
+        if file then
+  			--Read posssible. Return True and close file handle
+            result = true
             file:close()
         end
     end
-    return results
+    return result
 end
 
-
+--This function reads the contents of the file. (//!@# update method params)
 function gR_readFile()
-	--
+	--Local Variables
 	local levels = {}
 	local fileText = ""
 	--reset NumQuestions
@@ -82,7 +79,8 @@ function gR_readFile()
 	      else
 	      	--ready to read file
 	      	local contents = file:read("*l")
-	      	--while loop to read all of the components of one level
+
+	      	--while loop to read all of the components of one question
 	      	while contents~=nil do
 
 	      		--increment numQuestions (our loop counter) first
@@ -169,10 +167,11 @@ function gR_readFile()
 	--Before returning text, sort and file into myData
 	gL_sort(levels)
 
-	--return fileText
+	--return fileText --//1@# is this necessary/used anywhere?
 	  return fileText
 end
 
+--******Remove Unnecessary Funtion*********
 
 function gR_writeFile(text)
   --first Delete (just in case)
@@ -191,6 +190,9 @@ function gR_writeFile(text)
   gR_readFile()
 end
 
+
+--******Remove Unnecessary Funtion*********
+
 --Modify the existing customLevels.txt file. //!@# BROKEN
 function gR_addToFile(changes)
 	--Get the text of the file from readFile
@@ -201,6 +203,8 @@ function gR_addToFile(changes)
 	--fileText=nil
 end
 
+
+--This function delete the file from the System. (//!@# update method params, after examining usage)
 function gR_deleteFile()
   local destDir = system.DocumentsDirectory
   local result, reason = os.remove( system.pathForFile( nameOfFile, destDir ) )
@@ -211,6 +215,9 @@ function gR_deleteFile()
 	end
 end
 
+
+--This function sorts all of the questions from the incomming array into the myData.custom array categories.
+--Note: Categories are static, but make dynamic later.
 function gL_sort(arr)
 
 	--TEST print out incoming array
@@ -250,7 +257,7 @@ function gL_sort(arr)
 				k=k+1
 			else
 				--ERROR
-				print("Error in sorting. dif="..tostring(dif))
+				print("***Error in sorting. dif="..tostring(dif))
 			end
 
 		end
