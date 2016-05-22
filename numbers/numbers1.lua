@@ -259,8 +259,8 @@ local function showAnswers(n)
 	asign:addEventListener("tap",myFunction)
 	screenGroup:insert(asign)
 
-
-	atext = display.newText(syl[90+ha][1]..syl[24][2]..matext,centerX+b[1][1]*xscale,b[1][2]*yscale,native.systemFont,18)
+	--//!@#added the 'ha' value to the outputs of all text elements
+	atext = display.newText(ha..":"..ma..";"..syl[90+ha][1]..syl[24][2]..matext,centerX+b[1][1]*xscale,b[1][2]*yscale,native.systemFont,18)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
@@ -276,7 +276,7 @@ local function showAnswers(n)
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(syl[90+ha1][1]..syl[24][2]..ma1text,centerX+b[2][1]*xscale,b[2][2]*yscale,native.systemFont,18)
+	btext = display.newText(ha1..":"..ma1..";"..syl[90+ha1][1]..syl[24][2]..ma1text,centerX+b[2][1]*xscale,b[2][2]*yscale,native.systemFont,18)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
@@ -292,7 +292,7 @@ local function showAnswers(n)
 	csign:addEventListener("tap",myFunction)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(syl[90+ha2][1]..syl[24][2]..ma2text,centerX+b[3][1]*xscale,b[3][2]*yscale,native.systemFont,18)
+	ctext = display.newText(ha2..":"..ma2..";"..syl[90+ha2][1]..syl[24][2]..ma2text,centerX+b[3][1]*xscale,b[3][2]*yscale,native.systemFont,18)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
@@ -308,7 +308,7 @@ local function showAnswers(n)
 	dsign:addEventListener("tap",myFunction)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(syl[90+ha3][1]..syl[24][2]..ma3text,centerX+b[4][1]*xscale,b[4][2]*yscale,native.systemFont,18)
+	dtext = display.newText(ha3..":"..ma3..";"..syl[90+ha3][1]..syl[24][2]..ma3text,centerX+b[4][1]*xscale,b[4][2]*yscale,native.systemFont,18)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 

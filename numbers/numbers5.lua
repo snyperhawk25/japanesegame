@@ -45,9 +45,11 @@ local function goToMenu()
     storyboard.removeScene("numbers.numbers5")
 end
 
+--//!@# hijacked restart
 local function restart()
 	storyboard.purgeScene("numbers.numbers5")
-	storyboard.gotoScene("numbers.numbers1")
+	--storyboard.gotoScene("numbers.numbers1")
+	storyboard.reloadScene()
 end
 
 

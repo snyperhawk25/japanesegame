@@ -39,9 +39,11 @@ local function goToMenu()
     storyboard.removeScene("numbers.numbers6")
 end
 
+--//!@# hijacked restart
 local function restart()
 	storyboard.purgeScene("numbers.numbers6")
-	storyboard.gotoScene("numbers.numbers1")
+	--storyboard.gotoScene("numbers.numbers1")
+	storyboard.reloadScene()
 end
 
 local function goToScorePage()
@@ -291,8 +293,8 @@ local function showAnswers(n)
 	asign:addEventListener("touch",drag)
 	screenGroup:insert(asign)
 
-
-	atext = display.newText(answer,centerX+b[1]*xscale,85*yscale,native.systemFont,14)
+	--//!@# added answer to text
+	atext = display.newText(answernum.."; "..answer,centerX+b[1]*xscale,85*yscale,native.systemFont,14)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
@@ -303,7 +305,7 @@ local function showAnswers(n)
 	bsign:addEventListener("touch",drag)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(opt1,centerX+b[2]*xscale,85*yscale,native.systemFont,14)
+	btext = display.newText(num2.."; "..opt1,centerX+b[2]*xscale,85*yscale,native.systemFont,14)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
@@ -314,7 +316,7 @@ local function showAnswers(n)
 	csign:addEventListener("touch",drag)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(opt2,centerX+b[3]*xscale,85*yscale,native.systemFont,14)
+	ctext = display.newText(num3.."; "..opt2,centerX+b[3]*xscale,85*yscale,native.systemFont,14)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
@@ -325,7 +327,7 @@ local function showAnswers(n)
 	dsign:addEventListener("touch",drag)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(opt3,centerX+b[4]*xscale,85*yscale,native.systemFont,14)
+	dtext = display.newText(num4.."; "..opt3,centerX+b[4]*xscale,85*yscale,native.systemFont,14)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
