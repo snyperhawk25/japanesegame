@@ -51,7 +51,8 @@ end
 
 
 local function getQuestion()
-  currentQuestion = math.random(table.getn(questionGroups[currentDifficulty]))
+  currentQuestion = math.random(table.getn(questionGroups[currentDifficulty])) --//!@# (new) Does this work
+  --currentQuestion=1
   print("Question Selected: "..currentQuestion.." "..questionGroups[currentDifficulty][currentQuestion][2])
 end
 
@@ -158,7 +159,7 @@ checkAnswer = function (index)
           effect = "fade",
           time = 1000
         }
-        composer.gotoScene("Code.Game2.title", options)
+        composer.gotoScene("menu", options)
       end
 
     else

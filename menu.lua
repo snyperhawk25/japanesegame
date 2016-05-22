@@ -28,9 +28,10 @@ local function delayedSceneRemoval()
 	timer.performWithDelay(500, removeSceneListener)
 end
 
+--//!@# hijacked to go to game4
 local function goToGame1()
 	audio.play(audioClick)
-	storyboard.gotoScene("test.shufflingTest",transitionOptions)
+	storyboard.gotoScene("game4",transitionOptions)
 	delayedSceneRemoval()
 end
 local function goToGame2()
@@ -49,7 +50,7 @@ end
 local function goToNum()
 	audio.play(audioClick)
 	--storyboard.gotoScene("numbers.numbers1",transitionOptions)
-	storyboard.gotoScene("numbers.numbersScorePage",transitionOptions)
+	storyboard.gotoScene("numbers.numbers1",transitionOptions)
 	storyboard.removeScene("menu")
 end
 
