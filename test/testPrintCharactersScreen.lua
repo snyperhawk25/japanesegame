@@ -53,7 +53,8 @@ function checkQuestionString()
 	local last=20
 	myString=""
 	for i=first,last,1 do
-		myString=myString.."\nQuestion "..i..")  "..question[i].q
+		--myString=myString.."\nQuestion "..i..")  "..question[i].qj
+		myString=myString.."\n"..question[i].qj
 	end
 
 	-- myString=myString..
@@ -79,8 +80,8 @@ function scene:createScene( event )
 	-- screenGroup:insert(title)
 
 	--myString
-	--checkQuestionString()
-	checkJapanesePrint()
+	checkQuestionString()
+	--checkJapanesePrint()
 	myText = display.newText(myString, centerX, centerY-5, native.systemFont, 24)
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
