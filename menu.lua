@@ -32,7 +32,8 @@ end
 local function goToGame1()
 	audio.play(audioClick)
 	--storyboard.gotoScene("numbers.JuliaVerify",transitionOptions)
-	storyboard.gotoScene("test.testPrintCharactersScreen",transitionOptions)
+	--storyboard.gotoScene("test.testPrintCharactersScreen",transitionOptions)
+	storyboard.gotoScene("game4",transitionOptions)
 	delayedSceneRemoval()
 end
 local function goToGame2()

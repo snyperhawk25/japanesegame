@@ -182,6 +182,8 @@ function scene:show( event )
    local phase = event.phase
 
    if ( phase == "will" ) then
+    composer.removeHidden() --//!@# tesing for remove blak screens
+    print("game4.lua] scene:show")
      currentDifficulty = 2
      gR_readFile()
      sortQuestions()
