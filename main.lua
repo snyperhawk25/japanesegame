@@ -166,17 +166,17 @@ syl[81] = {'WE','\227\130\145','\227\131\177'}
 syl[82] = {'WO','\227\130\146','\227\131\178'}
 syl[83] = {'N','\227\130\147','none'}
 
---numbers start here
+--Genericnumbers start here
 syl[90] = {syl[76][2]..syl[3][2]} --
 syl[91] = {syl[4][2]..syl[33][2]}
 syl[92] = {syl[43][2]}
 syl[93] = {syl[21][2]..syl[83][2]}
-syl[94] = {syl[23][2]}
+syl[94] = {"よん"} --Julia: "よん , yon" (originally: syl[23][2])
 syl[95] = {syl[20][2]}
 syl[96] = {syl[77][2]..syl[15][2]}
-syl[97] = {syl[23][2]..syl[33][2]}
+syl[97] = {"なな"} -- Julia: "なな　(nana)" (originally: syl[23][2]..syl[33][2]})
 syl[98] = {syl[47][2]..syl[33][2]}
-syl[99] = {syl[15][2]} --change ku to kyu
+syl[99] = {"きゅう"} --Julia: きゅう(kyuu)  (originally: syl[15][2])
 syl[100] = {syl[24][2]..syl[69][2]..syl[6][2]} --ju (10)
 syl[101] = {syl[100][1]..syl[91][1]} --ex. 10 + 1
 syl[102] = {syl[100][1]..syl[92][1]}
@@ -190,11 +190,33 @@ syl[109] = {syl[100][1]..syl[99][1]} --19 is said two ways.
 syl[110] = {syl[92][1]..syl[100][1]}
 
 
-
-
-
-
-
+--Numbers1.lua; Clock Numbers Start here
+--Approved by Nina/Julia
+--Additional (formal) resources: http://japanese-lesson.com/vocabulary/words/time.html
+syl[120] = {"12:00","じゅうにじ","jyuuniji"}
+syl[121] = {"2:30","じゅうにじはん","jyuunijihan"}
+syl[122] = {"1:00","いちじ","ichiji"}
+syl[123] = {"1:30","いちじはん","ichijihan"}
+syl[124] = {"2:00","にじ","niji"}
+syl[125] = {"2:30","にじはん","nijihan"}
+syl[126] = {"3:00","さんじ","sanji"}
+syl[127] = {"3:30","さんじはん","sanjihan"}
+syl[128] = {"4:00","よじ","yoji"}
+syl[129] = {"4:30","よじはん","yojihan"} --Julia: (this one can be easily mistaken)
+syl[130] = {"5:00","ごじ","goji"}
+syl[131] = {"5:30","ごじはん","gojihan"}
+syl[132] = {"6:00","ろくじ","rokuji"}
+syl[133] = {"6:30","ろくじはん","rokujihan"}
+syl[134] = {"7:00","しちじ","shichiji"}
+syl[135] = {"7:30","しちじはん","shichiji"}
+syl[136] = {"8:00","はちじ","hachiji"}
+syl[137] = {"8:30","はちじはん","hachijihan"}
+syl[138] = {"9:00","くじ","kuji"}
+syl[139] = {"9:30","くじはん","kujihan"}
+syl[140] = {"10:00","じゅうじ","jyuuji"}
+syl[141] = {"10:30","じゅうじはん","jyuujihan"}
+syl[142] = {"11:00","じゅういちじ","jyuuichiji"}
+syl[143] = {"11:30","じゅういちじはん","jyuuichihan"}
 
 
 

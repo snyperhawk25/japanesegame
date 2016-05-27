@@ -88,10 +88,10 @@ question[4].qj = "ぼうし　は　どれですか？"
 question[4].q = "door" .. " " .. hiragana["wa"] .. " " .. hiragana["do"] .. hiragana["re"] .. " " .. hiragana["de"] .. hiragana["su"] .. " " .. hiragana["ka"] .. "?" -- Incorrect Japanese!
 question[4].a1 = "art/Game2/umbrella.png"
 question[4].a2 = "art/Game2/clock.png"
-question[4].a3 = "art/Game2/door.png"
+question[4].a3 = "art/Game2/hat.png"
 question[4].t1 = "umbrella"
 question[4].t2 = "clock"
-question[4].t3 = "door"
+question[4].t3 = "hat"
 question[4].ans = 3
 question[4].audio = "audio/boushi.wav"
  
@@ -172,7 +172,7 @@ question[9].audio = "audio/mado.wav"
  -- bread
 question[10] = {}
 
-question[10].qj = "ぱん　を　ください！"
+question[10].qj = "パン　を　ください！" --//!@#fixed to Pan
 question[10].q = hiragana["pa"] .. hiragana["n"] .. " " .. hiragana["o"] .. " " .. hiragana["ku"] .. hiragana["da"] .. hiragana["sa"] .. hiragana["i"] .. "!" 
 question[10].a1 = "art/Game3/bread.png"
 question[10].a2 = "art/Game3/coffee.png"
@@ -244,7 +244,7 @@ question[15] = {}
 
 question[15].qj = "ラーメン　を　ください！"
 question[15].q = hiragana["ra"] .. hiragana["me"] .. " " .. hiragana["n"] .. " " .. hiragana["ku"] .. hiragana["da"] .. hiragana["sa"] .. hiragana["i"] .. "!" 
-question[15].a1 = "art/Game3/noodles.png"
+question[15].a1 = "art/Game3/lamian.png" --changed to lamian from noodles
 question[15].a2 = "art/Game3/meat.png"
 question[15].a3 = "art/Game3/bread.png"
 question[15].t1 = "noodles"
@@ -272,7 +272,7 @@ question[17] = {}
 
 question[17].qj = "サラダ　を　ください！"
 question[17].q = hiragana["sa"] .. hiragana["ra"] .. hiragana["da"] .. " " .. hiragana["o"] .. " " .. hiragana["ku"] .. hiragana["da"] .. hiragana["sa"] .. hiragana["i"] .. "!" 
-question[17].a1 = "art/Game3/noodles.png"
+question[17].a1 = "art/Game3/lamian.png" --changed to lamian
 question[17].a2 = "art/Game3/salad.png"
 question[17].a3 = "art/Game3/coffee.png"
 question[17].t1 = "noodles"
