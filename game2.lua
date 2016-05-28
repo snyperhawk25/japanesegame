@@ -359,7 +359,7 @@ function gameOver()
             finalScore = score,
             finalScoreUnit = "Correct",
             finalDescription = "You got "..score.." correct word(s) before the Yakuza got you.",
-            var2 = "hi"
+            var2 = "hi",
             --app 42 info
             app42GameName = "Item_Vocab"
         }

@@ -7,6 +7,7 @@ local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 require "dbFile"
 require ("app42.scoreSaver")
+local myData = require("mydata")
 
 --Variables
 
@@ -108,13 +109,9 @@ function scene:createScene( event )
 	print("______gameOverOptions Readout:\n"..nameOfGame..".\n"..finalScore..".\n"..finalScoreUnit..".\n"..finalDescription..".\n"..reloadScene..".\n_______END")
 
 	--Submit Score to App42
-	local hasSaved = saveUserScore(app42GameName, mydata.App42Username, finalScore)
-	if hasSaved then
-		print (app42GameName..": "..mydata.App42Username..": "..finalScore..". UPLOAD SUCCESS.")
-	else
-		print ("FAILED UPLOAD:: "..app42GameName..": "..mydata.App42Username..": "..finalScore..".")
-	end
+	saveUserScore(app42GameName, myData.App42Username, finalScore)
 	
+
 	--Draw Background image
 	bg = display.newImage("images/bg.png", centerX,centerY+30*yscale)
 	--bg:scale(0.6*xscale,0.6*yscale)
