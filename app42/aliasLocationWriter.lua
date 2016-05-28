@@ -23,20 +23,6 @@ local function randomCharactersAlias(length)
   return randomText(length)
 end
 
----//!@# new to kissa vocab
-local function randomNumbersAlias(length)
-  local seed=math.randomseed(os.clock())
-  --function
-    randomNum = function ()
-    local randNumString = ""
-    for k = 1, length do
-      local randNum = math.floor(math.random(0, 9))
-      randNumString = randNumString .. randNum
-    end
-    return randNumString
-  end
-  return randomNum(length)
-end
 
 --this function get the user's alias string (nil if DNE)
 function getAlias()
@@ -51,8 +37,7 @@ function getAlias()
     myData.App42Username=userAlias
 	else
     --Alia doesnt exist.
-    --userAlias=randomCharactersAlias(8) --old
-    userAlias=randomNumbersAlias(8) --new
+    userAlias=randomCharactersAlias(8) --switched back to characters b/c 26^8 (208b) >> 10^8 (100m) for collisions
     myData.App42Username=userAlias
     aliasLocationWriter_writeFile(userAlias)
     print("Alias Does Not Exist. Creating one: "..userAlias)

@@ -6,6 +6,7 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 require "dbFile"
+require ("app42.scoreSaver")
 
 --Variables
 
@@ -18,7 +19,8 @@ local finalScore = 0
 local finalScoreUnit = ""
 local finalDescription = ""
 local nameOfGame = ""
-local reloadScene = "game1" --test, for now
+local app42GameName = ""
+local reloadScene = "game2" --test, for now
 
 --------------------------------------------
 --Coordinates
@@ -96,13 +98,23 @@ function scene:createScene( event )
 	finalScoreUnit = event.params.finalScoreUnit
 	finalDescription = event.params.finalDescription
 	reloadScene = event.params.retryScene
+
+	app42GameName = event.params.app42GameName
+	
 	--Confirm Print
 	if reloadScene==nil then
 		print("reloadScene was nil")
 	end
 	print("______gameOverOptions Readout:\n"..nameOfGame..".\n"..finalScore..".\n"..finalScoreUnit..".\n"..finalDescription..".\n"..reloadScene..".\n_______END")
 
-
+	--Submit Score to App42
+	local hasSaved = saveUserScore(app42GameName, mydata.App42Username, finalScore)
+	if hasSaved then
+		print (app42GameName..": "..mydata.App42Username..": "..finalScore..". UPLOAD SUCCESS.")
+	else
+		print ("FAILED UPLOAD:: "..app42GameName..": "..mydata.App42Username..": "..finalScore..".")
+	end
+	
 	--Draw Background image
 	bg = display.newImage("images/bg.png", centerX,centerY+30*yscale)
 	--bg:scale(0.6*xscale,0.6*yscale)

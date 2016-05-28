@@ -62,6 +62,7 @@ local App42API = require("App42-Lua-API.App42API")
 require("app42.app42UserCheck")
 require("app42.aliasLocationWriter")
 require("app42.downloadCustomGameLevel")
+require("app42.scoreSaver")
 
 --Step 1) User Authenticate
 userAuthenticate()
@@ -72,7 +73,9 @@ cgl_downloadFile()
 --DEV STEP. FORCE UPLOAD TO SERVER
 --cgl_uploadFile()
 
-
+--Step 3) Initialize Leaderboard
+runInitialTest()
+--initializeLeaderboards()
 
 ---------------------------------------
 
@@ -166,7 +169,7 @@ syl[81] = {'WE','\227\130\145','\227\131\177'}
 syl[82] = {'WO','\227\130\146','\227\131\178'}
 syl[83] = {'N','\227\130\147','none'}
 
---Genericnumbers start here
+--Generic Numbers Start Here
 syl[90] = {syl[76][2]..syl[3][2]} --
 syl[91] = {syl[4][2]..syl[33][2]}
 syl[92] = {syl[43][2]}

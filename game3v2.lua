@@ -456,12 +456,42 @@ function gameOver()
     Ans3Box:removeEventListener("tap", Ans1Box)
     removeAllDisplayObjects()
 
-    gameOver = display.newRect(-100, -100, 2000, 2000)
-    gameOver:setFillColor(0, 0, 0)
+    --gameOver = display.newRect(-100, -100, 2000, 2000)
+    --gameOver:setFillColor(0, 0, 0)
     
-    gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
-    gameOverText:setFillColor(0.8, 0, 0)
-    gameOver:addEventListener("tap", gameClear)
+    --gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
+    --gameOverText:setFillColor(0.8, 0, 0)
+    --gameOver:addEventListener("tap", gameClear)
+
+
+    local gameOverOptions = {
+        effect = "fade",
+        time = 500,
+        params = {
+            --var1 = "test",
+            retryScene = "game3v2",
+            gameName = "Food Vocab",
+            finalScore = score,
+            finalScoreUnit = "Correct",
+            finalDescription = "You got "..score.." correct word(s) before the Yakuza got you.",
+            var2 = "hi"
+            --app 42 info
+            app42GameName = "Food_Vocab"
+        }
+    }
+
+    --gameOver = display.newRect(-100, -100, 2000, 2000)
+    --gameOver:setFillColor(0, 0, 0)
+    
+    --gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
+    --gameOverText:setFillColor(0.8, 0, 0)
+    --gameOver:addEventListener("tap", gameClear)
+
+    --Change Scenes and Delay Removal
+    storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
+    delayedSceneRemoval()
+
+
 end 
 
 function gameClear()

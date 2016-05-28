@@ -1,4 +1,12 @@
---Globals go here.
---Do NOT us _G for any reason. We are better than that.
+--mydata.lua
+--For holding all of the settings
+
+--Fields:
+--"App42Username"
+--"App42Email"
+--"App42Password"
+
+
+
 local M = {}
 return M
