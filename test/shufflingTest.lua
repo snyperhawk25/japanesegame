@@ -70,6 +70,51 @@ function fisherYatesNumbers(start, ending)
 	return arr
 end
 
+--Function to create (array between two values, with first number ~= last number of previous array) and shuffle by Fisher-Yates "inside out". **1-Indexed, the lua standard**
+function fisherYatesNumbers(start, ending, prevArr)
+	--Create and fill array
+	local arr = {}
+	local j
+	for j=0,ending-start,1 do
+		table.insert(arr,start+j)
+		--print("array["..j.."]="..start+j)
+	end
+	--Loop FY until
+	repeat
+		local length = table.getn(arr) --array length
+		print("length: "..length)
+		local t --temp
+		local i --element
+		--While remaining elements,
+		while length > 1 do
+			--print("< length = "..length.." >")
+			--1) pick a remaining element
+			i=math.ceil(math.random()*length) --changed to .ceil for 1-Indexed
+			--if i==0 then
+			--	print("random i= 0 ERROR!!!")
+			--else
+			--	print("random i= "..i..".")
+			--end
+			
+			--2) decrement length
+			length=length-1
+			--3) swap it with current element
+			t=arr[length]
+			arr[length]=arr[i]
+			arr[i]=t
+		end
+		--TEST
+		local len2 = #prevArr
+		print("len2="..len2)
+		print("prevArr[]="..prevArr[1]..prevArr[2]..prevArr[3]..prevArr[4]..";")
+		print("prevArr[]="..prevArr[1].."-"..prevArr[len2]..";")
+		print("arr[]="..arr[1]..arr[2]..arr[3]..arr[4])
+		print("arr[]="..arr[1].."-"..arr[length+1-1]) --//!@#will not grab proper final index 'arr[length]'
+		print("Condition: "..arr[1] ~= prevArr[ending-start+1]..";")
+	until arr[1]~=prevArr[#prevArr+1] -- +1 for lua 1-Index
+	return arr
+end
+---------------------------------------------------------------------------------------
 
 --Initialize myArray2 elements
 function setMyArray2(n)
@@ -114,7 +159,8 @@ function scene:enterScene( event )
 	--printArray(myArray2)
 
 	math.randomseed(os.time())
-	myArray2=fisherYatesNumbers(24,39)
+	--myArray2=fisherYatesNumbers(24,39)
+	myArray2=fisherYatesNumbers(4,7,{4,7,5,6})
 	printArray(myArray2)
 end
 
