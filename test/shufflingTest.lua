@@ -36,6 +36,41 @@ function fisherYates(arr)
 	end
 end
 
+--Function to create (array between two values) and shuffle by Fisher-Yates "inside out". **1-Indexed, the lua standard**
+function fisherYatesNumbers(start, ending)
+	--Create and fill array
+	local arr = {}
+	local j
+	for j=0,ending-start,1 do
+		table.insert(arr,start+j)
+		--print("array["..j.."]="..start+j)
+	end
+	--FY
+	local length = table.getn(arr) --array length
+	local t --temp
+	local i --element
+	--While remaining elements,
+	while length > 1 do
+		--print("< length = "..length.." >")
+		--1) pick a remaining element
+		i=math.ceil(math.random()*length) --changed to .ceil for 1-Indexed
+		--if i==0 then
+		--	print("random i= 0 ERROR!!!")
+		--else
+		--	print("random i= "..i..".")
+		--end
+		
+		--2) decrement length
+		length=length-1
+		--3) swap it with current element
+		t=arr[length]
+		arr[length]=arr[i]
+		arr[i]=t
+	end
+	return arr
+end
+
+
 --Initialize myArray2 elements
 function setMyArray2(n)
 	local a = {}
@@ -73,9 +108,13 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	--//!@#
+	--math.randomseed(os.time())
+	--myArray2=setMyArray2(17)
+	--fisherYates(myArray2)
+	--printArray(myArray2)
+
 	math.randomseed(os.time())
-	myArray2=setMyArray2(17)
-	fisherYates(myArray2)
+	myArray2=fisherYatesNumbers(24,39)
 	printArray(myArray2)
 end
 
