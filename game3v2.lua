@@ -29,10 +29,14 @@ require("vocab")
 
 local customer, chef
 
-local score=0
+local score=0 --player's score in game
+local performanceScore=0 --player's final score, to be registered on app42
+local questionCounter=0 --questions counter
 local scoreText
-local playerCombo=0
-local start, finish
+local playerCombo=0 --player combo
+local maxCombo=0 --maximum combo
+local start, finish --times
+local winState = 1000 --score to achieve Win
 
 
 
@@ -257,13 +261,21 @@ function updateScore(isCorrect,time,combo)
 	--Calulate Combo multiplier
 	local newCombo
 	if combo>0 then
+        --Positive Combo
 		newCombo=(math.floor(combo/5))+1
 	elseif combo<=-6 then
+        --Cheating
 		print("CHEATING")
 		newCombo=10000--cheating (> 6 wrongs, assumed cheating)
 	else
+        --Negative Combo
 		newCombo=1
 	end	
+
+    --Update maxCombo
+    if combo > maxCombo then
+        maxCombo = combo
+    end
 
 	--If Correct Answer
 	if isCorrect then
@@ -370,11 +382,52 @@ function generateQuestion()
     audioBox:scale(audioBoxScale,audioBoxScale)
     audioBox:addEventListener("tap", AudioBoxListener)
 
-    --Step 8: Register start time
+    --Step 8: Increment question counter
+    questionCounter=questionCounter+1
+
+    --Step 9: Register start time
     start=now()
 end
 
---Function to evaluate the customer-selected answer
+--Function to begin the game won procedures. NOTE: this is win method. No lose state.
+function gameOver()
+
+    print("GAME WON and OVER!")
+
+    Ans1Box:removeEventListener("tap", Ans1Box)
+    Ans2Box:removeEventListener("tap", Ans1Box)
+    Ans3Box:removeEventListener("tap", Ans1Box)
+    removeAllDisplayObjects()
+
+    --performance Score calculation
+    --Draft Equation //!@# adjust when appropriate
+    -- performanceScore = (winState * maxCombo) + (10 Total Question*10 /questionCounter)
+    performanceScore = (winState * maxCombo) + math.floor((100/questionCounter)*winState)
+    print("PerformanceScore : "..performanceScore..";")
+
+
+    local gameOverOptions = {
+        effect = "fade",
+        time = 500,
+        params = {
+            --var1 = "test",
+            retryScene = "game3v2",
+            gameName = "Food Vocab",
+            finalScore = performanceScore,
+            finalScoreUnit = "Points",
+            finalDescription = "You earned "..performanceScore.." points, for scoring "..winState.." in "..questionCounter.." question!",
+            var2 = "hi",
+            --app 42 info
+            app42GameName = "Food_Vocab"
+        }
+    }
+
+    --Change Scenes and Delay Removal
+    storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
+    delayedSceneRemoval()
+end   
+
+--Function to evaluate the player-selected answer, update score, and choose next state.
 function evaluateAnswer()
 	--Register Finish Time
 	finish=now()
@@ -422,9 +475,15 @@ function evaluateAnswer()
     --Clear question and score timers
     clearQuestion()
 
-    --And generate the next question
-    generateQuestion()  --r?
-
+    --And if the player's score is at/above the winState value
+    if score >= winState then
+        --player wins the game. NOTE: gameOver is the game won, because there is no way to lose in this game: it's pure repitition.
+        gameOver()
+    else    
+        --Not enough points to win.
+        --Generate the next question
+        generateQuestion()  --r?
+    end
 end
 
 
@@ -443,61 +502,6 @@ function Game3()
     generateQuestion()
 end
 
-
------------------------- GAME OVER FUNCTION -------------------------- 
-
---//!@#THis function will need to be changed
-function gameOver()
-
-    print("GAME OVER")
-
-    Ans1Box:removeEventListener("tap", Ans1Box)
-    Ans2Box:removeEventListener("tap", Ans1Box)
-    Ans3Box:removeEventListener("tap", Ans1Box)
-    removeAllDisplayObjects()
-
-    --gameOver = display.newRect(-100, -100, 2000, 2000)
-    --gameOver:setFillColor(0, 0, 0)
-    
-    --gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
-    --gameOverText:setFillColor(0.8, 0, 0)
-    --gameOver:addEventListener("tap", gameClear)
-
-
-    local gameOverOptions = {
-        effect = "fade",
-        time = 500,
-        params = {
-            --var1 = "test",
-            retryScene = "game3v2",
-            gameName = "Food Vocab",
-            finalScore = score,
-            finalScoreUnit = "Correct",
-            finalDescription = "You got "..score.." correct word(s) before the Yakuza got you.",
-            var2 = "hi",
-            --app 42 info
-            app42GameName = "Food_Vocab"
-        }
-    }
-
-    --gameOver = display.newRect(-100, -100, 2000, 2000)
-    --gameOver:setFillColor(0, 0, 0)
-    
-    --gameOverText = display.newText("GAME OVER!...", 40, 10, "Arial", 20)
-    --gameOverText:setFillColor(0.8, 0, 0)
-    --gameOver:addEventListener("tap", gameClear)
-
-    --Change Scenes and Delay Removal
-    storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
-    delayedSceneRemoval()
-
-
-end 
-
-function gameClear()
-    gameOver:removeEventListener("tap", gameOver)
-    gameOverText:removeSelf()
-end
 
 -------------------------------------------
 --LISTENERS

@@ -41,8 +41,8 @@ local bubbleY = 150
 local menuX = 350
 local menuY = 250
 
-local retryX = 250
-local retryY = 250
+local retryX = 150
+local retryY = 275
 
 --Function to remove all display objects, and listeners
 local function removeAllDisplayObjects()
