@@ -324,18 +324,10 @@ end
 
 --DEV METHOD: Initial Run Test
 function runInitialTest(fxn)
+	--create Leaderboards
 	initializeLeaderboards()
-	fillAllGamesWithScores(1)
-	--setSomeTestScores("11",2)
-	--printHighScores("11")
-
-
-	----TESTING NEW getHighscoresByIndex method
-	--fillAllGamesWithScores(5)
-	--local test=getHighscoresByIndex("11",2,2,fxn)
-	----print test
-	--print("Test1:\n\tUsername:"..test[1][1].."\n\tScore:"..test[1][2])
-	--print("Test2:\n\tUsername:"..test[2][1].."\n\tScore:"..test[2][2])
+	--Add Scores to all of the games.
+	--fillAllGamesWithScores(1)
 end
 
 

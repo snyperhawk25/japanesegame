@@ -36,7 +36,7 @@ local scoreText
 local playerCombo=0 --player combo
 local maxCombo=0 --maximum combo
 local start, finish --times
-local winState = 1000 --score to achieve Win
+local winState = 500 --score to achieve Win
 
 
 

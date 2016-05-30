@@ -62,7 +62,7 @@ end
 --Function to delay this scene's removal.
 local function delayedSceneRemoval()
     local function removeSceneListener(event)
-        storyboard.removeScene("numbersScorePage")
+        storyboard.removeScene("numbers.numbersScorePage") --? numbers. ....
     end
     timer.performWithDelay(500, removeSceneListener)
 end
@@ -106,7 +106,7 @@ function scene:createScene( event )
 	if reloadScene==nil then
 		print("reloadScene was nil")
 	end
-	print("______gameOverOptions Readout:\n"..nameOfGame..".\n"..finalScore..".\n"..finalScoreUnit..".\n"..finalDescription..".\n"..reloadScene..".\n_______END")
+	print("______gameOverOptions Readout:\nName Of Game: "..nameOfGame..".\nFinal Score: "..finalScore..".\nFinal Score Unit: "..finalScoreUnit..".\nFinal Description: "..finalDescription..".\nReload Scene: "..reloadScene..".\n_______END")
 
 	--Submit Score to App42
 	saveUserScore(app42GameName, myData.App42Username, finalScore)
