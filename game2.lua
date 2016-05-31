@@ -14,12 +14,17 @@ local scene = storyboard.newScene()
 require "dbFile"
 require("questions")
 require("vocab")
+require("test.shufflingTest")
 
 -----------------------------------------
 --SCENE VARIABLES
 -----------------------------------------
 
 local score=0
+local questionCounter=0
+local questionsStartIndex = 1
+local questionsEndIndex = 10
+
 local scoreText
 local enemy
 local player
@@ -34,8 +39,7 @@ local chosenAns
 local gameOver, gameOverText
 local q1, q2, q3
 local audioBox, audioSample
-local questionsStartIndex = 1
-local questionsEndIndex = 10
+
 --Audio
 local audioCorrect = audio.loadSound("audio/ding1.wav")
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
@@ -178,17 +182,30 @@ end
 
 --Function to generate the next question.
 function generateQuestion()
-    --Step 1: Random question number from 1-10 (random(n) goes form 1<x<n)
+    
+    --Check questionCounter for need of reordering orderOfQuestions
+    if questionCounter%(questionsEndIndex-questionsStartIndex+1)==0 then
+        --Check for first-time ordering
+        if questionCounter==0 then
+            orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex)
+        end  
+        orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex,orderOfQuestions[1])
+    end    
+    print("orderOfQuestions["..((questionCounter % (questionsEndIndex-questionsStartIndex+1))+1).."];")
+    local num = orderOfQuestions[(questionCounter%(questionsEndIndex-questionsStartIndex+1))+1]
+    print("questions.lua Question Index: "..num..".")
+
+    --Random question number from 1-10 (random(n) goes form 1<x<n)
     local num = math.random(questionsStartIndex, questionsEndIndex)
     
-    --Step 2: Remove existing AnswerBoxes (not images)
+    --Remove existing AnswerBoxes (not images)
     if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?
         Ans1Box:removeSelf()
         Ans2Box:removeSelf()
         Ans3Box:removeSelf()
     end
     
-    --Step 3: Create new AnswerBoxes
+    --Create new AnswerBoxes
     --Answer Box Rectangles
     Ans1Box = display.newRect(Ans1BoxX, Ans1BoxY, AnsBoxSize, AnsBoxSize)
     Ans1Box:setFillColor(0.85,0.85,0.85)
@@ -201,7 +218,7 @@ function generateQuestion()
     Ans2Box:addEventListener("tap", Ans2BoxListener)
     Ans3Box:addEventListener("tap", Ans3BoxListener)
     
-    --Step 4: Add Answer Object Images
+    --Add Answer Object Images
     --Answer Images
     Ans1Image = display.newImage(question[num].a1, Ans1ImageX, Ans1ImageY)
     Ans1Image:scale(AnsTextScale,AnsTextScale)
@@ -215,16 +232,16 @@ function generateQuestion()
     Ans3Image:scale(AnsTextScale,AnsTextScale)
     Ans3Image:translate(AnsTextTranslateX,AnsTextTranslateY)
 
-    --Step 5: Add Question Text
+    --Add Question Text
     questionText = display.newText(question[num].qj , questionTextX, questionTextY, "Arial", 24)
     questionText:setFillColor(0, 0, 0)
     
-    --Step 6: Set correct answer and correct audio sample
+    --Set correct answer and correct audio sample
     correctAns = question[num].ans
     audioSample = audio.loadSound(question[num].audio)
     
 
-    --Step 7: Initialize Audio Box
+    --Initialize Audio Box
     if audioBox ~= nil then
         audioBox:removeSelf()
     end
@@ -232,6 +249,8 @@ function generateQuestion()
     audioBox:scale(audioBoxScale,audioBoxScale)
     audioBox:addEventListener("tap", AudioBoxListener)
 
+    --Increment question counter
+    questionCounter=questionCounter+1
 end
 
 --Function to evaluate the player-selected answer
