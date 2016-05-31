@@ -21,6 +21,7 @@ local scene = storyboard.newScene()
 require "dbFile"
 require("questions")
 require("vocab")
+require("test.shufflingTest")
 
 
 -----------------------------------------
@@ -33,11 +34,12 @@ local score=0 --player's score in game
 local performanceScore=0 --player's final score, to be registered on app42
 local questionCounter=0 --questions counter
 local scoreText
-local playerCombo=0 --player combo
+local playerCombo=0 --player current combo
 local maxCombo=0 --maximum combo
 local start, finish --times
 local winState = 500 --score to achieve Win
-
+local questionsStartIndex = 11
+local questionsEndIndex = 21
 
 
 local menu
@@ -311,8 +313,8 @@ end
 
 --Function to generate the next question.
 function generateQuestion()
-    --Step 1: Random question number from 10-20 (random(n) goes form 1<x<n)
-    local num = math.random(10,20)
+    --Step 1: Random question number from 11-21 (random(n) goes form 1<x<n)
+    local num = math.random(questionsStartIndex, questionsEndIndex)
     
     --Step 2: Remove existing AnswerBoxes (not images)
     if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?

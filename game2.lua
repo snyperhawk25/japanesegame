@@ -34,6 +34,8 @@ local chosenAns
 local gameOver, gameOverText
 local q1, q2, q3
 local audioBox, audioSample
+local questionsStartIndex = 1
+local questionsEndIndex = 10
 --Audio
 local audioCorrect = audio.loadSound("audio/ding1.wav")
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
@@ -176,8 +178,8 @@ end
 
 --Function to generate the next question.
 function generateQuestion()
-    --Step 1: Random question number from 0-9 (random(n) goes form 1<x<n)
-    local num = math.random(0,9)
+    --Step 1: Random question number from 1-10 (random(n) goes form 1<x<n)
+    local num = math.random(questionsStartIndex, questionsEndIndex)
     
     --Step 2: Remove existing AnswerBoxes (not images)
     if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?
