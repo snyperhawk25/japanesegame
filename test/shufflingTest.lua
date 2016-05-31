@@ -70,8 +70,8 @@ function fisherYatesNumbers(start, ending)
 	return arr
 end
 
---Function to create (array between two values, with first number ~= last number of previous array) and shuffle by Fisher-Yates "inside out". **1-Indexed, the lua standard**
-function fisherYatesNumbers(start, ending, prevArr)
+--Function to create (array between two values, with first number ~= notFirstValue) and shuffle by Fisher-Yates "inside out". **1-Indexed, the lua standard**
+function fisherYatesNumbers(start, ending, notFirstValue)
 	--Create and fill array
 	local arr = {}
 	local j
@@ -82,7 +82,7 @@ function fisherYatesNumbers(start, ending, prevArr)
 	--Loop FY until
 	repeat
 		local length = table.getn(arr) --array length
-		print("length: "..length)
+		--print("length: "..length)
 		local t --temp
 		local i --element
 		--While remaining elements,
@@ -103,15 +103,7 @@ function fisherYatesNumbers(start, ending, prevArr)
 			arr[length]=arr[i]
 			arr[i]=t
 		end
-		--TEST
-		--local len2 = #prevArr
-		--print("len2="..len2)
-		--print("prevArr[]="..prevArr[1]..prevArr[2]..prevArr[3]..prevArr[4]..";")
-		--print("prevArr[]="..prevArr[1].."-"..prevArr[#prevArr]..";")
-		--print("arr[]="..arr[1]..arr[2]..arr[3]..arr[4])
-		--print("arr[]="..arr[1].."-"..arr[table.getn(arr)]) --//!
-		--print("Condition: "..arr[1] ~= prevArr[ending-start+1]..";")
-	until arr[1]~=prevArr[#prevArr]
+	until arr[1]~=notFirstValue
 	return arr
 end
 ---------------------------------------------------------------------------------------
