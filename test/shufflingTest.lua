@@ -104,14 +104,14 @@ function fisherYatesNumbers(start, ending, prevArr)
 			arr[i]=t
 		end
 		--TEST
-		local len2 = #prevArr
-		print("len2="..len2)
-		print("prevArr[]="..prevArr[1]..prevArr[2]..prevArr[3]..prevArr[4]..";")
-		print("prevArr[]="..prevArr[1].."-"..prevArr[len2]..";")
-		print("arr[]="..arr[1]..arr[2]..arr[3]..arr[4])
-		print("arr[]="..arr[1].."-"..arr[length+1-1]) --//!@#will not grab proper final index 'arr[length]'
-		print("Condition: "..arr[1] ~= prevArr[ending-start+1]..";")
-	until arr[1]~=prevArr[#prevArr+1] -- +1 for lua 1-Index
+		--local len2 = #prevArr
+		--print("len2="..len2)
+		--print("prevArr[]="..prevArr[1]..prevArr[2]..prevArr[3]..prevArr[4]..";")
+		--print("prevArr[]="..prevArr[1].."-"..prevArr[#prevArr]..";")
+		--print("arr[]="..arr[1]..arr[2]..arr[3]..arr[4])
+		--print("arr[]="..arr[1].."-"..arr[table.getn(arr)]) --//!
+		--print("Condition: "..arr[1] ~= prevArr[ending-start+1]..";")
+	until arr[1]~=prevArr[#prevArr]
 	return arr
 end
 ---------------------------------------------------------------------------------------
