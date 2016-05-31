@@ -28,21 +28,24 @@ require("test.shufflingTest")
 --SCENE VARIABLES
 -----------------------------------------
 
-local customer, chef
-
+--Scoring Variables
 local score=0 --player's score in game
 local performanceScore=0 --player's final score, to be registered on app42
 local questionCounter=0 --questions counter
-local scoreText
 local playerCombo=0 --player current combo
 local maxCombo=0 --maximum combo
 local start, finish --times
 local winState = 500 --score to achieve Win
+
+--Question Randomization
 local questionsStartIndex = 11
 local questionsEndIndex = 21
+local orderOfQuestions = {}
 
-
+--Display
+local scoreText
 local menu
+local customer, chef
 local questionBubble, questionText
 local Ans1Box, Ans2Box, Ans3Box
 local plate1, plate2, plate3
@@ -313,10 +316,20 @@ end
 
 --Function to generate the next question.
 function generateQuestion()
-    --Step 1: Random question number from 11-21 (random(n) goes form 1<x<n)
-    local num = math.random(questionsStartIndex, questionsEndIndex)
-    
-    --Step 2: Remove existing AnswerBoxes (not images)
+
+    --Check questionCounter for need of reordering orderOfQuestions
+    if questionCounter%(questionsEndIndex-questionsStartIndex+1)==0 then
+        --Check for first-time ordering
+        if questionCounter==0 then
+            orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex)
+        end  
+        orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex,orderOfQuestions[1])
+    end    
+    print("orderOfQuestions["..((questionCounter % (questionsEndIndex-questionsStartIndex+1))+1).."];")
+    local num = orderOfQuestions[(questionCounter%(questionsEndIndex-questionsStartIndex+1))+1]
+    print("questions.lua Question Index: "..num..".")
+
+    --Remove existing AnswerBoxes (not images)
     if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?
         Ans1Box:removeSelf()
         Ans2Box:removeSelf()
@@ -327,7 +340,7 @@ function generateQuestion()
         plate3:removeSelf()
     end
     
-    --Step 3: Create new Plates, Answer Images, and Answer Boxes (respectively)
+    --Create new Plates, Answer Images, and Answer Boxes (respectively)
     --Plate Images
     plate1 = display.newImage("images/plate.png",plate1X, plate1Y)
     plate1:scale(plateScale, plateScale)
@@ -367,16 +380,16 @@ function generateQuestion()
     Ans3Box:addEventListener("tap", Ans3BoxListener)
 
 
-    --Step 5: Add Question Text
+    --Add Question Text
     questionText = display.newText(question[num].qj , questionTextX, questionTextY, "Arial", 24)
     questionText:setFillColor(0, 0, 0)
     
-    --Step 6: Set correct answer and correct audio sample
+    --Set correct answer and correct audio sample
     correctAns = question[num].ans
     audioSample = audio.loadSound(question[num].audio)
     
 
-    --Step 7: Initialize Audio Box
+    --Initialize Audio Box
     if audioBox ~= nil then
         audioBox:removeSelf()
     end
@@ -384,10 +397,10 @@ function generateQuestion()
     audioBox:scale(audioBoxScale,audioBoxScale)
     audioBox:addEventListener("tap", AudioBoxListener)
 
-    --Step 8: Increment question counter
+    --Increment question counter
     questionCounter=questionCounter+1
 
-    --Step 9: Register start time
+    --Register start time
     start=now()
 end
 
@@ -404,7 +417,8 @@ function gameOver()
     --performance Score calculation
     --Draft Equation //!@# adjust when appropriate
     -- performanceScore = (winState * maxCombo) + (10 Total Question*10 /questionCounter)
-    performanceScore = (winState * maxCombo) + math.floor((100/questionCounter)*winState)
+    -- Constant 5 based on max performance of 5 * (<1/4sec answers @ 100pts) = 500 Win State
+    performanceScore = (winState * maxCombo) + math.floor((5/questionCounter)*winState)
     print("PerformanceScore : "..performanceScore..";")
 
 
