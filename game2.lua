@@ -24,6 +24,7 @@ local score=0
 local questionCounter=0
 local questionsStartIndex = 1
 local questionsEndIndex = 10
+local orderOfQuestions={}
 
 local scoreText
 local enemy
@@ -82,21 +83,17 @@ local heartOffset = 30
 
 local AnsBoxSize = 90
 local Ans1BoxX = 60
-local Ans1BoxY = 270
 local Ans2BoxX = 240
-local Ans2BoxY = 270
 local Ans3BoxX = 420
-local Ans3BoxY = 270
+local AnsBoxY = 270
 
 local AnsTextScale = 0.15
 local AnsTextTranslateX = 45
 local AnsTextTranslateY = 10
 local Ans1ImageX = 10
-local Ans1ImageY = 260
 local Ans2ImageX = 190
-local Ans2ImageY = 260
 local Ans3ImageX = 370
-local Ans3ImageY = 260
+local AnsImageY = 260
 
 ---------------------------------------------
 --VISUAL METHODS
@@ -172,6 +169,7 @@ function clearQuestion()
     Ans1Image:removeSelf()
     Ans2Image:removeSelf()
     Ans3Image:removeSelf()
+
     --Reset Answer
     correctAns = 0
 end
@@ -195,8 +193,6 @@ function generateQuestion()
     local num = orderOfQuestions[(questionCounter%(questionsEndIndex-questionsStartIndex+1))+1]
     print("questions.lua Question Index: "..num..".")
 
-    --Random question number from 1-10 (random(n) goes form 1<x<n)
-    local num = math.random(questionsStartIndex, questionsEndIndex)
     
     --Remove existing AnswerBoxes (not images)
     if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?
@@ -205,14 +201,31 @@ function generateQuestion()
         Ans3Box:removeSelf()
     end
     
+    --Shuffle Coordinates and Re-assign.
+    local coordinateOrder = {}
+    coordinateOrder = fisherYates({{Ans1BoxX, Ans1ImageX},{Ans2BoxX, Ans2ImageX},{Ans3BoxX, Ans3ImageX}})
+    Ans1BoxX=coordinateOrder[1][1]
+    Ans1ImageX = coordinateOrder[1][2]
+    Ans2BoxX = coordinateOrder[2][1]
+    Ans2ImageX = coordinateOrder[2][2]
+    Ans3BoxX = coordinateOrder[3][1]
+    Ans3ImageX= coordinateOrder[3][2]
+    --print("CoordTest1: Box:"..Ans1BoxX.."; Image:"..Ans1ImageX..";")
+
     --Create new AnswerBoxes
     --Answer Box Rectangles
-    Ans1Box = display.newRect(Ans1BoxX, Ans1BoxY, AnsBoxSize, AnsBoxSize)
+    Ans1Box = display.newRect(Ans1BoxX, AnsBoxY, AnsBoxSize, AnsBoxSize)
     Ans1Box:setFillColor(0.85,0.85,0.85)
-    Ans2Box = display.newRect(Ans2BoxX, Ans2BoxY, AnsBoxSize, AnsBoxSize)
+    --Ans1Box:setFillColor(0.85,0,0.85) --purple
+
+    Ans2Box = display.newRect(Ans2BoxX, AnsBoxY, AnsBoxSize, AnsBoxSize)
     Ans2Box:setFillColor(0.85,0.85,0.85)
-    Ans3Box = display.newRect(Ans3BoxX, Ans3BoxY, AnsBoxSize, AnsBoxSize)
+    --Ans2Box:setFillColor(0,0.85,0.85) --teal
+
+    Ans3Box = display.newRect(Ans3BoxX, AnsBoxY, AnsBoxSize, AnsBoxSize)
     Ans3Box:setFillColor(0.85,0.85,0.85)
+    --Ans3Box:setFillColor(0.85,0.85,0) --yellow?
+
     --Answer Box Listeners
     Ans1Box:addEventListener("tap", Ans1BoxListener)
     Ans2Box:addEventListener("tap", Ans2BoxListener)
@@ -220,15 +233,15 @@ function generateQuestion()
     
     --Add Answer Object Images
     --Answer Images
-    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, Ans1ImageY)
+    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, AnsImageY)
     Ans1Image:scale(AnsTextScale,AnsTextScale)
     Ans1Image:translate(AnsTextTranslateX,AnsTextTranslateY)
 
-    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,Ans2ImageY)
+    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,AnsImageY)
     Ans2Image:scale(AnsTextScale,AnsTextScale)
     Ans2Image:translate(AnsTextTranslateX,AnsTextTranslateY)
 
-    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, Ans3ImageY)
+    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, AnsImageY)
     Ans3Image:scale(AnsTextScale,AnsTextScale)
     Ans3Image:translate(AnsTextTranslateX,AnsTextTranslateY)
 
@@ -411,32 +424,32 @@ end
 --Answer Box Listeners 1 - 3
 function Ans1BoxListener()
     local function animate(event)
-        transition.from(Ans1Box,{time=200,x=Ans1BoxX,y=Ans1BoxY,xScale=0.9,yScale=0.9})
+        transition.from(Ans1Box,{time=200,x=Ans1BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed")
     chosenAns = 1
-    evaluateAnswer()
+    timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
 function Ans2BoxListener()
     local function animate(event)
-        transition.from(Ans2Box,{time=200,x=Ans2BoxX,y=Ans2BoxY,xScale=0.9,yScale=0.9})
+        transition.from(Ans2Box,{time=200,x=Ans2BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed")
     chosenAns = 2
-    evaluateAnswer()
+    timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
 function Ans3BoxListener()
     local function animate(event)
-        transition.from(Ans3Box,{time=200,x=Ans3BoxX,y=Ans3BoxY,xScale=0.9,yScale=0.9})
+        transition.from(Ans3Box,{time=200,x=Ans3BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed")
     chosenAns = 3
-    evaluateAnswer()
+    timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
 --Audio Box Listener

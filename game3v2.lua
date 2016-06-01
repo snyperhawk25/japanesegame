@@ -97,29 +97,23 @@ local scoreTextY = 100
 
 local plateScale = 0.8
 local plate1X = 120
-local plate1Y = 250
 local plate2X = 280
-local plate2Y = 250
 local plate3X = 440
-local plate3Y = 250
+local plateY = 250
 
 local AnsBoxSize = 150
 local Ans1BoxX = 120
-local Ans1BoxY = 240
 local Ans2BoxX = 280
-local Ans2BoxY = 240
 local Ans3BoxX = 440
-local Ans3BoxY = 240
+local AnsBoxY = 240
 
 local AnsImageScale = 0.15
-local AnsImageTranslateX = 0
-local AnsImageTranslateY = 0
+local AnsImageTranslateX = 0 --redundant
+local AnsImageTranslateY = 0 --redundant
 local Ans1ImageX = 120
-local Ans1ImageY = 235
 local Ans2ImageX = 280
-local Ans2ImageY = 235
 local Ans3ImageX = 440
-local Ans3ImageY = 235
+local AnsImageY = 235
 
 --Function to delay this scene's removal.
 local function delayedSceneRemoval()
@@ -340,37 +334,52 @@ function generateQuestion()
         plate3:removeSelf()
     end
     
+    --Shuffle Coordinates and Re-assign.
+    local coordinateOrder = {}
+    coordinateOrder = fisherYates({{Ans1BoxX, Ans1ImageX, plate1X},{Ans2BoxX, Ans2ImageX, plate2X},{Ans3BoxX, Ans3ImageX, plate3X}})
+    Ans1BoxX=   coordinateOrder[1][1]
+    Ans1ImageX= coordinateOrder[1][2]
+    plate1X =   coordinateOrder[1][3]
+    Ans2BoxX =  coordinateOrder[2][1]
+    Ans2ImageX= coordinateOrder[2][2]
+    plate2X =   coordinateOrder[2][3]
+    Ans3BoxX =  coordinateOrder[3][1]
+    Ans3ImageX= coordinateOrder[3][2]
+    plate3X =   coordinateOrder[3][3]
+    print("CoordTest1: Box:"..Ans1BoxX.."; Image:"..Ans1ImageX.."; plate:"..plate1X..";")
+
+
     --Create new Plates, Answer Images, and Answer Boxes (respectively)
     --Plate Images
-    plate1 = display.newImage("images/plate.png",plate1X, plate1Y)
+    plate1 = display.newImage("images/plate.png",plate1X, plateY)
     plate1:scale(plateScale, plateScale)
-    plate2 = display.newImage("images/plate.png",plate2X, plate2Y)
+    plate2 = display.newImage("images/plate.png",plate2X, plateY)
     plate2:scale(plateScale, plateScale)
-    plate3 = display.newImage("images/plate.png",plate3X, plate3Y)
+    plate3 = display.newImage("images/plate.png",plate3X, plateY)
     plate3:scale(plateScale, plateScale)
     
     --Answer Images
-    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, Ans1ImageY)
+    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, AnsImageY)
     Ans1Image:scale(AnsImageScale,AnsImageScale)
     Ans1Image:translate(AnsImageTranslateX,AnsImageTranslateY)
 
-    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,Ans2ImageY)
+    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,AnsImageY)
     Ans2Image:scale(AnsImageScale,AnsImageScale)
     Ans2Image:translate(AnsImageTranslateX,AnsImageTranslateY)
 
-    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, Ans3ImageY)
+    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, AnsImageY)
     Ans3Image:scale(AnsImageScale,AnsImageScale)
     Ans3Image:translate(AnsImageTranslateX,AnsImageTranslateY)
 
 
     --Answer Boxes (invisible)
-    Ans1Box = display.newRect(Ans1BoxX,Ans1BoxY,AnsBoxSize,AnsBoxSize)
+    Ans1Box = display.newRect(Ans1BoxX,AnsBoxY,AnsBoxSize,AnsBoxSize)
     --Ans1Box:setFillColor(1,0,0)
     Ans1Box.alpha = 0.01
-    Ans2Box = display.newRect(Ans2BoxX,Ans2BoxY,AnsBoxSize,AnsBoxSize)
+    Ans2Box = display.newRect(Ans2BoxX,AnsBoxY,AnsBoxSize,AnsBoxSize)
     --Ans2Box:setFillColor(1,0,0)
     Ans2Box.alpha = 0.01
-    Ans3Box = display.newRect(Ans3BoxX,Ans3BoxY,AnsBoxSize,AnsBoxSize)
+    Ans3Box = display.newRect(Ans3BoxX,AnsBoxY,AnsBoxSize,AnsBoxSize)
     --Ans3Box:setFillColor(1,0,0)
     Ans3Box.alpha = 0.01
 
@@ -526,7 +535,7 @@ end
 --Answer Box Listeners 1 - 3
 function Ans1BoxListener()
     local function animate(event)
-        transition.from(plate1,{time=200,x=plate1X,y=plate1Y,xScale=0.9,yScale=0.9})
+        transition.from(plate1,{time=200,x=plate1X,y=plateY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(100,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed")
@@ -536,7 +545,7 @@ end
 
 function Ans2BoxListener()
     local function animate(event)
-        transition.from(plate2,{time=200,x=plate2X,y=plate2Y,xScale=0.9,yScale=0.9})
+        transition.from(plate2,{time=200,x=plate2X,y=plateY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(100,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed")
@@ -546,7 +555,7 @@ end
 
 function Ans3BoxListener()
     local function animate(event)
-        transition.from(plate3,{time=200,x=plate3X,y=plate3Y,xScale=0.9,yScale=0.9})
+        transition.from(plate3,{time=200,x=plate3X,y=plateY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(100,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed")

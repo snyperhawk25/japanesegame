@@ -34,6 +34,7 @@ function fisherYates(arr)
 		arr[length]=arr[i]
 		arr[i]=t
 	end
+	return arr
 end
 
 --Function to create (array between two values) and shuffle by Fisher-Yates "inside out". **1-Indexed, the lua standard**
@@ -106,6 +107,23 @@ function fisherYatesNumbers(start, ending, notFirstValue)
 	until arr[1]~=notFirstValue
 	return arr
 end
+
+
+--From internet. Not in use currently.
+function copyTable(t)
+    local copy = {}
+    for key,val in pairs(t) do
+        if type(val) == 'table' then
+            copy[key] = copytable(val)
+        else
+            copy[key] = val
+        end
+    end
+    return copy
+end
+
+
+
 ---------------------------------------------------------------------------------------
 
 --Initialize myArray2 elements
