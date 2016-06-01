@@ -537,30 +537,30 @@ function Ans1BoxListener()
     local function animate(event)
         transition.from(plate1,{time=200,x=plate1X,y=plateY,xScale=0.9,yScale=0.9})
     end
-    timer.performWithDelay(100,animate) --timer required to animate properly.
+    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed")
     chosenAns = 1
-    evaluateAnswer()
+    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
 end
 
 function Ans2BoxListener()
     local function animate(event)
         transition.from(plate2,{time=200,x=plate2X,y=plateY,xScale=0.9,yScale=0.9})
     end
-    timer.performWithDelay(100,animate) --timer required to animate properly.
+    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed")
     chosenAns = 2
-    evaluateAnswer()
+    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
 end
 
 function Ans3BoxListener()
     local function animate(event)
         transition.from(plate3,{time=200,x=plate3X,y=plateY,xScale=0.9,yScale=0.9})
     end
-    timer.performWithDelay(100,animate) --timer required to animate properly.
+    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed")
     chosenAns = 3
-    evaluateAnswer()
+    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
 end
 
 --Audio Box Listener
