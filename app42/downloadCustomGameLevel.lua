@@ -10,7 +10,7 @@ local tools=require("app42.App42Tools") --this is for App42:Initialize
 local ACL= require("App42-Lua-API.ACL")   
 require("App42-Lua-API.UploadFileType")   
 require("App42-Lua-API.Permission") 
-local gr=require("app42.gameReader")
+require("app42.customLevelReader")
 --------------------------------------
 
 --Global Variables

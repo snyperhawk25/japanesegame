@@ -1,14 +1,10 @@
---GameReader.lua
---this class will read/update the levels for Game 2
+--customLevelReader.lua
+--this class will read/update the levels for Game4 (Dynamic_Vocab)
 local composer = require( "composer" )
 local myData = require("mydata")
 ----------------------------------------------------------
-
-
+--Variables
 local nameOfFile = "customGameLevels.txt"
-
-
-
 --test questions
 local newQuestionEasy = "123456789\nThis is a test question. Answer = A.\nMe\nNot me\nMe neither\nCertainly not me\nA\nEasy\n"
 local newQuestionMedium = "234567891\nThis is a test question. Answer = A.\nMe\nNot me\nMe neither\nCertainly not me\nA\nMedium\n"
@@ -26,44 +22,48 @@ myData.custom.Hard = {}
 
 
 function initializeGameReader()
-	--Console Notify
-	print("[gameReader.lua]")
-	print("Game 2 Custom Levels: "..tostring(gR_doesFileExist(nameOfFile, system.DocumentsDirectory)))
+	--at startup of Logical Overflow, read in the file
+	print("[customLevelReader.lua]")
+	print("Game4 Custom Levels: "..tostring(gR_doesFileExist(nameOfFile, system.DocumentsDirectory)))
 
-	--Check If File Exists In System
+	--check if file exists
 	if gR_doesFileExist(nameOfFile, system.DocumentsDirectory)==true then
-		--Exists. Read in.
-		gR_readFile()
-	else
-		--DNE. Create Default
-		gR_writeDefaultFile()
-	end
+		--custom Game 2 levels exist
+		--set Game 2 values appropriately
 
-	--test
-	--printMyDataDifs()
+		--read questions
+		gR_readFile()
+
+	else
+		--no custom levels downloaded
+		--set Game 2 values appropriately
+
+		--set up default file
+		gR_writeDefaultFile()
+
+	end
 end
 
---Function to check whether a specified file, at a specified path, exists.
 function gR_doesFileExist( fname, path )
-    local result = false
-    -- Locate path for file
+    local results = false
+    -- Path for the file
     local filePath = system.pathForFile( fname, path )
-    --If path is good
     if ( filePath ) then
-    	--Attempt to read
         local file, errorString = io.open( filePath, "r" )
-        if file then
-  			--Read posssible. Return True and close file handle
-            result = true
+        if not file then
+            result=false
+        else
+            results = true
+            -- Close the file handle
             file:close()
         end
     end
-    return result
+    return results
 end
 
---This function reads the contents of the file. (//!@# update method params)
+
 function gR_readFile()
-	--Local Variables
+	--
 	local levels = {}
 	local fileText = ""
 	--reset NumQuestions
@@ -79,8 +79,7 @@ function gR_readFile()
 	      else
 	      	--ready to read file
 	      	local contents = file:read("*l")
-
-	      	--while loop to read all of the components of one question
+	      	--while loop to read all of the components of one level
 	      	while contents~=nil do
 
 	      		--increment numQuestions (our loop counter) first
@@ -167,11 +166,10 @@ function gR_readFile()
 	--Before returning text, sort and file into myData
 	gL_sort(levels)
 
-	--return fileText --//1@# is this necessary/used anywhere?
-	  return fileText
+	--return fileText
+	return fileText
 end
 
---******Remove Unnecessary Funtion*********
 
 function gR_writeFile(text)
   --first Delete (just in case)
@@ -190,9 +188,6 @@ function gR_writeFile(text)
   gR_readFile()
 end
 
-
---******Remove Unnecessary Funtion*********
-
 --Modify the existing customLevels.txt file. //!@# BROKEN
 function gR_addToFile(changes)
 	--Get the text of the file from readFile
@@ -203,8 +198,6 @@ function gR_addToFile(changes)
 	--fileText=nil
 end
 
-
---This function delete the file from the System. (//!@# update method params, after examining usage)
 function gR_deleteFile()
   local destDir = system.DocumentsDirectory
   local result, reason = os.remove( system.pathForFile( nameOfFile, destDir ) )
@@ -215,9 +208,6 @@ function gR_deleteFile()
 	end
 end
 
-
---This function sorts all of the questions from the incomming array into the myData.custom array categories.
---Note: Categories are static, but make dynamic later.
 function gL_sort(arr)
 
 	--TEST print out incoming array
@@ -257,7 +247,7 @@ function gL_sort(arr)
 				k=k+1
 			else
 				--ERROR
-				print("***Error in sorting. dif="..tostring(dif))
+				print("Error in sorting. dif="..tostring(dif))
 			end
 
 		end
