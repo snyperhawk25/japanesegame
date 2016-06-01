@@ -1,7 +1,7 @@
 
 
 --------------------------------------------------------------------------------
--- GAME 2 QUESTIONS (questions[] 0 to 9)
+-- GAME 2 QUESTIONS (questions[] 1 to 10)
 --------------------------------------------------------------------------------
 
 require("vocab")
@@ -24,19 +24,7 @@ require("vocab")
 
 question = {}
 
- -- bag
-question[0] = {}
 
-question[0].qj = "かばん　は　どれですか ?"
-question[0].q = syl[11][2] .. hiragana["ba"] .. hiragana["n"] .. " " .. hiragana["wa"] .. " " .. hiragana["ha"] .. " " .. hiragana["do"] .. hiragana["re"] .. " " .. hiragana["de"] .. hiragana["su"] .. " " .. hiragana["ka"] .. "?" 
-question[0].a1 = "art/Game2/bag.png"
-question[0].a2 = "art/Game2/book.png"
-question[0].a3 = "art/Game2/door.png"
-question[0].t1 = "bag"
-question[0].t2 = "book"
-question[0].t3 = "door"
-question[0].ans = 1
-question[0].audio = "audio/kaban.wav"
 
  -- book
 question[1] = {}
@@ -165,23 +153,23 @@ question[9].t3 = "bag"
 question[9].ans = 1
 question[9].audio = "audio/mado.wav"
 
---------------------------------------------------------------------------------
--- GAME 3 QUESTIONS (questions[] 10 to 20)
---------------------------------------------------------------------------------
-
- -- bread
+-- bag
 question[10] = {}
 
-question[10].qj = "パン　を　ください！" --//!@#fixed to Pan
-question[10].q = hiragana["pa"] .. hiragana["n"] .. " " .. hiragana["o"] .. " " .. hiragana["ku"] .. hiragana["da"] .. hiragana["sa"] .. hiragana["i"] .. "!" 
-question[10].a1 = "art/Game3/bread.png"
-question[10].a2 = "art/Game3/coffee.png"
-question[10].a3 = "art/Game3/rice.png"
-question[10].t1 = "bread"
-question[10].t2 = "coffee"
-question[10].t3 = "rice"
+question[10].qj = "かばん　は　どれですか ?"
+question[10].q = syl[11][2] .. hiragana["ba"] .. hiragana["n"] .. " " .. hiragana["wa"] .. " " .. hiragana["ha"] .. " " .. hiragana["do"] .. hiragana["re"] .. " " .. hiragana["de"] .. hiragana["su"] .. " " .. hiragana["ka"] .. "?" 
+question[10].a1 = "art/Game2/bag.png"
+question[10].a2 = "art/Game2/book.png"
+question[10].a3 = "art/Game2/door.png"
+question[10].t1 = "bag"
+question[10].t2 = "book"
+question[10].t3 = "door"
 question[10].ans = 1
-question[10].audio = "audio/pan.ogg"
+question[10].audio = "audio/kaban.wav"
+
+--------------------------------------------------------------------------------
+-- GAME 3 QUESTIONS (questions[] 11 to 21)
+--------------------------------------------------------------------------------
 
  -- coffee
 question[11] = {}
@@ -322,6 +310,20 @@ question[20].t2 = "coffee"
 question[20].t3 = "water"
 question[20].ans = 3
 question[20].audio = "audio/mizu.ogg"
+
+ -- bread
+question[21] = {}
+
+question[21].qj = "パン　を　ください！" --//!@#fixed to Pan
+question[21].q = hiragana["pa"] .. hiragana["n"] .. " " .. hiragana["o"] .. " " .. hiragana["ku"] .. hiragana["da"] .. hiragana["sa"] .. hiragana["i"] .. "!" 
+question[21].a1 = "art/Game3/bread.png"
+question[21].a2 = "art/Game3/coffee.png"
+question[21].a3 = "art/Game3/rice.png"
+question[21].t1 = "bread"
+question[21].t2 = "coffee"
+question[21].t3 = "rice"
+question[21].ans = 1
+question[21].audio = "audio/pan.ogg"
 
  -- lamian -- I don't know what this is and don't have a translation of it
  --[[

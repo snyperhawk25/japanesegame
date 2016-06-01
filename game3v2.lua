@@ -21,26 +21,31 @@ local scene = storyboard.newScene()
 require "dbFile"
 require("questions")
 require("vocab")
+require("test.shufflingTest")
 
 
 -----------------------------------------
 --SCENE VARIABLES
 -----------------------------------------
 
-local customer, chef
-
+--Scoring Variables
 local score=0 --player's score in game
 local performanceScore=0 --player's final score, to be registered on app42
 local questionCounter=0 --questions counter
-local scoreText
-local playerCombo=0 --player combo
+local playerCombo=0 --player current combo
 local maxCombo=0 --maximum combo
 local start, finish --times
 local winState = 500 --score to achieve Win
 
+--Question Randomization
+local questionsStartIndex = 11
+local questionsEndIndex = 21
+local orderOfQuestions = {}
 
-
+--Display
+local scoreText
 local menu
+local customer, chef
 local questionBubble, questionText
 local Ans1Box, Ans2Box, Ans3Box
 local plate1, plate2, plate3
@@ -92,29 +97,23 @@ local scoreTextY = 100
 
 local plateScale = 0.8
 local plate1X = 120
-local plate1Y = 250
 local plate2X = 280
-local plate2Y = 250
 local plate3X = 440
-local plate3Y = 250
+local plateY = 250
 
 local AnsBoxSize = 150
 local Ans1BoxX = 120
-local Ans1BoxY = 240
 local Ans2BoxX = 280
-local Ans2BoxY = 240
 local Ans3BoxX = 440
-local Ans3BoxY = 240
+local AnsBoxY = 240
 
 local AnsImageScale = 0.15
-local AnsImageTranslateX = 0
-local AnsImageTranslateY = 0
+local AnsImageTranslateX = 0 --redundant
+local AnsImageTranslateY = 0 --redundant
 local Ans1ImageX = 120
-local Ans1ImageY = 235
 local Ans2ImageX = 280
-local Ans2ImageY = 235
 local Ans3ImageX = 440
-local Ans3ImageY = 235
+local AnsImageY = 235
 
 --Function to delay this scene's removal.
 local function delayedSceneRemoval()
@@ -311,10 +310,20 @@ end
 
 --Function to generate the next question.
 function generateQuestion()
-    --Step 1: Random question number from 10-20 (random(n) goes form 1<x<n)
-    local num = math.random(10,20)
-    
-    --Step 2: Remove existing AnswerBoxes (not images)
+
+    --Check questionCounter for need of reordering orderOfQuestions
+    if questionCounter%(questionsEndIndex-questionsStartIndex+1)==0 then
+        --Check for first-time ordering
+        if questionCounter==0 then
+            orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex)
+        end  
+        orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex,orderOfQuestions[1])
+    end    
+    print("orderOfQuestions["..((questionCounter % (questionsEndIndex-questionsStartIndex+1))+1).."];")
+    local num = orderOfQuestions[(questionCounter%(questionsEndIndex-questionsStartIndex+1))+1]
+    print("questions.lua Question Index: "..num..".")
+
+    --Remove existing AnswerBoxes (not images)
     if  ( Ans1Box ~= nil ) and ( Ans2Box ~= nil ) and ( Ans3Box ~= nil ) then --optimize?
         Ans1Box:removeSelf()
         Ans2Box:removeSelf()
@@ -325,37 +334,52 @@ function generateQuestion()
         plate3:removeSelf()
     end
     
-    --Step 3: Create new Plates, Answer Images, and Answer Boxes (respectively)
+    --Shuffle Coordinates and Re-assign.
+    local coordinateOrder = {}
+    coordinateOrder = fisherYates({{Ans1BoxX, Ans1ImageX, plate1X},{Ans2BoxX, Ans2ImageX, plate2X},{Ans3BoxX, Ans3ImageX, plate3X}})
+    Ans1BoxX=   coordinateOrder[1][1]
+    Ans1ImageX= coordinateOrder[1][2]
+    plate1X =   coordinateOrder[1][3]
+    Ans2BoxX =  coordinateOrder[2][1]
+    Ans2ImageX= coordinateOrder[2][2]
+    plate2X =   coordinateOrder[2][3]
+    Ans3BoxX =  coordinateOrder[3][1]
+    Ans3ImageX= coordinateOrder[3][2]
+    plate3X =   coordinateOrder[3][3]
+    print("CoordTest1: Box:"..Ans1BoxX.."; Image:"..Ans1ImageX.."; plate:"..plate1X..";")
+
+
+    --Create new Plates, Answer Images, and Answer Boxes (respectively)
     --Plate Images
-    plate1 = display.newImage("images/plate.png",plate1X, plate1Y)
+    plate1 = display.newImage("images/plate.png",plate1X, plateY)
     plate1:scale(plateScale, plateScale)
-    plate2 = display.newImage("images/plate.png",plate2X, plate2Y)
+    plate2 = display.newImage("images/plate.png",plate2X, plateY)
     plate2:scale(plateScale, plateScale)
-    plate3 = display.newImage("images/plate.png",plate3X, plate3Y)
+    plate3 = display.newImage("images/plate.png",plate3X, plateY)
     plate3:scale(plateScale, plateScale)
     
     --Answer Images
-    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, Ans1ImageY)
+    Ans1Image = display.newImage(question[num].a1, Ans1ImageX, AnsImageY)
     Ans1Image:scale(AnsImageScale,AnsImageScale)
     Ans1Image:translate(AnsImageTranslateX,AnsImageTranslateY)
 
-    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,Ans2ImageY)
+    Ans2Image = display.newImage(question[num].a2, Ans2ImageX,AnsImageY)
     Ans2Image:scale(AnsImageScale,AnsImageScale)
     Ans2Image:translate(AnsImageTranslateX,AnsImageTranslateY)
 
-    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, Ans3ImageY)
+    Ans3Image = display.newImage(question[num].a3, Ans3ImageX, AnsImageY)
     Ans3Image:scale(AnsImageScale,AnsImageScale)
     Ans3Image:translate(AnsImageTranslateX,AnsImageTranslateY)
 
 
     --Answer Boxes (invisible)
-    Ans1Box = display.newRect(Ans1BoxX,Ans1BoxY,AnsBoxSize,AnsBoxSize)
+    Ans1Box = display.newRect(Ans1BoxX,AnsBoxY,AnsBoxSize,AnsBoxSize)
     --Ans1Box:setFillColor(1,0,0)
     Ans1Box.alpha = 0.01
-    Ans2Box = display.newRect(Ans2BoxX,Ans2BoxY,AnsBoxSize,AnsBoxSize)
+    Ans2Box = display.newRect(Ans2BoxX,AnsBoxY,AnsBoxSize,AnsBoxSize)
     --Ans2Box:setFillColor(1,0,0)
     Ans2Box.alpha = 0.01
-    Ans3Box = display.newRect(Ans3BoxX,Ans3BoxY,AnsBoxSize,AnsBoxSize)
+    Ans3Box = display.newRect(Ans3BoxX,AnsBoxY,AnsBoxSize,AnsBoxSize)
     --Ans3Box:setFillColor(1,0,0)
     Ans3Box.alpha = 0.01
 
@@ -365,16 +389,16 @@ function generateQuestion()
     Ans3Box:addEventListener("tap", Ans3BoxListener)
 
 
-    --Step 5: Add Question Text
+    --Add Question Text
     questionText = display.newText(question[num].qj , questionTextX, questionTextY, "Arial", 24)
     questionText:setFillColor(0, 0, 0)
     
-    --Step 6: Set correct answer and correct audio sample
+    --Set correct answer and correct audio sample
     correctAns = question[num].ans
     audioSample = audio.loadSound(question[num].audio)
     
 
-    --Step 7: Initialize Audio Box
+    --Initialize Audio Box
     if audioBox ~= nil then
         audioBox:removeSelf()
     end
@@ -382,10 +406,10 @@ function generateQuestion()
     audioBox:scale(audioBoxScale,audioBoxScale)
     audioBox:addEventListener("tap", AudioBoxListener)
 
-    --Step 8: Increment question counter
+    --Increment question counter
     questionCounter=questionCounter+1
 
-    --Step 9: Register start time
+    --Register start time
     start=now()
 end
 
@@ -402,7 +426,8 @@ function gameOver()
     --performance Score calculation
     --Draft Equation //!@# adjust when appropriate
     -- performanceScore = (winState * maxCombo) + (10 Total Question*10 /questionCounter)
-    performanceScore = (winState * maxCombo) + math.floor((100/questionCounter)*winState)
+    -- Constant 5 based on max performance of 5 * (<1/4sec answers @ 100pts) = 500 Win State
+    performanceScore = (winState * maxCombo) + math.floor((5/questionCounter)*winState)
     print("PerformanceScore : "..performanceScore..";")
 
 
@@ -510,32 +535,32 @@ end
 --Answer Box Listeners 1 - 3
 function Ans1BoxListener()
     local function animate(event)
-        transition.from(plate1,{time=200,x=plate1X,y=plate1Y,xScale=0.9,yScale=0.9})
+        transition.from(plate1,{time=200,x=plate1X,y=plateY,xScale=0.9,yScale=0.9})
     end
-    timer.performWithDelay(100,animate) --timer required to animate properly.
+    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed")
     chosenAns = 1
-    evaluateAnswer()
+    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
 end
 
 function Ans2BoxListener()
     local function animate(event)
-        transition.from(plate2,{time=200,x=plate2X,y=plate2Y,xScale=0.9,yScale=0.9})
+        transition.from(plate2,{time=200,x=plate2X,y=plateY,xScale=0.9,yScale=0.9})
     end
-    timer.performWithDelay(100,animate) --timer required to animate properly.
+    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed")
     chosenAns = 2
-    evaluateAnswer()
+    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
 end
 
 function Ans3BoxListener()
     local function animate(event)
-        transition.from(plate3,{time=200,x=plate3X,y=plate3Y,xScale=0.9,yScale=0.9})
+        transition.from(plate3,{time=200,x=plate3X,y=plateY,xScale=0.9,yScale=0.9})
     end
-    timer.performWithDelay(100,animate) --timer required to animate properly.
+    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed")
     chosenAns = 3
-    evaluateAnswer()
+    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
 end
 
 --Audio Box Listener

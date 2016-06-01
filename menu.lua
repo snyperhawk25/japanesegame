@@ -31,7 +31,8 @@ end
 --//!@# hijacked to go to game4
 local function goToGame1()
 	audio.play(audioClick)
-	storyboard.gotoScene("game4",transitionOptions)
+	--storyboard.gotoScene("game4",transitionOptions)
+	storyboard.gotoScene("test.shufflingTest",transitionOptions)
 	delayedSceneRemoval()
 end
 local function goToGame2()
