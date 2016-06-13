@@ -4,7 +4,9 @@
 --b For testing vocab words and questions.
 local voco = require("vocab")
 local quest = require("questions")
-
+local widget = require("widget")
+require("app42.customLevelReader")
+local myData = require("mydata")
 
 
 local storyboard = require( "storyboard" )
@@ -67,6 +69,67 @@ function checkJapanesePrint()
 	myString="ボヨヨヨヨヨヨヨヨヨヨぁぁぁ"
 end
 
+
+function testingGR()
+	initializeGameReader()
+	myString="Begin\n"
+	for i=1,table.getn(myData.custom.All),1 do
+		myString=myString..
+		myData.custom.All[i][1].."\n"..
+		myData.custom.All[i][2].."\n"..
+		myData.custom.All[i][3].."\n"..
+		myData.custom.All[i][4].."\n"..
+		myData.custom.All[i][5].."\n"..
+		myData.custom.All[i][6].."\n"..
+		myData.custom.All[i][7].."\n"..
+		myData.custom.All[i][8]
+	end
+end	
+
+-- ScrollView listener
+local function scrollListener( event )
+
+    local phase = event.phase
+    if ( phase == "began" ) then --print( "Scroll view was touched" )
+    elseif ( phase == "moved" ) then --print( "Scroll view was moved" )
+    elseif ( phase == "ended" ) then --print( "Scroll view was released" )
+    end
+
+    -- In the event a scroll limit is reached...
+    if ( event.limitReached ) then
+        if ( event.direction == "up" ) then print( "Reached bottom limit" )
+        elseif ( event.direction == "down" ) then print( "Reached top limit" )
+        elseif ( event.direction == "left" ) then print( "Reached right limit" )
+        elseif ( event.direction == "right" ) then print( "Reached left limit" )
+        end
+    end
+
+    return true
+end
+
+-- Create the widget
+local scrollView = widget.newScrollView(
+    {
+        x=centerX,
+        y=centerY,
+        --top = 100,
+        --left = 10,
+        width = (centerX*2)-50,
+        height = (centerY*2)-25,
+        scrollWidth = 600,
+        scrollHeight = 5000,
+        horizontalScrollDisabled = true,
+        isBounceEnabled = true,
+        listener = scrollListener
+    }
+)
+
+-- Create a image and insert it into the scroll view
+--local background = display.newImageRect( "assets/scrollimage.png", 768, 1024 )
+
+
+
+--CREATE SCENE
 function scene:createScene( event )
 	local screenGroup = self.view
 
@@ -78,12 +141,11 @@ function scene:createScene( event )
 	-- title:scale(0.6*xscale,0.6*yscale)
 	-- screenGroup:insert(title)
 
-	--myString
-	--checkQuestionString()
-	checkJapanesePrint()
+	testingGR()
 	myText = display.newText(myString, centerX, centerY-5, native.systemFont, 24)
 	myText:setFillColor(0)
-	screenGroup:insert(myText)
+	scrollView:insert(myText)
+	screenGroup:insert(scrollView)
 
 end
 

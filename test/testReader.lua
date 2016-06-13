@@ -1,16 +1,21 @@
---customLevelReader.lua
---this class will read/update the levels for Game4 (Dynamic_Vocab)
+--testReader
+
+--testing only
 local myData = require("mydata")
 ----------------------------------------------------------
 --Variables
+--local nameOfFile = "testFile.txt"
 local nameOfFile = "customGameLevels.txt"
-
+--test questions
+local newQuestionEasy = "00001\nThis is a test question. Answer = A.\nMe\nNot me\nMe neither\nCertainly not me\nA\nEasy\n"
+local newQuestionMedium = "00002\nThis is a test question. Answer = A.\nMe\nNot me\nMe neither\nCertainly not me\nA\nMedium\n"
+local newQuestionHard = "00003\nThis is a test question. Answer = A.\nMe\nNot me\nMe neither\nCertainly not me\nA\nHard\n"
 --levels will be the array with the game information
 local numQuestions = 0
 --define custom array (unsorted) within myData
 myData.custom = {}
---define custom arras within myData
 myData.custom.All = {}
+--define custom arras within myData
 myData.custom.Easy = {}
 myData.custom.Medium = {}
 myData.custom.Hard = {}
@@ -19,27 +24,25 @@ myData.custom.Hard = {}
 
 function initializeGameReader()
 	--at startup of Logical Overflow, read in the file
-	print("[customLevelReader.lua]")
-	--print("Game4 Custom Levels: "..tostring(gR_doesFileExist(nameOfFile, system.DocumentsDirectory)))
-	print("Game4 Custom Levels: "..tostring(gR_doesFileExist(nameOfFile, system.DocumentsDirectory)))
+	print("[testReader.lua]")
+	print("test Custom testfile: "..tostring(gR_doesFileExist(nameOfFile, system.DocumentsDirectory)))
 
 	--check if file exists
 	if gR_doesFileExist(nameOfFile, system.DocumentsDirectory)==true then
 		--custom Game 2 levels exist
-		--set Game 2 values appropriately
+		--set Game 2 values appropriatel
 
 		--read questions
 		gR_readFile()
 
 		--print em out
-		--gR_testPrintLevels()
+		gR_testPrintLevels()
 
 	else
-		--no custom levels downloaded
-		--set Game 2 values appropriately
-		print("ALERT: No custom game level file found")
+		print("Oops dint find file.")
+
 		--set up default file
-		--gR_writeDefaultFile()
+		gR_writeDefaultFile()
 
 	end
 end
@@ -63,6 +66,7 @@ end
 
 
 function gR_readFile()
+	--
 	local levels = {}
 	local fileText = ""
 	--reset NumQuestions
@@ -92,57 +96,56 @@ function gR_readFile()
 	      			--Store ID
 	      			levels[numQuestions][1]=contents
 	      			fileText=fileText..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--2) READ QUESTION
 				contents = file:read("*l")
 	      			--Store Question
 	      			levels[numQuestions][2]=contents
 	      			fileText=fileText.."\n"..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
-
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--3) A Value
 	      		contents = file:read("*l")
 	      			--Store Question
 	      			levels[numQuestions][3]=contents
 	      			fileText=fileText.."\n"..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--4) B Value
 	      		contents = file:read("*l")
 	      			--Store Question
 	      			levels[numQuestions][4]=contents
 	      			fileText=fileText.."\n"..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--5) C Value
 	      		contents = file:read("*l")
 	      			--Store Question
 	      			levels[numQuestions][5]=contents
 	      			fileText=fileText.."\n"..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--6) D value
 	      		contents = file:read("*l")
 	      			--Store Question
 	      			levels[numQuestions][6]=contents
 	      			fileText=fileText.."\n"..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--7) Answer To Question
 	      		contents = file:read("*l")
 	      			--Store Question
 	      			levels[numQuestions][7]=contents
 	      			fileText=fileText.."\n"..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--8) Difficulty
 	      		contents = file:read("*l")
 	      			--Store Question
 	      			levels[numQuestions][8]=contents
 	      			fileText=fileText.."\n"..contents
-	      			--print("i: "..numQuestions.." Contents: "..contents)
+	      			print("i: "..numQuestions.." Contents: "..contents)
 
 	      		 --Lastly, addvance the file read for loop condition
 	      		 contents = file:read("*l")
@@ -170,7 +173,7 @@ function gR_readFile()
 	return fileText
 end
 
---NOT WORRIED ABOUT WRITING FILES (UNLESS FOR DEV)
+
 function gR_writeFile(text)
   --first Delete (just in case)
   gR_deleteFile()
@@ -188,8 +191,7 @@ function gR_writeFile(text)
   gR_readFile()
 end
 
---Modify the existing customLevels.txt file. 
---//!@# BROKEN
+--Modify the existing customLevels.txt file. //!@# BROKEN
 function gR_addToFile(changes)
 	--Get the text of the file from readFile
 	local fileText = gR_readFile()
@@ -199,7 +201,6 @@ function gR_addToFile(changes)
 	--fileText=nil
 end
 
---Function to delete local file
 function gR_deleteFile()
   local destDir = system.DocumentsDirectory
   local result, reason = os.remove( system.pathForFile( nameOfFile, destDir ) )
@@ -254,11 +255,6 @@ function gL_sort(arr)
 
 		end
 	end
-	--Print Array numbers
-	print("- myData.custom.All: "..table.getn(myData.custom.All)..".")
-	print("- myData.custom.Easy: "..table.getn(myData.custom.Easy)..".")
-	print("- myData.custom.Medium: "..table.getn(myData.custom.Medium)..".")
-	print("- myData.custom.Hard: "..table.getn(myData.custom.Hard)..".")
 
 end
 
@@ -277,14 +273,14 @@ function gR_testPrintLevels()
 	print("TEST: Printing Levels Array...")
 	for i=1,numQuestions,1 do
 		print("---------------------------------------")
-		print("Level "..i..", QID: "..myData.Game2.customLevels[i][1])
-		print("Question: "..myData.Game2.customLevels[i][2])
-		print("A) "..myData.Game2.customLevels[i][3])
-		print("B) "..myData.Game2.customLevels[i][4])
-		print("C) "..myData.Game2.customLevels[i][5])
-		print("D) "..myData.Game2.customLevels[i][6])
-		print("Correct Answer: "..myData.Game2.customLevels[i][7])
-		print("Difficulty: "..myData.Game2.customLevels[i][8])
+		print("Level "..i..", QID: "..myData.custom.All[i][1])
+		print("Question: "..myData.custom.All[i][2])
+		print("A) "..myData.custom.All[i][3])
+		print("B) "..myData.custom.All[i][4])
+		print("C) "..myData.custom.All[i][5])
+		print("D) "..myData.custom.All[i][6])
+		print("Correct Answer: "..myData.custom.All[i][7])
+		print("Difficulty: "..myData.custom.All[i][8])
 	end
 	print("---------------------------------------")
 
