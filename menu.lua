@@ -14,6 +14,7 @@ require "dbFile"
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
+
 local audioClick = audio.loadSound("audio/click1.wav")
 local transitionOptions = {
 	effect="fade",
@@ -31,8 +32,9 @@ end
 --//!@# hijacked to go to game4
 local function goToGame1()
 	audio.play(audioClick)
-	--storyboard.gotoScene("game4",transitionOptions)
-	storyboard.gotoScene("test.shufflingTest",transitionOptions)
+	storyboard.gotoScene("game4",transitionOptions)
+	--storyboard.gotoScene("test.shufflingTest",transitionOptions)
+	--storyboard.gotoScene("test.testPrintCharactersScreen",transitionOptions)
 	delayedSceneRemoval()
 end
 local function goToGame2()
@@ -50,7 +52,6 @@ end
 --b test Numbers Game.
 local function goToNum()
 	audio.play(audioClick)
-	--storyboard.gotoScene("numbers.numbers1",transitionOptions)
 	storyboard.gotoScene("numbers.numbers1",transitionOptions)
 	storyboard.removeScene("menu")
 end
@@ -63,8 +64,9 @@ function scene:createScene( event )
 	--bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
-	title = display.newImage("images/title.png", centerX,centerY-100*yscale)
+	title = display.newImage("images/title.png", centerX,centerY-100*yscale) --centerY-100*yscale
 	title:scale(0.6*xscale,0.6*yscale)
+	--title:scale(0.6,0.6)
 	screenGroup:insert(title)
 
 	game1 = display.newImage("images/Character-Creation.png", centerX,centerY-10*yscale)

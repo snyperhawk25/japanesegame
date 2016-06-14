@@ -27,6 +27,8 @@ function toScale()
 	xscale = y/iphone5y		--opposite since this game is letterbox
 	yscale = x/iphone5x
 
+	print("PHONE MODEL: "..system.getInfo("model")..".")
+
 	if string.sub(system.getInfo("model"),1,4) == "iPad" and display.pixelHeight>1500 then
 		xscale = xscale/1.9
 		yscale = yscale/1.9
@@ -63,6 +65,7 @@ require("app42.app42UserCheck")
 require("app42.aliasLocationWriter")
 require("app42.downloadCustomGameLevel")
 require("app42.scoreSaver")
+require("app42.customLevelReader")
 
 --Step 1) User Authenticate
 userAuthenticate()
@@ -76,6 +79,15 @@ cgl_downloadFile()
 --Step 3) Initialize Leaderboard
 runInitialTest()
 --initializeLeaderboards()
+
+--Step 4) Read Custom Levels into myData
+initializeGameReader()
+
+---TESTING NEW READER
+--require("test.testReader")
+--initializeGameReader()
+
+
 
 ---------------------------------------
 
