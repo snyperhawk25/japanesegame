@@ -48,7 +48,7 @@ function scene:enterScene( event )
 	
 	--local image = display.newImage( "images/title.png", centerX, centerY )
 	local image = display.newImage( "art/Logo/UBCOJLG.png", centerX, centerY )
-	image:scale(0.50*xscale,0.55*yscale) --0.6
+	image:scale(0.50,0.55) --0.6 --0.50*xscale
 	screenGroup:insert( image )
 	
 	--image.touch = onSceneTouch

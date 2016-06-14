@@ -472,7 +472,7 @@ end
 function scene:createScene( event )
     local screenGroup = self.view
     --Load background image
-    bg = display.newImage("images/bg.png", centerX,centerY+(30*yscale))
+    bg = display.newImage("images/bg.png", centerX,centerY+30)
     screenGroup:insert(bg)
     --bg:scale(0.6*xscale,0.6*yscale)
 end

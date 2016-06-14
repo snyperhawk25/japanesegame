@@ -16,9 +16,11 @@ local centerY = display.contentCenterY
 
 local storyboard = require( "storyboard" )
 
-
+--//!@# Required For Numbers Games
 --this methods gives appropriate x and y scale values for use when displaying text, images, etc. based
 --on the devices screen size. This way everything shows up the same on all devices
+--B: This method doesnt work with Corona's content scaling.
+--It, and its variables are not used in game2-game4.
 function toScale()
 	local iphone5x = 640
 	local iphone5y = 1136

@@ -60,37 +60,38 @@ end
 function scene:createScene( event )
 	local screenGroup = self.view
 
-	bg = display.newImage("images/bg.png", centerX,centerY+(30*yscale))
+	bg = display.newImage("images/bg.png", centerX,centerY+(30)) --(30*yscale)
 	--bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
-	title = display.newImage("images/title.png", centerX,centerY-100*yscale) --centerY-100*yscale
-	title:scale(0.6*xscale,0.6*yscale)
-	--title:scale(0.6,0.6)
+	title = display.newImage("images/title.png", centerX,centerY-100) --centerY-100*yscale
+	--title:scale(0.6*xscale,0.6*yscale)
+	title:scale(0.6,0.6)
 	screenGroup:insert(title)
 
-	game1 = display.newImage("images/Character-Creation.png", centerX,centerY-10*yscale)
-	game1:scale(0.4*xscale,0.4*yscale)
+	game1 = display.newImage("images/Character-Creation.png", centerX,centerY-10)
+	--game1:scale(0.4*xscale,0.4*yscale)
+	game1:scale(0.4,0.4)
 	game1:addEventListener("tap",goToGame1)
 	screenGroup:insert(game1)
 
-	game2 = display.newImage("images/Vocab.png", centerX,centerY+30*yscale)
-	game2:scale(0.4*xscale,0.4*yscale)
+	game2 = display.newImage("images/Vocab.png", centerX,centerY+30)
+	--game2:scale(0.4*xscale,0.4*yscale)
+	game2:scale(0.4,0.4)
 	game2:addEventListener("tap",goToGame2)
 	screenGroup:insert(game2)
 
-	game3 = display.newImage("images/Food-Vocab.png", centerX,centerY+70*yscale)
-	game3:scale(0.4*xscale,0.4*yscale)
+	game3 = display.newImage("images/Food-Vocab.png", centerX,centerY+70)
+	--game3:scale(0.4*xscale,0.4*yscale)
+	game3:scale(0.4,0.4)
 	game3:addEventListener("tap",goToGame3)
 	screenGroup:insert(game3)
 
-	game4 = display.newImage("images/Numbers.png", centerX,centerY+110*yscale)
-	game4:scale(0.4*xscale,0.4*yscale)
+	game4 = display.newImage("images/Numbers.png", centerX,centerY+110)
+	--game4:scale(0.4*xscale,0.4*yscale)
+	game4:scale(0.4,0.4)
 	game4:addEventListener("tap",goToNum)
 	screenGroup:insert(game4)
-
-	
-
 
 end
 
