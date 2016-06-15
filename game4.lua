@@ -28,7 +28,8 @@ local orderOfQuestions={}
 
 local scoreText
 local menu
-local questionBubble, questionText = "This is a question"
+--local questionBubble
+local scrollView, questionText = "This is a question"
 local Ans1Button, Ans2Button, Ans3Button, Ans4Button
 local lives
 local correctAns
@@ -56,8 +57,8 @@ print("ContentWidth: "..display.contentWidth.."\nContentHeight: "..display.conte
 
 local questionTextX = 240
 local questionTextY = 30
-local questionBubbleX = 240
-local questionBubbleY = 30
+--local questionBubbleX = 240
+--local questionBubbleY = 30
 
 local scoreTextX = centerX
 local scoreTextY = 75
@@ -65,13 +66,23 @@ local scoreTextY = 75
 local menuX = 465
 local menuY = 30
 
-local Ans1ButtonX = (display.contentWidth-200)/2-100
-local Ans12ButtonY = display.contentCenterY + 25
-local Ans2ButtonX = (display.contentWidth-200)/2+100
+--Old (Working) Values
+--local Ans1ButtonX = (display.contentWidth-200)/2-100
+--local Ans12ButtonY = display.contentCenterY + 25
+--local Ans2ButtonX = (display.contentWidth-200)/2+100
 
-local Ans3ButtonX = (display.contentWidth-200)/2-100
-local Ans34ButtonY = display.contentCenterY - 25
-local Ans4ButtonX = (display.contentWidth-200)/2+100
+--local Ans3ButtonX = (display.contentWidth-200)/2-100
+--local Ans34ButtonY = display.contentCenterY - 25
+--local Ans4ButtonX = (display.contentWidth-200)/2+100
+
+--NEw Test Values
+local Ans1ButtonX = 20
+local Ans12ButtonY = 160
+local Ans2ButtonX = 260
+
+local Ans3ButtonX = 20
+local Ans34ButtonY = 60
+local Ans4ButtonX = 260
 
 local AnsTextScale = 0.15
 local AnsTextTranslateX = 45
@@ -93,6 +104,43 @@ function clearQuestion()
     correctAns = ""
 end
 
+--Listener to look for double tap
+local function myTapListener(event)
+    if event.numTaps == 2 then
+        print("DOUBLE TAP!")
+        scrollView:scrollToPosition{x=0,y=0,time=250}
+    end
+    return true   
+end    
+
+-- ScrollView listener
+local function scrollViewListener( event )
+    --Widget Phase Decision
+    local phase = event.phase
+    if ( phase == "began" ) then       
+
+    elseif ( phase == "moved" ) then 
+    --print( "Scroll view was moved" )
+    elseif ( phase == "ended" ) then 
+    --print( "Scroll view was released" )
+    end
+
+    -- In the event a scroll limit is reached...
+    if ( event.limitReached ) then
+        if ( event.direction == "up" ) then
+            print( "Reached bottom limit" )
+        elseif ( event.direction == "down" ) then 
+            print( "Reached top limit" )
+        --elseif ( event.direction == "left" ) then 
+            print( "Reached right limit" )
+        --elseif ( event.direction == "right" ) then 
+            print( "Reached left limit" )
+        end
+    end
+
+    return true
+end
+
 ---------------------------------------------
 --METHODS
 ---------------------------------------------
@@ -100,7 +148,7 @@ end
 --Function to generate the next question.
 function generateQuestion()
     --Alert (TEST)
-    print("\n//Generating New Question//\n")
+    print("//Generating New Question//")
 
     --Check questionCounter for need of reordering orderOfQuestions
     if questionCounter%(questionsEndIndex-questionsStartIndex+1)==0 then
@@ -120,21 +168,13 @@ function generateQuestion()
     q3=myData.custom.Medium[num][5]
     q4=myData.custom.Medium[num][6]
     
-    --Shuffle Coordinates/Answers and Re-assign.
+    --Shuffle/REassign Coordinates
     local coordinateOrder = {}
-    coordinateOrder = fisherYates({{Ans1ButtonX, q1},{Ans2ButtonX, q2},{Ans3ButtonX, q3},{Ans4ButtonX, q4}})
-    --1    
-    Ans1ButtonX = coordinateOrder[1][1]
-    q1 = coordinateOrder[1][2]
-    --2
-    Ans2ButtonX = coordinateOrder[2][1]
-    q2 = coordinateOrder[2][2]
-    --3
-    Ans3ButtonX = coordinateOrder[3][1]
-    q3 = coordinateOrder[3][2]
-    --4
-    Ans4ButtonX = coordinateOrder[4][1]
-    q4 = coordinateOrder[4][2]
+    coordinateOrder = fisherYates({{Ans1ButtonX},{Ans2ButtonX},{Ans3ButtonX},{Ans4ButtonX}})  
+    Ans1ButtonX = coordinateOrder[1]
+    Ans2ButtonX = coordinateOrder[2]
+    Ans3ButtonX = coordinateOrder[3]
+    Ans4ButtonX = coordinateOrder[4]
     
     --Create new Answer Boxes
     Ans1Button = widget.newButton (
@@ -150,7 +190,6 @@ function generateQuestion()
         fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
-        --onEvent = Ans1BoxListener
         onPress = Ans1BoxListener
       }
     )
@@ -168,7 +207,6 @@ function generateQuestion()
         fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
-        --onEvent = Ans2BoxListener
         onPress = Ans2BoxListener
       }
     )
@@ -186,7 +224,6 @@ function generateQuestion()
         fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
-        --onEvent = Ans3BoxListener
         onPress = Ans3BoxListener
       }
     )
@@ -204,15 +241,75 @@ function generateQuestion()
         fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
-        --onEvent = Ans4BoxListener
         onPress = Ans4BoxListener
       }
     )
 
-    --Add Question Text
-    questionText = display.newText(myData.custom.Medium[num][2], questionTextX, questionTextY, "Arial", 24)
+-----------------------------------------------------------------------------
+    --Add In The Question
+
+    --Calculate Scroll Height Required
+    --Based on: Width (at font 20): ~26characters (@%90 space) / 300 = 11.53 --> 12/character
+    local scrollWidthSize = 375
+    local scrollHeightSize = 100 --defualt value
+    scrollHeightSize = math.ceil((string.len(myData.custom.Medium[num][2])*12)/scrollWidthSize)*20 
+    print("scrollHeightSize: "..scrollHeightSize..".")
+
+
+
+
+    local textOptions = {
+        text = myData.custom.Medium[num][2],
+        --text = "0123456789a0123456789b0123456789c0123456789d0123456789e0123456789f",
+        x = 10,
+        y = 5,
+        width = scrollWidthSize-(scrollHeightSize*0.1), --width is only 90% of scrollWidth size
+        height = 0, -- 0 = no height restrictions
+        fontSize = 20,
+        align = "left"
+    }
+    questionText = display.newText(textOptions)
+    --Change Fill Colour and Anchors
     questionText:setFillColor(0, 0, 0)
+    questionText.anchorX = 0.0
+    questionText.anchorY = 0.0
     
+
+
+    -- Create the scrollView
+    scrollView = widget.newScrollView(
+        {
+            top= 5,
+            left = 5 ,
+            width = scrollWidthSize, 
+            height =  scrollHeightSize, 
+            scrollWidth = scrollWidthSize,
+            scrollHeight = scrollHeightSize,
+            horizontalScrollDisabled = true,
+            isBounceEnabled = false,
+            listener = scrollViewListener,
+            hideScrollBar = false
+        }
+    )
+    
+    --Top Rectangle
+    local questionFrame = display.newRect(0,0,10,10)
+    questionFrame:setFillColor(0,0,0)
+    scrollView:insert(questionFrame)
+
+    --Insert Text into Scrollview
+    scrollView:insert(questionText)
+    
+    --Add Double Tap Listener to Scrollview
+    scrollView:addEventListener("tap", myTapListener)
+
+    --scroll to top
+    scrollView:scrollToPosition{x=0,y=0,time=250}
+
+
+-----------------------------------------------------------------------------
+
+
     --Set correct answer
     correctAns = myData.custom.Medium[num][7]
     
@@ -263,10 +360,12 @@ local function removeAllDisplayObjects()
     Ans3Button:removeSelf()
     Ans4Button:removeSelf()
 
+    display.remove(scrollView)
+
     display.remove(gameOverText)
     
     display.remove(questionText)
-    display.remove(questionBubble)
+    --display.remove(questionBubble)
 
     display.remove(menu)
     display.remove(scoreText)
@@ -293,9 +392,11 @@ function Game4()
     math.randomseed(os.time())
 
     --Now we draw our scene elements.
+
     --Question Bubble
-    questionBubble = display.newImage("images/bubble.png", questionBubbleX,questionBubbleY)
-    questionBubble:scale(0.5,0.18)
+    --questionBubble = display.newImage("images/bubble.png", questionBubbleX,questionBubbleY)
+    --uestionBubble:scale(0.5,0.18)
+
     --Menu Button
     menu = display.newImage("images/Menu.png",menuX,menuY)
     menu:scale(0.45,0.45)
@@ -321,6 +422,7 @@ function gameOver()
     Ans2Button:removeEventListener("tap", Ans2Button)
     Ans3Button:removeEventListener("tap", Ans3Button)
     Ans4Button:removeEventListener("tap", Ans4Button)
+    scrollView:removeEventListener("tap", scrollView)
     removeAllDisplayObjects()
 
     --Collect Important Information (along with transition info)
@@ -390,6 +492,9 @@ function Ans4BoxListener()
     chosenAns = "D"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
+
+
+
 
 -------------------------------------------------
 --CORONA SCENE EVENTS
