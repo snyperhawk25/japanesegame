@@ -211,7 +211,7 @@ syl[110] = {syl[92][1]..syl[100][1]}
 --Approved by Nina/Julia
 --Additional (formal) resources: http://japanese-lesson.com/vocabulary/words/time.html
 syl[120] = {"12:00","じゅうにじ","jyuuniji"}
-syl[121] = {"2:30","じゅうにじはん","jyuunijihan"}
+syl[121] = {"12:30","じゅうにじはん","jyuunijihan"}
 syl[122] = {"1:00","いちじ","ichiji"}
 syl[123] = {"1:30","いちじはん","ichijihan"}
 syl[124] = {"2:00","にじ","niji"}
@@ -219,7 +219,7 @@ syl[125] = {"2:30","にじはん","nijihan"}
 syl[126] = {"3:00","さんじ","sanji"}
 syl[127] = {"3:30","さんじはん","sanjihan"}
 syl[128] = {"4:00","よじ","yoji"}
-syl[129] = {"4:30","よじはん","yojihan"} --Julia: (this one can be easily mistaken)
+syl[129] = {"4:30","よじはん","yojihan"} --Julia: (this one can be easily mistaken) check for extra "ん" in the question apparently Nina June 21st
 syl[130] = {"5:00","ごじ","goji"}
 syl[131] = {"5:30","ごじはん","gojihan"}
 syl[132] = {"6:00","ろくじ","rokuji"}
