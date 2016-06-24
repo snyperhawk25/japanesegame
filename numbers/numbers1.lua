@@ -156,7 +156,7 @@ local function generateAnswers()
 	end
 
 	--btest TEST PRINT
-	print("\nGENERATE_ANSWERS():\nAnswer0\nha="..ha..". ma="..ma.."\t"..ha..":"..ma.."\nAnswer1\nha1="..ha1..". ma1="..ma1.."\t"..ha1..":"..ma1.."\nAnswer2\nha2="..ha2..". ma2="..ma2.."\t"..ha2..":"..ma2.."\nAnswer3\nha3="..ha3..". ma3="..ma3.."\t"..ha3..":"..ma3.."\n")
+	print("\nGENERATE_ANSWERS():\nAnswer0\nr1="..r1..". ha="..ha..". ma="..ma.."\t"..ha..":"..ma.."\nAnswer1\nr2="..r2.."ha1="..ha1..". ma1="..ma1.."\t"..ha1..":"..ma1.."\nAnswer2\nr3="..r3.."ha2="..ha2..". ma2="..ma2.."\t"..ha2..":"..ma2.."\nAnswer3\nr4="..r4.."ha3="..ha3..". ma3="..ma3.."\t"..ha3..":"..ma3.."\n")
 
 end
 
@@ -243,7 +243,7 @@ local function showAnswers(n)
 	end
 
 	-- --b REMOVING RANDOMIZER
-	-- local b = a
+	--local b = a
 	b={{-200,65},{-200,120},{200,120},{200,65}}
 
 
