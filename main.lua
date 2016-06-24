@@ -52,7 +52,7 @@ function toScale()
 		yscale = yscale*1.2
 	end
 end
-toScale()
+toScale() --//!@#should be used for the numbers games.
 
 --database setup starts here
 local tablesetup = [[CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, amount INTEGER);]]

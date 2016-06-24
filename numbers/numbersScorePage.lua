@@ -8,13 +8,14 @@ local scene = storyboard.newScene()
 require "dbFile"
 require ("app42.scoreSaver")
 local myData = require("mydata")
+local widget = require("widget")
 
 --Variables
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
-local bubble, title, gameDescription, retry
+local bubble, gameDescription, retry
 
 local finalScore = 0
 local finalScoreUnit = ""
@@ -26,30 +27,27 @@ local reloadScene = "game2" --test, for now
 --------------------------------------------
 --Coordinates
 --------------------------------------------
-local titleX = centerX
-local titleY = 30
 
 local finalScoreTextX = centerX
-local finalScoreTextY = 75
+local finalScoreTextY = 40 --75
 
 local playerScoreTextX = centerX
-local playerScoreTextY = 150
+local playerScoreTextY = 130 --150
 
 local bubbleX = centerX
-local bubbleY = 150
+local bubbleY = 130 --150
 
-local menuX = 350
-local menuY = 250
+local menuX = 245--350
+local menuY = 240--250
 
-local retryX = 150
-local retryY = 275
+local retryX = 45
+local retryY = 240
 
 --Function to remove all display objects, and listeners
 local function removeAllDisplayObjects()
 	--Listeners
 	retry:removeEventListener("tap", retry)
 	--Display
-	display.remove(title)
 	display.remove(finalScoreText)
 	display.remove(playerScoreText)
 	display.remove(bubble)
@@ -112,9 +110,10 @@ function scene:createScene( event )
 	saveUserScore(app42GameName, myData.App42Username, finalScore)
 	
 
-	--Draw Background image
-	bg = display.newImage("images/bg.png", centerX,centerY+30*yscale)
-	--bg:scale(0.6*xscale,0.6*yscale)
+	--Draw Background image (rotated and fliped horizontally)
+	bg = display.newImage("images/bg.png", centerX,centerY+30) --yscale
+	bg:rotate(180)
+	bg.xScale=-1
 	screenGroup:insert(bg)
 end
 
@@ -123,26 +122,64 @@ end
 function scene:enterScene( event )
 	local screenGroup = self.view
 
-	--Title Image 
-	title = display.newImage("images/title.png", titleX, titleY)
-	title:scale(0.6*xscale,0.6*yscale)
-	screenGroup:insert(title)
-
 	--Menu Button
-	menu = display.newImage("images/Menu.png",centerX+160,centerY+130*yscale)
-	menu:scale(0.4,0.4)
-	menu:addEventListener("tap",goToMenu) --no()
-	screenGroup:insert(menu)
+	--menu = display.newImage("images/Menu.png",centerX+160,centerY+130) --yscale
+	--menu:scale(0.4,0.4)
+	--menu:addEventListener("tap",goToMenu) --no()
+	--screenGroup:insert(menu)
+	menu = widget.newButton (
+      {
+        id = "menu",
+        x = menuX,
+        y = menuY,
+        --width = 200,
+        --height = 50,
+        label = "Menu",
+        shape = "rect",
+        font = native.systemFont,
+        --cornerRadius = 4,
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
+        fillColor = { default={ 1, 0.36, 0.2, 1 }, over={ 1, 0.52, 0.4, 1 } }, --Red
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        strokeWidth = 4,
+        onPress = goToMenu --to menu
+      }
+    )
+   	menu.anchorX = 0.0
+    menu.anchorY = 0.0
+    screenGroup:insert(menu)
+
 
 	--Retry Button
-	retry = display.newText("retry",retryX, retryY, native.systemFontBold, 40)
-	retry:setFillColor(0)	
-	retry:addEventListener("tap",goToReloadScene)--no()
-	screenGroup:insert(retry)
+	--retry = display.newText("retry",retryX, retryY, native.systemFontBold, 40)
+	--retry:setFillColor(0)	
+	--retry:addEventListener("tap",goToReloadScene)--no()
+	--screenGroup:insert(retry)
+	retry = widget.newButton (
+      {
+        id = "retry",
+        x = retryX,
+        y = retryY,
+        --width = 200,
+        --height = 50,
+        label = "Retry",
+        shape = "rect",
+        font = native.systemFont,
+        --cornerRadius = 4,
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
+        fillColor = { default={ 1, 1, 0, 1 }, over={ 1, 1, 0.5, 1 } }, --Yellow
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        strokeWidth = 4,
+        onPress = goToReloadScene --to retry
+      }
+    )
+    retry.anchorX = 0.0
+    retry.anchorY = 0.0
+    screenGroup:insert(retry)
 
 	--Bubble
 	bubble = display.newImage("images/bubble.png", bubbleX,bubbleY)
-    bubble:scale(0.6,0.35)
+    bubble:scale(0.6,0.40)  --0.6,0.35
     screenGroup:insert(bubble)
 
 	--FinalScoreText "[Game] Score Is:"
@@ -150,8 +187,8 @@ function scene:enterScene( event )
 		nameOfGame="[Name Error]"
 	end
 	local text = ""..nameOfGame.." Final Score:"
-	finalScoreText = display.newText(text, finalScoreTextX, finalScoreTextY, native.systemFont, 26 )
-	finalScoreText:setFillColor(1)
+	finalScoreText = display.newText(text, finalScoreTextX, finalScoreTextY, native.systemFontBold, 45 ) --26 and not bold
+	finalScoreText:setFillColor(0.1,1,0.1) --green
 	screenGroup:insert(finalScoreText)
 
 	--Final Score and Unit "3 Correct"
@@ -160,7 +197,7 @@ function scene:enterScene( event )
 	screenGroup:insert(playerScoreText)
 
 	--Description
-	gameDescription = display.newText(finalDescription, centerX, centerY+75*yscale, native.systemFont, 18 )
+	gameDescription = display.newText(finalDescription, centerX, centerY+55, native.systemFont, 20) --yscale and 18 and 75
 	gameDescription:setFillColor(1)
 	screenGroup:insert(gameDescription)
 end
