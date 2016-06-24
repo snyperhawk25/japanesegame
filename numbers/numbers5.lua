@@ -180,7 +180,7 @@ local function showAnswers(n)
 	zerobg.x = 100*xscale
 	zerobg.y = centerY+20*yscale
 	zerobg:scale(0.14*xscale,0.14*yscale)
-	zerobutton = display.newText(syl[90][1],100*xscale,centerY+20*yscale,native.systemFont,24)
+	zerobutton = display.newText(syl[90][1],100*xscale,centerY+20*yscale,native.systemFont,20) --changed to 20 to refelect 1-9 Button text sizes
 	zerobutton:setFillColor(0)
 
 	screenGroup:insert(zerobg)
