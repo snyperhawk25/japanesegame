@@ -1,7 +1,7 @@
 ---------------------------------------------------------------------------------
 --
--- menu.lua
---
+-- numbers1.lua
+--REWRITTING TO FIX THE CLOCK LOGIC.
 ---------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
@@ -20,20 +20,18 @@ local num3
 local num4
 local myText
 local bubble
-local r1
+local r1 = 0
 local ha
-local ma
-local r2
+local ma = 0
+local r2 = 0
 local ha1
-local ma1
-local r3
+local ma1 =0
+local r3 = 0
 local ha2
-local ma2
-local r4
+local ma2 =0
+local r4 = 0
 local ha3
-local ma3
-local hourtime
-local minutetime
+local ma3 = 0
 local minute1
 local hour1
 local matext=""
@@ -48,125 +46,77 @@ local answerGiven
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
-
-local function rotate() --set up the times
-	minute1:rotate(6*r1)
-	hour1:rotate(0.5*r1)
-	
-	hourtime =(0.5*(r1))%12
-	minutetime = (6*(r1))%30
-	--b test
-	print("\nRotate()\nhourtime: "..hourtime.."\nminutetime: "..minutetime..".\n")
+--Function to rotate the clock's arms to the correct time
+local function rotate() 
+	--Hour Hand (30 degrees / hour)
+	hour1:rotate(30*ha)
+	--Minute Hand (Only rotate if :30)
+	if ma==30 then
+		minute1:rotate(180)
+	end
 end
 
-
-local function displayClocks(n)
-	local screenGroup = n
+--Function to show the clock.
+local function displayClocks(screen)
+	--Clock Face
 	clock1 = display.newImage("images/numbers/clock.png", centerX, centerY-60*yscale)
 	clock1:scale(0.7*yscale,0.7*yscale)
-	screenGroup:insert(clock1)
-
+	screen:insert(clock1)
+	--Minute Hand
 	minute1 = display.newImage("images/numbers/minute.png", centerX, centerY-60*yscale, native.systemFont, 18)
 	minute1:scale(0.8*xscale,0.8*yscale)
 	minute1.anchorY = 1
-	screenGroup:insert(minute1)
-
+	screen:insert(minute1)
+	--Hour Hand
 	hour1 = display.newImage("images/numbers/hour.png", centerX, centerY-60*yscale)
 	hour1:scale(0.6*xscale,0.6*yscale)
 	hour1.anchorY = 1
-	screenGroup:insert(hour1)
-
+	screen:insert(hour1)
+	
+	--Finally, rotate the arms to the proper positions 
 	rotate()
 end
 
 
-
+--Fuction to generate the four unique answers, and assign the proper r,ha, and ma values
 local function generateAnswers()
 	--b NOTE: Only acceptable values are [1-12]:[00 or 30]. These values are distrubuted from 0 to 23, where 0 is converted to 12.
+	--Get New Seed
 	math.randomseed( os.time() )
 
-	--b ANSWER 0
-	r1 = math.random(23)*30
-	ha = math.floor(r1/60) --hours answer
-	ma = ((r1/30)%2)*30 
+	--Generate All 4 answers (inefficiently); 0-23
+	local it=0
+	repeat
+		it=it+1
+		r1 = math.random(24)-1
+		r2 = math.random(24)-1
+		r3 = math.random(24)-1
+		r4 = math.random(24)-1
+		print("loops="..it)
+	until (r1 ~= r2) and (r2 ~= r3) and (r3 ~= r4) 	
 
-	--b ANSWER 1
-	r2 = math.random(23)*30
-	ha1 = math.floor(r2/60) --hours answer
-	ma1 = ((r2/30)%2)*30  --minutes answer
-
-	--b If Answer 1 is same as 0, regenerate 1
-	while(((ha1*60)+ma1 == (ha*60)+ma)) do
-		r2 = math.random(23)*30
-		ha1 = math.floor(r2/60) --hours answer
-		ma1 = ((r2/30)%2)*30  --minutes answer
-	end
-
-	--b ANSWER 2
-	r3 = math.random(23)*30
-	ha2 = math.floor(r3/60) --hours answer
-	ma2 = ((r3/30)%2)*30
-
-	--b If ANSWER 2 same as 0 or 1, regenrate 2
-	while( ((ha2*60)+ma2 == (ha*60)+ma) or ((ha2*60)+ma2 == (ha1*60)+ma1) ) do
-		r3 = math.random(23)*30
-		ha2 = math.floor(r3/60) --hours answer 
-		ma2 = ((r3/30)%2)*30
-	end
+	print("Here Are Todays Numbers..."..r1..","..r2..","..r3..","..r4..".")
 	
-	--b ANSWER 3
-	r4 = math.random(23)*30
-	ha3 = math.floor(r4/60) --hours answer
-	ma3 =  ((r4/30)%2)*30
+	--Sort out hours
+	ha=math.floor(r1/2)
+	ha1=math.floor(r2/2)
+	ha2=math.floor(r3/2)
+	ha3=math.floor(r4/2)
 
-	--b If ANSWER 3 same as 0, 1, or 2, regenrate 3
-	while((((ha3*60)+ma3 == (ha*60)+ma)or((ha3*60)+ma3 == (ha1*60)+ma1))or((ha3*60)+ma3 == (ha2*60)+ma2)) do
-		r4 = math.random(23)*30
-		ha3 = math.floor(r4/60) --hours answer
-		ma3 =  ((r4/30)%2)*30 
-	end
-	
-	--b Correct for 0:00 --> 12:00 
-	if ha == 0 then 
-		ha = 12
-	end
-	if ha1 == 0 then 
-		ha1 = 12
-	end
-	if ha2 == 0 then 
-		ha2 = 12
-	end
-	if ha3 == 0 then 
-		ha3 = 12
-	end
+	--Sort out min
+	if r1%2~=0 then ma = 30 end
+	if r2%2~=0 then ma1 = 30 end
+	if r3%2~=0 then ma2 = 30 end
+	if r3%2~=0 then ma3 = 30 end
 
-	--b Correct Minute Answer Text if time is :30
-	local han = " "..syl[47][2]..syl[83][2]
-	if ma == 30 then
-		matext = han
-	end
-	if ma1 == 30 then
-		ma1text = han
-	end
-	if ma2 == 30 then
-		ma2text = han
-	end
-	if ma3 == 30 then
-		ma3text = han
-	end
-
-	--btest TEST PRINT
-	print("\nGENERATE_ANSWERS():\nAnswer0\nr1="..r1..". ha="..ha..". ma="..ma.."\t"..ha..":"..ma.."\nAnswer1\nr2="..r2.."ha1="..ha1..". ma1="..ma1.."\t"..ha1..":"..ma1.."\nAnswer2\nr3="..r3.."ha2="..ha2..". ma2="..ma2.."\t"..ha2..":"..ma2.."\nAnswer3\nr4="..r4.."ha3="..ha3..". ma3="..ma3.."\t"..ha3..":"..ma3.."\n")
-
+	--Test Print
+	print("\n\n\nGENERATE_ANSWERS():\nAnswer0\nr1="..r1..". ha="..ha..". ma="..ma.."\t"..ha..":"..ma.."\nAnswer1\nr2="..r2..". ha1="..ha1..". ma1="..ma1.."\t"..ha1..":"..ma1.."\nAnswer2\nr3="..r3..". ha2="..ha2..". ma2="..ma2.."\t"..ha2..":"..ma2.."\nAnswer3\nr4="..r4..". ha3="..ha3..". ma3="..ma3.."\t"..ha3..":"..ma3.."\n\n\n")
 end
 
 local function goToMenu()
-
     storyboard.gotoScene("menu")
     storyboard.removeScene("numbers.numbers1")
 end
-
-
 
 local function restart()
 	storyboard.purgeScene("numbers.numbers1")
@@ -182,7 +132,7 @@ local function incorrect1(n)
 	
 	screenGroup:insert(bubble)
 
-	local instructions = "You chose the wrong time and the bomb blew up. Mission failed."
+	local instructions = "You chose the wrong time. The bomb exploded. Game Over."
 	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
@@ -225,9 +175,8 @@ local function correct(n)
 end
 
 
-local function showAnswers(n)
-	local screenGroup = n
-
+local function showAnswers(screenGroup)
+	
 	--b Randomize x,y values, put into "b"
 	local a={{-200,65},{-200,120},{200,120},{200,65}}
 	local b = {}
@@ -260,7 +209,7 @@ local function showAnswers(n)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(syl[90+ha][1]..syl[24][2]..matext,centerX+b[1][1]*xscale,b[1][2]*yscale,native.systemFont,18)
+	atext = display.newText(syl[120+r1][1]..syl[120+r1][2],centerX+b[1][1]*xscale,b[1][2]*yscale,native.systemFont,18)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
@@ -276,7 +225,7 @@ local function showAnswers(n)
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(syl[90+ha1][1]..syl[24][2]..ma1text,centerX+b[2][1]*xscale,b[2][2]*yscale,native.systemFont,18)
+	btext = display.newText(syl[120+r2][1]..syl[120+r2][2],centerX+b[2][1]*xscale,b[2][2]*yscale,native.systemFont,18)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
@@ -292,7 +241,7 @@ local function showAnswers(n)
 	csign:addEventListener("tap",myFunction)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(syl[90+ha2][1]..syl[24][2]..ma2text,centerX+b[3][1]*xscale,b[3][2]*yscale,native.systemFont,18)
+	ctext = display.newText(syl[120+r3][1]..syl[120+r3][2],centerX+b[3][1]*xscale,b[3][2]*yscale,native.systemFont,18)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
@@ -308,7 +257,7 @@ local function showAnswers(n)
 	dsign:addEventListener("tap",myFunction)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(syl[90+ha3][1]..syl[24][2]..ma3text,centerX+b[4][1]*xscale,b[4][2]*yscale,native.systemFont,18)
+	dtext = display.newText(syl[120+r4][1]..syl[120+r4][2],centerX+b[4][1]*xscale,b[4][2]*yscale,native.systemFont,18)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
@@ -317,23 +266,27 @@ local function showAnswers(n)
 	bubble:scale(0.74*xscale,0.43*yscale)
 	screenGroup:insert(bubble)
 
-	local instructions = "Your mission is to defuse a bomb. It must happen before the given time. What time does the clock read?"
+	local instructions = "You see a clock on the wall, but it is not set to the correct time. You hear a very suspicious ticking sound coming from the clock, making you suddenly nervous. What time is shown on the clock?"
 	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 end
 
 
--- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local screenGroup = self.view
+	--Background
 	bg = display.newImage("images/numbers/clockbg.png",centerX,centerY)
 	bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
+	--Set Values
 	answerGiven = false
 
+	--Compute Question
 	generateAnswers()
+
+	--Display Info
 	displayClocks(screenGroup)
 	showAnswers(screenGroup)
 end
