@@ -14,7 +14,7 @@ local widget = require("widget")
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
-
+local audioClick = audio.loadSound("audio/click1.wav")
 local bubble, gameDescription, retry
 
 local finalScore = 0
@@ -78,12 +78,14 @@ end
 
 --Return to the menu
 local function goToMenu()
+	audio.play(audioClick)
 	goToGivenScene("menu")
 end
 
 --Function to goto the 'reloadScene' scene.
 --Need this for listener function.
 local function goToReloadScene()
+	audio.play(audioClick)
 	goToGivenScene(reloadScene)
 end
 

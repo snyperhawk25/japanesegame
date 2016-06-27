@@ -426,6 +426,7 @@ function Ans1BoxListener()
     local function animate(event)
         transition.from(Ans1Box,{time=200,x=Ans1BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
+    audio.play(audioClick)
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed")
     chosenAns = 1
@@ -436,6 +437,7 @@ function Ans2BoxListener()
     local function animate(event)
         transition.from(Ans2Box,{time=200,x=Ans2BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
+    audio.play(audioClick)
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed")
     chosenAns = 2
@@ -446,6 +448,7 @@ function Ans3BoxListener()
     local function animate(event)
         transition.from(Ans3Box,{time=200,x=Ans3BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
+    audio.play(audioClick)
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed")
     chosenAns = 3
