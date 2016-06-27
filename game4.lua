@@ -30,6 +30,8 @@ local scoreText
 local menu
 --local questionBubble
 local scrollView, questionText = "This is a question"
+local downArrow
+--local distanceDown=-100
 local Ans1Button, Ans2Button, Ans3Button, Ans4Button
 local lives
 local correctAns
@@ -60,39 +62,35 @@ local questionTextY = 30
 --local questionBubbleX = 240
 --local questionBubbleY = 30
 
-local scoreTextX = centerX
-local scoreTextY = 75
+local scoreTextX = centerX+2
+local scoreTextY = 240
 
 local menuX = 465
 local menuY = 30
 
---Old (Working) Values
---local Ans1ButtonX = (display.contentWidth-200)/2-100
---local Ans12ButtonY = display.contentCenterY + 25
---local Ans2ButtonX = (display.contentWidth-200)/2+100
 
---local Ans3ButtonX = (display.contentWidth-200)/2-100
---local Ans34ButtonY = display.contentCenterY - 25
---local Ans4ButtonX = (display.contentWidth-200)/2+100
+--New Values
+-- 1 2
+-- 3 4
+local Ans1ButtonY = 180
+local Ans2ButtonY = 180
+local Ans3ButtonY = 240
+local Ans4ButtonY = 240
 
---NEw Test Values
 local Ans1ButtonX = 20
-local Ans12ButtonY = 160
-local Ans2ButtonX = 260
-
+local Ans2ButtonX = 280
 local Ans3ButtonX = 20
-local Ans34ButtonY = 60
-local Ans4ButtonX = 260
-
-local AnsTextScale = 0.15
-local AnsTextTranslateX = 45
-local AnsTextTranslateY = 10
+local Ans4ButtonX = 280
 
 
 --Function to remove the elements of the active question. Also to empty "" the correct answer integer.
 function clearQuestion()
-    --Question Text
+    --Question Elements
     questionText:removeSelf()
+    scrollView:removeSelf()
+
+    display.remove(downArrow)
+    
 
     --Clear buttons --need?
     Ans1Button:removeSelf()
@@ -108,10 +106,15 @@ end
 local function myTapListener(event)
     if event.numTaps == 2 then
         print("DOUBLE TAP!")
-        scrollView:scrollToPosition{x=0,y=0,time=250}
+        scrollView:scrollToPosition({x=0,y=0,time=250})
     end
     return true   
 end    
+
+local function downArrowListener(event)
+    print("Down Arrow Pressed. Scrolling Down")
+    scrollView:scrollTo("bottom",{time=6000} )
+end  
 
 -- ScrollView listener
 local function scrollViewListener( event )
@@ -169,98 +172,50 @@ function generateQuestion()
     q4=myData.custom.Medium[num][6]
     
     --Shuffle/REassign Coordinates
-    local coordinateOrder = {}
-    coordinateOrder = fisherYates({{Ans1ButtonX},{Ans2ButtonX},{Ans3ButtonX},{Ans4ButtonX}})  
-    Ans1ButtonX = coordinateOrder[1]
-    Ans2ButtonX = coordinateOrder[2]
-    Ans3ButtonX = coordinateOrder[3]
-    Ans4ButtonX = coordinateOrder[4]
+    --local coordinateOrder = {}
+    --coordinateOrder = fisherYates({{Ans1ButtonX},{Ans2ButtonX},{Ans3ButtonX},{Ans4ButtonX}})  
+    --//!@# Fix this buggy reassignment
+    --Ans1ButtonX = coordinateOrder[1]
+    --Ans2ButtonX = coordinateOrder[2]
+    --Ans3ButtonX = coordinateOrder[3]
+    --Ans4ButtonX = coordinateOrder[4]
     
-    --Create new Answer Boxes
-    Ans1Button = widget.newButton (
-      {
-        id = "Ans1Button",
-        left = (display.contentWidth-200)/2-100,
-        top = display.contentCenterY + 25,
-        label = q1,
-        shape = "roundedRect",
-        font = native.systemFont,
-        cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
-        onPress = Ans1BoxListener
-      }
-    )
-
-    Ans2Button = widget.newButton (
-      {
-        id = "Ans2Button",
-        left = (display.contentWidth-200)/2+100,
-        top = display.contentCenterY + 25,
-        label = q2,
-        shape = "roundedRect",
-        font = native.systemFont,
-        cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
-        onPress = Ans2BoxListener
-      }
-    )
-
-    Ans3Button = widget.newButton (
-      {
-        id = "Ans3Button",
-        left = (display.contentWidth-200)/2-100,
-        top = display.contentCenterY - 25,
-        label = q3,
-        shape = "roundedRect",
-        font = native.systemFont,
-        cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
-        onPress = Ans3BoxListener
-      }
-    )
-
-    Ans4Button = widget.newButton (
-      {
-        id = "Ans4Button",
-        left = (display.contentWidth-200)/2+100,
-        top = display.contentCenterY - 25,
-        label = q4,
-        shape = "roundedRect",
-        font = native.systemFont,
-        cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ 0.5, 0.60, 0.5, 1 }, over={ 0.38, 0.27, 0.32, 1 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
-        onPress = Ans4BoxListener
-      }
-    )
 
 -----------------------------------------------------------------------------
     --Add In The Question
 
     --Calculate Scroll Height Required
-    --Based on: Width (at font 20): ~26characters (@%90 space) / 300 = 11.53 --> 12/character
+    --OLD::Based on: Width (at font 20): ~26characters (@%90 space) / 300 = 11.53 --> 12/character
+    --NEW::Based on about 31 characters (@90%space) / 375 --> 12 px per character
+    --NEW:: AND ~ 128 characters of space in the 375x100 space.
     local scrollWidthSize = 375
     local scrollHeightSize = 100 --defualt value
-    scrollHeightSize = math.ceil((string.len(myData.custom.Medium[num][2])*12)/scrollWidthSize)*20 
-    print("scrollHeightSize: "..scrollHeightSize..".")
+    --scrollHeightSize = math.ceil((string.len(myData.custom.Medium[num][2])*12)/scrollWidthSize)*20 
+    --print("scrollHeightSize: "..scrollHeightSize..".")
 
-
-
+    --Condition for Down Arrow
+    qlen=string.len(myData.custom.Medium[num][2])
+    if qlen>128 then
+        --Alert
+        print("Exceded 128 characters (375x128 worth). Adding Down Arrow.")
+        --Update distanceDown
+        --distanceDown = (math.floor(qlen/31))*(-20)
+        --print("Distance To Scroll Down: "..distanceDown)
+        downArrow = display.newPolygon(400,90,
+            {0,0,
+            0,20,
+            -10,20,
+            5,30,
+            20,20,
+            10,20,
+            10,0}
+        )
+        downArrow:setFillColor(1,0,0)
+        downArrow:addEventListener("tap",downArrowListener)
+    end
 
     local textOptions = {
         text = myData.custom.Medium[num][2],
-        --text = "0123456789a0123456789b0123456789c0123456789d0123456789e0123456789f",
         x = 10,
         y = 5,
         width = scrollWidthSize-(scrollHeightSize*0.1), --width is only 90% of scrollWidth size
@@ -277,6 +232,7 @@ function generateQuestion()
 
 
     -- Create the scrollView
+    scrollView = nil
     scrollView = widget.newScrollView(
         {
             top= 5,
@@ -286,13 +242,15 @@ function generateQuestion()
             scrollWidth = scrollWidthSize,
             scrollHeight = scrollHeightSize,
             horizontalScrollDisabled = true,
-            isBounceEnabled = false,
+            --friction = 2,
+            isBounceEnabled = true,
             listener = scrollViewListener,
-            hideScrollBar = false
+            hideScrollBar = false,
+            backgroundColor = {1,1,1,0.8}
         }
     )
     
-    --Top Rectangle
+    --Top Corner Rectangle
     local questionFrame = display.newRect(0,0,10,10)
     questionFrame:setFillColor(0,0,0)
     scrollView:insert(questionFrame)
@@ -308,6 +266,91 @@ function generateQuestion()
 
 
 -----------------------------------------------------------------------------
+
+--Add in the buttons now that we know what the scroll size is
+
+--Define Fill Colours (teal-blue)
+    local fillR = 0.4
+    local fillG = 0.78
+    local fillB = 1
+
+    --Create new Answer Boxes
+    Ans1Button = widget.newButton (
+      {
+        id = "Ans1Button",
+        x = Ans1ButtonX,
+        y = Ans1ButtonY,
+        label = q1,
+        shape = "roundedRect",
+        font = native.systemFont,
+        cornerRadius = 4,
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
+        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        strokeWidth = 4,
+        onPress = Ans1BoxListener
+      }
+    )
+    Ans1Button.anchorY=0.0
+    Ans1Button.anchorX=0.0
+
+        Ans2Button = widget.newButton (
+      {
+        id = "Ans2Button",
+        x = Ans2ButtonX,
+        y = Ans2ButtonY,
+        label = q2,
+        shape = "roundedRect",
+        font = native.systemFont,
+        cornerRadius = 4,
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
+        fillColor = { default={ fillR,fillG,fillB }, over={ fillR,fillG,fillB } },
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        strokeWidth = 4,
+        onPress = Ans2BoxListener
+      }
+    )
+    Ans2Button.anchorY=0.0
+    Ans2Button.anchorX=0.0
+
+    Ans3Button = widget.newButton (
+      {
+        id = "Ans3Button",
+        x = Ans3ButtonX,
+        y = Ans3ButtonY,
+        label = q3,
+        shape = "roundedRect",
+        font = native.systemFont,
+        cornerRadius = 4,
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
+        fillColor = { default={ fillR,fillG,fillB }, over={ fillR,fillG,fillB } },
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        strokeWidth = 4,
+        onPress = Ans3BoxListener
+      }
+    )
+    Ans3Button.anchorY=0.0
+    Ans3Button.anchorX=0.0
+
+    Ans4Button = widget.newButton (
+      {
+        id = "Ans4Button",
+        x = Ans4ButtonX,
+        y = Ans4ButtonY,
+        label = q4,
+        shape = "roundedRect",
+        font = native.systemFont,
+        cornerRadius = 4,
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
+        fillColor = { default={ fillR,fillG,fillB }, over={ fillR,fillG,fillB } },
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        strokeWidth = 4,
+        onPress = Ans4BoxListener
+      }
+    )
+    Ans4Button.anchorY=0.0
+    Ans4Button.anchorX=0.0
+
 
 
     --Set correct answer
@@ -360,13 +403,14 @@ local function removeAllDisplayObjects()
     Ans3Button:removeSelf()
     Ans4Button:removeSelf()
 
-    display.remove(scrollView)
+    display.remove(questionText)
+    display.remove(downArrow)
+    scrollView:remove(questionFrame)
+    scrollView:remove(questionText)
+    scrollView:removeSelf()
 
     display.remove(gameOverText)
     
-    display.remove(questionText)
-    --display.remove(questionBubble)
-
     display.remove(menu)
     display.remove(scoreText)
 end
@@ -393,14 +437,11 @@ function Game4()
 
     --Now we draw our scene elements.
 
-    --Question Bubble
-    --questionBubble = display.newImage("images/bubble.png", questionBubbleX,questionBubbleY)
-    --uestionBubble:scale(0.5,0.18)
-
     --Menu Button
     menu = display.newImage("images/Menu.png",menuX,menuY)
     menu:scale(0.45,0.45)
     menu:addEventListener("tap", goToMenu) 
+    
     --Score Text
     scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
     scoreText:setFillColor(0,1,0)
@@ -423,6 +464,7 @@ function gameOver()
     Ans3Button:removeEventListener("tap", Ans3Button)
     Ans4Button:removeEventListener("tap", Ans4Button)
     scrollView:removeEventListener("tap", scrollView)
+    --down arrow listener removal needed??
     removeAllDisplayObjects()
 
     --Collect Important Information (along with transition info)
@@ -457,6 +499,7 @@ function Ans1BoxListener()
     local function animate(event)
         transition.from(Ans1Button,{time=200,x=Ans1ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
+    audio.play(audioClick)
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed (A)")
     chosenAns = "A"
@@ -467,6 +510,7 @@ function Ans2BoxListener()
     local function animate(event)
         transition.from(Ans2Button,{time=200,x=Ans2ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
+    audio.play(audioClick)
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed (B)")
     chosenAns = "B"
@@ -477,6 +521,7 @@ function Ans3BoxListener()
     local function animate(event)
         transition.from(Ans3Button,{time=200,x=Ans3ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
+    audio.play(audioClick)
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed (C)")
     chosenAns = "C"
@@ -487,6 +532,7 @@ function Ans4BoxListener()
     local function animate(event)
         transition.from(Ans4Button,{time=200,x=Ans4ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
+    audio.play(audioClick)
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 4 Pressed (D)")
     chosenAns = "D"
@@ -504,9 +550,10 @@ end
 function scene:createScene( event )
     local screenGroup = self.view
     --Load background image
-    bg = display.newImage("images/bg.png", centerX,centerY+30)
+    bg = display.newImage("images/numbers/sign.png", centerX,centerY+30) --"images/bg.png"
+    bg:scale(1.6,2.5)
     screenGroup:insert(bg)
-    --bg:scale(0.6*xscale,0.6*yscale)
+    
 end
 
 
