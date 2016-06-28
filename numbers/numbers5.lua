@@ -60,16 +60,16 @@ local function incorrect1(n)
 	screenGroup:insert(bubble)
 
 	local instructions = "Oh no! You dialed the wrong number and the bomb blew up! Mission failed."
-	myText = display.newText(instructions, centerX, centerY+150*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+150,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-	reText = display.newImage("images/Restart.png",display.contentWidth-50*xscale,30*yscale)
+	reText = display.newImage("images/Restart.png",display.contentWidth-50,30)
 	reText:scale(0.4,0.4)
 	reText:addEventListener("tap",restart)
 	screenGroup:insert(reText)
 
-	menu = display.newImage("images/Menu.png",display.contentWidth-50*xscale,60*yscale)
+	menu = display.newImage("images/Menu.png",display.contentWidth-50,60)
 	menu:scale(0.4,0.4)
 	menu:addEventListener("tap",goToMenu)
 	screenGroup:insert(menu)
@@ -79,7 +79,7 @@ local function incorrect(n)
 	local screenGroup = n
 	
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
-	explosion:scale(0.2*xscale,0.2*yscale)
+	explosion:scale(0.2,0.2)
 	screenGroup:insert(explosion)
 
 	local function boom()
@@ -148,12 +148,12 @@ local function showAnswers(n)
 			    overFile = "images/numbers/buttonpressed.png",
 			    onEvent = myFunction
 			}
-			buttonbgs[(3*i)+j].x = 50*j*xscale
-			buttonbgs[(3*i)+j].y = centerY-30*yscale-50*i*yscale
-			buttonbgs[(3*i)+j]:scale(0.14*xscale,0.14*yscale)
+			buttonbgs[(3*i)+j].x = 50*j
+			buttonbgs[(3*i)+j].y = centerY-30-50*i
+			buttonbgs[(3*i)+j]:scale(0.14,0.14)
 			
 			screenGroup:insert(buttonbgs[(3*i)+j])
-			buttons[(3*i)+j] = display.newText(syl[90+(3*i+j)][1],50*j*xscale,centerY-30*yscale-50*i*yscale, native.systemFont,20)
+			buttons[(3*i)+j] = display.newText(syl[90+(3*i+j)][1],50*j,centerY-30-50*i, native.systemFont,20)
 			buttons[(3*i)+j]:setFillColor(0)
 			screenGroup:insert(buttons[(3*i)+j])
 		end
@@ -177,10 +177,10 @@ local function showAnswers(n)
 		    overFile ="images/numbers/buttonpressed.png",
 		    onEvent = myFunction
 		}
-	zerobg.x = 100*xscale
-	zerobg.y = centerY+20*yscale
-	zerobg:scale(0.14*xscale,0.14*yscale)
-	zerobutton = display.newText(syl[90][1],100*xscale,centerY+20*yscale,native.systemFont,20) --changed to 20 to refelect 1-9 Button text sizes
+	zerobg.x = 100
+	zerobg.y = centerY+20
+	zerobg:scale(0.14,0.14)
+	zerobutton = display.newText(syl[90][1],100,centerY+20,native.systemFont,20) --changed to 20 to refelect 1-9 Button text sizes
 	zerobutton:setFillColor(0)
 
 	screenGroup:insert(zerobg)
@@ -199,10 +199,10 @@ local function showAnswers(n)
 		    overFile ="images/numbers/buttonpressed.png",
 		    onEvent = myFunction
 		}
-	callbg.x = centerX+100*xscale
-	callbg.y = centerY-50*yscale
-	callbg:scale(0.3*xscale,0.14*yscale)
-	callbutton = display.newText("Call",centerX+100*xscale,centerY-50*yscale,native.systemFont,24)
+	callbg.x = centerX+100
+	callbg.y = centerY-50
+	callbg:scale(0.3,0.14)
+	callbutton = display.newText("Call",centerX+100,centerY-50,native.systemFont,24)
 	callbutton:setFillColor(0)
 
 	screenGroup:insert(callbg)
@@ -221,10 +221,10 @@ local function showAnswers(n)
 		    overFile ="images/numbers/buttonpressed.png",
 		    onEvent = myFunction
 		}
-	clearbg.x = centerX+100*xscale
-	clearbg.y = centerY+10*yscale
-	clearbg:scale(0.3*xscale,0.14*yscale)
-	clearbutton = display.newText("Clear",centerX+100*xscale,centerY+10*yscale,native.systemFont,24)
+	clearbg.x = centerX+100
+	clearbg.y = centerY+10
+	clearbg:scale(0.3,0.14)
+	clearbutton = display.newText("Clear",centerX+100,centerY+10,native.systemFont,24)
 	clearbutton:setFillColor(0)
 
 	screenGroup:insert(clearbg)
@@ -233,21 +233,21 @@ local function showAnswers(n)
 
 	--b Bubble
 
-	bubble = display.newImage("images/bubble.png", centerX,centerY+100*yscale)
-	bubble:scale(0.74*xscale,0.43*yscale)
+	bubble = display.newImage("images/bubble.png", centerX,centerY+100)
+	bubble:scale(0.74,0.43)
 	screenGroup:insert(bubble)
 
 	local instructions = "You need to get the defuse code. Call your contact at ".. phonenumber.. " to get the defuse code."
-	myText = display.newText(instructions, centerX, centerY+150*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+150,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
 
-	input = display.newImage("images/bubble.png", centerX+100*xscale,centerY-120*yscale)
-	input:scale(0.5*xscale,0.15*yscale)
+	input = display.newImage("images/bubble.png", centerX+100,centerY-120)
+	input:scale(0.5,0.15)
 	screenGroup:insert(input)
 
-	answertext = display.newText("", centerX+100*xscale, centerY-120*yscale,native.systemFont, 18 )
+	answertext = display.newText("", centerX+100, centerY-120,native.systemFont, 18 )
 	answertext:setFillColor(0)
 	screenGroup:insert(answertext)
 
@@ -259,7 +259,7 @@ end
 function scene:createScene( event )
 	local screenGroup = self.view
 	bg = display.newImage("images/numbers/phonebg.png",centerX,centerY)
-	bg:scale(0.6*xscale,0.6*yscale)
+	bg:scale(0.6,0.6)
 	screenGroup:insert(bg)
 
 	generateAnswers()

@@ -59,17 +59,17 @@ end
 --Function to show the clock.
 local function displayClocks(screen)
 	--Clock Face
-	clock1 = display.newImage("images/numbers/clock.png", centerX, centerY-60*yscale)
-	clock1:scale(0.7*yscale,0.7*yscale)
+	clock1 = display.newImage("images/numbers/clock.png", centerX, centerY-60)
+	clock1:scale(0.7,0.7)
 	screen:insert(clock1)
 	--Minute Hand
-	minute1 = display.newImage("images/numbers/minute.png", centerX, centerY-60*yscale, native.systemFont, 18)
-	minute1:scale(0.8*xscale,0.8*yscale)
+	minute1 = display.newImage("images/numbers/minute.png", centerX, centerY-60, native.systemFont, 18)
+	minute1:scale(0.8,0.8)
 	minute1.anchorY = 1
 	screen:insert(minute1)
 	--Hour Hand
-	hour1 = display.newImage("images/numbers/hour.png", centerX, centerY-60*yscale)
-	hour1:scale(0.6*xscale,0.6*yscale)
+	hour1 = display.newImage("images/numbers/hour.png", centerX, centerY-60)
+	hour1:scale(0.6,0.6)
 	hour1.anchorY = 1
 	screen:insert(hour1)
 	
@@ -133,16 +133,16 @@ local function incorrect1(n)
 	screenGroup:insert(bubble)
 
 	local instructions = "You chose the wrong time. The bomb exploded. Game Over."
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-	reText = display.newImage("images/Restart.png",display.contentWidth-50*xscale,30*yscale)
+	reText = display.newImage("images/Restart.png",display.contentWidth-50,30)
 	reText:scale(0.4,0.4)
 	reText:addEventListener("tap",restart)
 	screenGroup:insert(reText)
 
-	menu = display.newImage("images/Menu.png",display.contentWidth-50*xscale,60*yscale)
+	menu = display.newImage("images/Menu.png",display.contentWidth-50,60)
 	menu:scale(0.4,0.4)
 	menu:addEventListener("tap",goToMenu)
 	screenGroup:insert(menu)
@@ -156,7 +156,7 @@ local function incorrect(n)
 	screenGroup:insert(explosion)
 
 	local function boom()
-		explosion:scale(1.15*xscale,1.15*xscale)
+		explosion:scale(1.15,1.15)
 	end
 
 	timer1 = timer.performWithDelay(50,boom,20)
@@ -197,8 +197,8 @@ local function showAnswers(screenGroup)
 
 
 	--b A - Correct
-	asign = display.newImage("images/bubble.png",centerX+b[1][1]*xscale,b[1][2]*yscale)
-	asign:scale(0.24*xscale,0.14*yscale)
+	asign = display.newImage("images/bubble.png",centerX+b[1][1],b[1][2])
+	asign:scale(0.24,0.14)
 	local function  myFunction()
 		if answerGiven==false then
 			correct()
@@ -209,13 +209,13 @@ local function showAnswers(screenGroup)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(syl[120+r1][1]..syl[120+r1][2],centerX+b[1][1]*xscale,b[1][2]*yscale,native.systemFont,18)
+	atext = display.newText(syl[120+r1][1]..syl[120+r1][2],centerX+b[1][1],b[1][2],native.systemFont,18)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
 	--b B - Incorrect
-	bsign = display.newImage("images/bubble.png",centerX+b[2][1]*xscale,b[2][2]*yscale)
-	bsign:scale(0.24*xscale,0.14*yscale)
+	bsign = display.newImage("images/bubble.png",centerX+b[2][1],b[2][2])
+	bsign:scale(0.24,0.14)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -225,13 +225,13 @@ local function showAnswers(screenGroup)
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(syl[120+r2][1]..syl[120+r2][2],centerX+b[2][1]*xscale,b[2][2]*yscale,native.systemFont,18)
+	btext = display.newText(syl[120+r2][1]..syl[120+r2][2],centerX+b[2][1],b[2][2],native.systemFont,18)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
 	--b C - Incorrect
-	csign = display.newImage("images/bubble.png",centerX+b[3][1]*xscale,b[3][2]*yscale)
-	csign:scale(0.24*xscale,0.14*yscale)
+	csign = display.newImage("images/bubble.png",centerX+b[3][1],b[3][2])
+	csign:scale(0.24,0.14)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -241,13 +241,13 @@ local function showAnswers(screenGroup)
 	csign:addEventListener("tap",myFunction)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(syl[120+r3][1]..syl[120+r3][2],centerX+b[3][1]*xscale,b[3][2]*yscale,native.systemFont,18)
+	ctext = display.newText(syl[120+r3][1]..syl[120+r3][2],centerX+b[3][1],b[3][2],native.systemFont,18)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
 	--b D - Incorrect
-	dsign = display.newImage("images/bubble.png",centerX+b[4][1]*xscale,b[4][2]*yscale)
-	dsign:scale(0.24*xscale,0.14*yscale)
+	dsign = display.newImage("images/bubble.png",centerX+b[4][1],b[4][2])
+	dsign:scale(0.24,0.14)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -257,17 +257,17 @@ local function showAnswers(screenGroup)
 	dsign:addEventListener("tap",myFunction)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(syl[120+r4][1]..syl[120+r4][2],centerX+b[4][1]*xscale,b[4][2]*yscale,native.systemFont,18)
+	dtext = display.newText(syl[120+r4][1]..syl[120+r4][2],centerX+b[4][1],b[4][2],native.systemFont,18)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
 	--b Text Bubble
-	bubble = display.newImage("images/bubble.png", centerX,centerY+90*yscale)
-	bubble:scale(0.74*xscale,0.43*yscale)
+	bubble = display.newImage("images/bubble.png", centerX,centerY+90)
+	bubble:scale(0.74,0.43)
 	screenGroup:insert(bubble)
 
 	local instructions = "You see a clock on the wall, but it is not set to the correct time. You hear a very suspicious ticking sound coming from the clock, making you suddenly nervous. What time is shown on the clock?"
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 end
@@ -277,7 +277,7 @@ function scene:createScene( event )
 	local screenGroup = self.view
 	--Background
 	bg = display.newImage("images/numbers/clockbg.png",centerX,centerY)
-	bg:scale(0.6*xscale,0.6*yscale)
+	bg:scale(0.6,0.6)
 	screenGroup:insert(bg)
 
 	--Set Values

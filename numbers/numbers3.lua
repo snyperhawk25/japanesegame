@@ -50,16 +50,16 @@ local function incorrect1(n)
 	screenGroup:insert(bubble)
 
 	local instructions = "You didn't tell them the correct amount, so they failed to kill the bad guys and the bomb blew up. Mission failed."
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-	reText = display.newImage("images/Restart.png",display.contentWidth-50*xscale,30*yscale)
+	reText = display.newImage("images/Restart.png",display.contentWidth-50,30)
 	reText:scale(0.4,0.4)
 	reText:addEventListener("tap",restart)
 	screenGroup:insert(reText)
 
-	menu = display.newImage("images/Menu.png",display.contentWidth-50*xscale,60*yscale)
+	menu = display.newImage("images/Menu.png",display.contentWidth-50,60)
 	menu:scale(0.4,0.4)
 	menu:addEventListener("tap",goToMenu)
 	screenGroup:insert(menu)
@@ -69,7 +69,7 @@ local function incorrect(n)
 	local screenGroup = n
 	
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
-	explosion:scale(0.2*xscale,0.2*yscale)
+	explosion:scale(0.2,0.2)
 	screenGroup:insert(explosion)
 
 	local function boom()
@@ -168,8 +168,8 @@ local function showAnswers(n)
 	end	
 
 	--A
-	asign = display.newImage("images/bubble.png",centerX+b[1]*xscale,65*yscale)
-	asign:scale(0.12*xscale,0.1*yscale)
+	asign = display.newImage("images/bubble.png",centerX+b[1],65)
+	asign:scale(0.12,0.1)
 	local function  myFunction()
 		if answerGiven==false then
 			correct(screenGroup)
@@ -180,13 +180,13 @@ local function showAnswers(n)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(answer,centerX+b[1]*xscale,65*yscale,native.systemFont,18)
+	atext = display.newText(answer,centerX+b[1],65,native.systemFont,18)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
 	--B
-	bsign = display.newImage("images/bubble.png",centerX+b[2]*xscale,65*yscale)
-	bsign:scale(0.12*xscale,0.1*yscale)
+	bsign = display.newImage("images/bubble.png",centerX+b[2],65)
+	bsign:scale(0.12,0.1)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -196,13 +196,13 @@ local function showAnswers(n)
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(opt1,centerX+b[2]*xscale,65*yscale,native.systemFont,18)
+	btext = display.newText(opt1,centerX+b[2],65,native.systemFont,18)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
 	--C
-	csign = display.newImage("images/bubble.png",centerX+b[3]*xscale,65*yscale)
-	csign:scale(0.12*xscale,0.1*yscale)
+	csign = display.newImage("images/bubble.png",centerX+b[3],65)
+	csign:scale(0.12,0.1)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -212,13 +212,13 @@ local function showAnswers(n)
 	csign:addEventListener("tap",myFunction)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(opt2,centerX+b[3]*xscale,65*yscale,native.systemFont,18)
+	ctext = display.newText(opt2,centerX+b[3],65,native.systemFont,18)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
 	--D
-	dsign = display.newImage("images/bubble.png",centerX+b[4]*xscale,65*yscale)
-	dsign:scale(0.12*xscale,0.1*yscale)
+	dsign = display.newImage("images/bubble.png",centerX+b[4],65)
+	dsign:scale(0.12,0.1)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -228,17 +228,17 @@ local function showAnswers(n)
 	dsign:addEventListener("tap",myFunction)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(opt3,centerX+b[4]*xscale,65*yscale,native.systemFont,18)
+	dtext = display.newText(opt3,centerX+b[4],65,native.systemFont,18)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
 
-	bubble = display.newImage("images/bubble.png", centerX,centerY+90*yscale)
-	bubble:scale(0.74*xscale,0.43*yscale)
+	bubble = display.newImage("images/bubble.png", centerX,centerY+90)
+	bubble:scale(0.74,0.43)
 	screenGroup:insert(bubble)
 
 	local instructions = "The building is patrolled by bad guys. Your backup can get rid of them for you if you tell them how many there are."
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
@@ -255,11 +255,11 @@ local function showAnswers(n)
 
 	badguys = {}
 	for i = 1,answernum,1 do
-		badguys[i] = display.newImage("images/numbers/stickfig.png",d[i],centerY-10*yscale)
+		badguys[i] = display.newImage("images/numbers/stickfig.png",d[i],centerY-10)
 		if i%2==0 then
-			badguys[i]:scale(0.3*xscale,0.3*yscale)
+			badguys[i]:scale(0.3,0.3)
 		else
-			badguys[i]:scale(-0.3*xscale,0.3*yscale)
+			badguys[i]:scale(-0.3,0.3)
 		end
 		screenGroup:insert(badguys[i])
 	end
@@ -270,7 +270,7 @@ end
 function scene:createScene( event )
 	local screenGroup = self.view
 	bg = display.newImage("images/numbers/building.png",centerX,centerY)
-	bg:scale(0.6*xscale,0.6*yscale)
+	bg:scale(0.6,0.6)
 	screenGroup:insert(bg)
 	answerGiven = false
 

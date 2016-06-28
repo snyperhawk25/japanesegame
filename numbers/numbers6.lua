@@ -56,7 +56,7 @@ local function correct(n)
 	screenGroup:remove(myText)
 	
 	local instructions = "Awesome. You defused the bomb"
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
@@ -71,16 +71,16 @@ local function incorrect1(n)
 	screenGroup:insert(bubble)
 
 	local instructions = "Oh no! You entered an incorrect number and the bomb blew up! Mission failed."
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-	reText = display.newImage("images/Restart.png",display.contentWidth-50*xscale,30*yscale)
+	reText = display.newImage("images/Restart.png",display.contentWidth-50,30)
 	reText:scale(0.4,0.4)
 	reText:addEventListener("tap",restart)
 	screenGroup:insert(reText)
 
-	menu = display.newImage("images/Menu.png",display.contentWidth-50*xscale,60*yscale)
+	menu = display.newImage("images/Menu.png",display.contentWidth-50,60)
 	menu:scale(0.4,0.4)
 	menu:addEventListener("tap",goToMenu)
 	screenGroup:insert(menu)
@@ -90,7 +90,7 @@ local function incorrect(n)
 	local screenGroup = n
 	
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
-	explosion:scale(0.2*xscale,0.2*yscale)
+	explosion:scale(0.2,0.2)
 	screenGroup:insert(explosion)
 
 	local function boom()
@@ -202,17 +202,17 @@ end
 --b To reset the objects after success
 local function resetObjects()
 	print("\nReseting Object x,y Positions\n")
-	asign.x=centerX+a[1]*xscale
-	asign.y=85*yscale
+	asign.x=centerX+a[1]
+	asign.y=85
 
-	bsign.x=centerX+a[2]*xscale
-	bsign.y=85*yscale
+	bsign.x=centerX+a[2]
+	bsign.y=85
 
-	csign.x=centerX+a[3]*xscale
-	csign.y=85*yscale
+	csign.x=centerX+a[3]
+	csign.y=85
 
-	dsign.x=centerX+a[1]*xscale
-	dsign.y=85*yscale
+	dsign.x=centerX+a[1]
+	dsign.y=85
 
 end
 
@@ -264,78 +264,78 @@ local function showAnswers(n)
 		b[i]=a[i]
 	end	
 
-	bl1= display.newImage("images/numbers/bomblistener.png",centerX-155*xscale,centerY+0*yscale)
-	bl1:scale(0.35*xscale,0.28*yscale)
+	bl1= display.newImage("images/numbers/bomblistener.png",centerX-155,centerY+0)
+	bl1:scale(0.35,0.28)
 	bl1.num = num1
 	screenGroup:insert(bl1)
 
-	bl2= display.newImage("images/numbers/bomblistener.png",centerX-66*xscale,centerY+0*yscale)
-	bl2:scale(0.35*xscale,0.28*yscale)
+	bl2= display.newImage("images/numbers/bomblistener.png",centerX-66,centerY+0)
+	bl2:scale(0.35,0.28)
 	bl2.num = num2
 	screenGroup:insert(bl2)
 
-	bl3= display.newImage("images/numbers/bomblistener.png",centerX+16*xscale,centerY+0*yscale)
-	bl3:scale(0.35*xscale,0.28*yscale)
+	bl3= display.newImage("images/numbers/bomblistener.png",centerX+16,centerY+0)
+	bl3:scale(0.35,0.28)
 	bl3.num = num3
 	screenGroup:insert(bl3)
 
-	bl4= display.newImage("images/numbers/bomblistener.png",centerX+100*xscale,centerY+0*yscale)
-	bl4:scale(0.35*xscale,0.28*yscale)
+	bl4= display.newImage("images/numbers/bomblistener.png",centerX+100,centerY+0)
+	bl4:scale(0.35,0.28)
 	bl4.num=num4
 	screenGroup:insert(bl4)
 
-	asign = display.newImage("images/bubble.png",centerX+b[1]*xscale,85*yscale)
-	asign:scale(0.1*xscale,0.082*yscale)
+	asign = display.newImage("images/bubble.png",centerX+b[1],85)
+	asign:scale(0.1,0.082)
 	asign.dragtext = "a"
 	asign.num = num1
 	asign:addEventListener("touch",drag)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(answer,centerX+b[1]*xscale,85*yscale,native.systemFont,14)
+	atext = display.newText(answer,centerX+b[1],85,native.systemFont,14)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
-	bsign = display.newImage("images/bubble.png",centerX+b[2]*xscale,85*yscale)
-	bsign:scale(0.1*xscale,0.082*yscale)
+	bsign = display.newImage("images/bubble.png",centerX+b[2],85)
+	bsign:scale(0.1,0.082)
 	bsign.dragtext = "b"
 	bsign.num = num2
 	bsign:addEventListener("touch",drag)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(opt1,centerX+b[2]*xscale,85*yscale,native.systemFont,14)
+	btext = display.newText(opt1,centerX+b[2],85,native.systemFont,14)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
-	csign = display.newImage("images/bubble.png",centerX+b[3]*xscale,85*yscale)
-	csign:scale(0.1*xscale,0.082*yscale)
+	csign = display.newImage("images/bubble.png",centerX+b[3],85)
+	csign:scale(0.1,0.082)
 	csign.dragtext = "c"
 	csign.num = num3
 	csign:addEventListener("touch",drag)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(opt2,centerX+b[3]*xscale,85*yscale,native.systemFont,14)
+	ctext = display.newText(opt2,centerX+b[3],85,native.systemFont,14)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
-	dsign = display.newImage("images/bubble.png",centerX+b[4]*xscale,85*yscale)
-	dsign:scale(0.1*xscale,0.082*yscale)
+	dsign = display.newImage("images/bubble.png",centerX+b[4],85)
+	dsign:scale(0.1,0.082)
 	dsign.dragtext = "d"
 	dsign.num = num4
 	dsign:addEventListener("touch",drag)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(opt3,centerX+b[4]*xscale,85*yscale,native.systemFont,14)
+	dtext = display.newText(opt3,centerX+b[4],85,native.systemFont,14)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
 
-	bubble = display.newImage("images/bubble.png", centerX,centerY+90*yscale)
-	bubble:scale(0.74*xscale,0.43*yscale)
+	bubble = display.newImage("images/bubble.png", centerX,centerY+90)
+	bubble:scale(0.74,0.43)
 	screenGroup:insert(bubble)
 
 	local instructions = "The code is ".. num1.. "-".. num2.. "-".. num3.. "-".. num4.. ". Drag the numbers into their correct positions to defuse the bomb. Be careful, one wrong input will make it explode!"
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
@@ -347,12 +347,12 @@ function scene:createScene( event )
 	local screenGroup = self.view
 	endgroup = screenGroup
 	bg = display.newImage("images/numbers/bombbg.png",centerX,centerY)
-	bg:scale(0.6*xscale,0.6*yscale)
+	bg:scale(0.6,0.6)
 	screenGroup:insert(bg)
 
 
-	bomb = display.newImage("images/numbers/bomb.png",centerX,centerY-25*yscale)
-	bomb:scale(0.6*xscale,0.6*yscale)
+	bomb = display.newImage("images/numbers/bomb.png",centerX,centerY-25)
+	bomb:scale(0.6,0.6)
 	screenGroup:insert(bomb)
 
 

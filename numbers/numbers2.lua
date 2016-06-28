@@ -49,16 +49,16 @@ local function incorrect1(n)
 	screenGroup:insert(bubble)
 
 	local instructions = "Oh no! You went to the wrong building and the bomb blew up! Mission failed."
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-	reText = display.newImage("images/Restart.png",display.contentWidth-50*xscale,30*yscale)
+	reText = display.newImage("images/Restart.png",display.contentWidth-50,30)
 	reText:scale(0.4,0.4)
 	reText:addEventListener("tap",restart)
 	screenGroup:insert(reText)
 
-	menu = display.newImage("images/Menu.png",display.contentWidth-50*xscale,60*yscale)
+	menu = display.newImage("images/Menu.png",display.contentWidth-50,60)
 	menu:scale(0.4,0.4)
 	menu:addEventListener("tap",goToMenu)
 	screenGroup:insert(menu)
@@ -73,7 +73,7 @@ local function incorrect(n)
 	screenGroup:insert(explosion)
 
 	local function boom()
-		explosion:scale(1.15*xscale,1.15*xscale)
+		explosion:scale(1.15,1.15)
 	end
 
 	timer1 = timer.performWithDelay(50,boom,20)
@@ -169,8 +169,8 @@ local function showAnswers(n)
 	end	
 
 	--A
-	asign = display.newImage("images/numbers/sign.png",centerX+b[1]*xscale,85*yscale)
-	asign:scale(0.4*xscale,0.3*yscale)
+	asign = display.newImage("images/numbers/sign.png",centerX+b[1],85)
+	asign:scale(0.4,0.3)
 	local function  myFunction()
 		if answerGiven==false then
 			correct(screenGroup)
@@ -181,13 +181,13 @@ local function showAnswers(n)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(answer,centerX+b[1]*xscale,85*yscale,native.systemFont,16)
+	atext = display.newText(answer,centerX+b[1],85,native.systemFont,16)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
 	--B
-	bsign = display.newImage("images/numbers/sign.png",centerX+b[2]*xscale,85*yscale)
-	bsign:scale(0.4*xscale,0.3*yscale)
+	bsign = display.newImage("images/numbers/sign.png",centerX+b[2],85)
+	bsign:scale(0.4,0.3)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -197,13 +197,13 @@ local function showAnswers(n)
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(opt1,centerX+b[2]*xscale,85*yscale,native.systemFont,16)
+	btext = display.newText(opt1,centerX+b[2],85,native.systemFont,16)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
 	--C 
-	csign = display.newImage("images/numbers/sign.png",centerX+b[3]*xscale,85*yscale)
-	csign:scale(0.4*xscale,0.3*yscale)
+	csign = display.newImage("images/numbers/sign.png",centerX+b[3],85)
+	csign:scale(0.4,0.3)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -213,13 +213,13 @@ local function showAnswers(n)
 	csign:addEventListener("tap",myFunction)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(opt2,centerX+b[3]*xscale,85*yscale,native.systemFont,16)
+	ctext = display.newText(opt2,centerX+b[3],85,native.systemFont,16)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
 	--D
-	dsign = display.newImage("images/numbers/sign.png",centerX+b[4]*xscale,85*yscale)
-	dsign:scale(0.4*xscale,0.3*yscale)
+	dsign = display.newImage("images/numbers/sign.png",centerX+b[4],85)
+	dsign:scale(0.4,0.3)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -229,17 +229,17 @@ local function showAnswers(n)
 	dsign:addEventListener("tap",myFunction)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(opt3,centerX+b[4]*xscale,85*yscale,native.systemFont,16)
+	dtext = display.newText(opt3,centerX+b[4],85,native.systemFont,16)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
 	
-	bubble = display.newImage("images/bubble.png", centerX,centerY+90*yscale)
-	bubble:scale(0.74*xscale,0.43*yscale)
+	bubble = display.newImage("images/bubble.png", centerX,centerY+90)
+	bubble:scale(0.74,0.43)
 	screenGroup:insert(bubble)
 
 	local instructions = "The bomb is on this street in building ".. answernum.. ". Go to that building and defuse the bomb."
-	myText = display.newText(instructions, centerX, centerY+140*yscale,400*xscale,200*yscale, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
@@ -251,7 +251,7 @@ end
 function scene:createScene( event )
 	local screenGroup = self.view
 	bg = display.newImage("images/numbers/streetmap.png",centerX,centerY)
-	bg:scale(0.6*xscale,0.6*yscale)
+	bg:scale(0.6,0.6)
 	screenGroup:insert(bg)
 
 	answerGiven = false
