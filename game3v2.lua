@@ -220,11 +220,15 @@ end
 -- Also to 'zero' the correct answer integer, and answering times.
 function clearQuestion()
     --Question Text
-    questionText:removeSelf()
+    --questionText:removeSelf()
+    display.remove(questionText)
     --Images
-    Ans1Image:removeSelf()
-    Ans2Image:removeSelf()
-    Ans3Image:removeSelf()
+    --Ans1Image:removeSelf()
+    --Ans2Image:removeSelf()
+    --Ans3Image:removeSelf()
+    display.remove(Ans1Image)
+    display.remove(Ans2Image)
+    display.remove(Ans3Image)
     --Reset Answer
     correctAns = 0
     --Reset Times
@@ -241,11 +245,11 @@ end
 --Function to update the player's score.
 function updateScore(isCorrect,time,combo)
 	--    SCORE CHART
-	--<1/4 sec = 100pts
-	--<1/2 sec =  50pts
-	--< 1  sec =  25pts
-	--< 2  sec =  20pts
-	-->=2  sec =  10pts
+	--<1/2 sec = 100pts
+	--< 1 sec =  50pts
+	--< 2  sec =  25pts
+	--< 5  sec =  20pts
+	-->=5  sec =  10pts
 	--Note: Scores above are multiplied by a factor of
 	--      how many combos of 5 correct answers they 
 	--      have, up to a maximum of 5x multiplier
@@ -279,13 +283,13 @@ function updateScore(isCorrect,time,combo)
 	--If Correct Answer
 	if isCorrect then
 		--Based on their time
-		if time<250 then
+		if time<500 then
 			newScore=newScore+(100*newCombo)
-		elseif time<500 then
-			newScore=newScore+(50*newCombo)
 		elseif time<1000 then
-			newScore=newScore+(25*newCombo)
+			newScore=newScore+(50*newCombo)
 		elseif time<2000 then
+			newScore=newScore+(25*newCombo)
+		elseif time<5000 then
 			newScore=newScore+(20*newCombo)
 		else
 			newScore=newScore+(10*newCombo)
@@ -302,7 +306,8 @@ function updateScore(isCorrect,time,combo)
 	--Set 'score'
 	score=newScore
 	--Change scoreText
-	scoreText:removeSelf()
+	--scoreText:removeSelf()
+    display.remove(scoreText)
 	scoreText = display.newText(""..score, scoreTextX, scoreTextY, "Arial", 30)
 	scoreText:setFillColor(0,0,1)	
 

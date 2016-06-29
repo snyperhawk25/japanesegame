@@ -23,7 +23,7 @@ local myData = require("mydata")
 local score=0
 local questionCounter=0
 local questionsStartIndex = 1 --Default: Medium
-local questionsEndIndex = table.getn(myData.custom.Medium) --Default: Medium
+local questionsEndIndex = table.getn(myData.custom.All) --Default: All
 local orderOfQuestions={}
 
 local scoreText
@@ -49,19 +49,16 @@ local audioClick = audio.loadSound("audio/click1.wav")
 --Centers
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
-print("\nCoordinates:")
-print("CenterX: "..centerX.."\nCenterY: "..centerY)
-print("Display Actual Width: "..display.actualContentWidth.."\nDisplay Actual Height: "..display.actualContentHeight)
-print("ContentWidth: "..display.contentWidth.."\nContentHeight: "..display.contentHeight)
+--print("\nCoordinates:")
+--print("CenterX: "..centerX.."\nCenterY: "..centerY)
+--print("Display Actual Width: "..display.actualContentWidth.."\nDisplay Actual Height: "..display.actualContentHeight)
+--print("ContentWidth: "..display.contentWidth.."\nContentHeight: "..display.contentHeight)
 ----------------------------------------
 --COORDINATES
 ----------------------------------------
 
 local questionTextX = 240
 local questionTextY = 30
---local questionBubbleX = 240
---local questionBubbleY = 30
-
 local scoreTextX = centerX+2
 local scoreTextY = 240
 
@@ -92,7 +89,7 @@ function clearQuestion()
     display.remove(downArrow)
     
 
-    --Clear buttons --need?
+    --Clear buttons --need??
     Ans1Button:removeSelf()
     Ans2Button:removeSelf()
     Ans3Button:removeSelf()
@@ -163,13 +160,13 @@ function generateQuestion()
     end    
     print("orderOfQuestions["..((questionCounter % (questionsEndIndex-questionsStartIndex+1))+1).."];")
     local num = orderOfQuestions[(questionCounter%(questionsEndIndex-questionsStartIndex+1))+1]
-    print("myData.custom.Medium; Question Index: "..num..".")
+    print("myData.custom.All; Question Index: "..num..".")
 
     --Assign question answers
-    q1=myData.custom.Medium[num][3]
-    q2=myData.custom.Medium[num][4]
-    q3=myData.custom.Medium[num][5]
-    q4=myData.custom.Medium[num][6]
+    q1=myData.custom.All[num][3]
+    q2=myData.custom.All[num][4]
+    q3=myData.custom.All[num][5]
+    q4=myData.custom.All[num][6]
     
     --Shuffle/REassign Coordinates
     --local coordinateOrder = {}
@@ -190,11 +187,11 @@ function generateQuestion()
     --NEW:: AND ~ 128 characters of space in the 375x100 space.
     local scrollWidthSize = 375
     local scrollHeightSize = 100 --defualt value
-    --scrollHeightSize = math.ceil((string.len(myData.custom.Medium[num][2])*12)/scrollWidthSize)*20 
+    --scrollHeightSize = math.ceil((string.len(myData.custom.All[num][2])*12)/scrollWidthSize)*20 
     --print("scrollHeightSize: "..scrollHeightSize..".")
 
     --Condition for Down Arrow
-    qlen=string.len(myData.custom.Medium[num][2])
+    qlen=string.len(myData.custom.All[num][2])
     if qlen>128 then
         --Alert
         print("Exceded 128 characters (375x128 worth). Adding Down Arrow.")
@@ -215,7 +212,7 @@ function generateQuestion()
     end
 
     local textOptions = {
-        text = myData.custom.Medium[num][2],
+        text = myData.custom.All[num][2],
         x = 10,
         y = 5,
         width = scrollWidthSize-(scrollHeightSize*0.1), --width is only 90% of scrollWidth size
@@ -304,7 +301,7 @@ function generateQuestion()
         font = native.systemFont,
         cornerRadius = 4,
         labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ fillR,fillG,fillB }, over={ fillR,fillG,fillB } },
+        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
         onPress = Ans2BoxListener
@@ -323,7 +320,7 @@ function generateQuestion()
         font = native.systemFont,
         cornerRadius = 4,
         labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ fillR,fillG,fillB }, over={ fillR,fillG,fillB } },
+        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
         onPress = Ans3BoxListener
@@ -342,7 +339,7 @@ function generateQuestion()
         font = native.systemFont,
         cornerRadius = 4,
         labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ fillR,fillG,fillB }, over={ fillR,fillG,fillB } },
+        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
         onPress = Ans4BoxListener
@@ -354,7 +351,7 @@ function generateQuestion()
 
 
     --Set correct answer
-    correctAns = myData.custom.Medium[num][7]
+    correctAns = myData.custom.All[num][7]
     
     --Increment question counter
     questionCounter=questionCounter+1
