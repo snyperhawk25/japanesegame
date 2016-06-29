@@ -406,8 +406,6 @@ end
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
 	resetObjects()
-	--Dispose Audio
-	audio.dispose(audioClick)
 end
 
 

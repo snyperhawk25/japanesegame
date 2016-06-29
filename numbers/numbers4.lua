@@ -302,8 +302,7 @@ end
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	--Dispose Audion
-	audio.dispose(audioClick)
+	
 end
 
 
