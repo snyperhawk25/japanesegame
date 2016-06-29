@@ -29,6 +29,7 @@ local orderOfQuestions={}
 local scoreText
 local enemy
 local player
+local isMale=false 
 local menu
 local heart1,heart2,heart3
 local questionBubble, questionText
@@ -59,7 +60,7 @@ local questionTextY = 30
 local questionBubbleX = 240
 local questionBubbleY = 30
 
-local playerX = 40
+local playerX = 55
 local playerY = 140
 local playerScale = 0.35
 
@@ -74,10 +75,10 @@ local audioBoxScale = 0.4
 local scoreTextX = centerX
 local scoreTextY = 75
 
-local menuX = 465
+local menuX = 460
 local menuY = 30
 
-local heartX = -10
+local heartX = 5 -- -10
 local heartY = 130
 local heartScale = 0.25
 local heartOffset = 30
@@ -106,9 +107,33 @@ local function drawPlayer()
     if player ~= nil then
         player:removeSelf()
     end
+    
     --Draw Player 
-    player = display.newImage("art/Game1/mcanada.png",playerX,playerY)
+    --Reaction Images based on Lives 
+    if lives == 3 then
+        if isMale then 
+            player = display.newImage("art/Game1/mhappy.png",playerX,playerY)
+        else
+            player = display.newImage("art/Game1/femhappy.png",playerX,playerY)
+        end
+    end
+    if lives == 2 then 
+        if isMale then 
+            player = display.newImage("art/Game1/mneutral.png",playerX,playerY)
+        else
+            player = display.newImage("art/Game1/femneutral.png",playerX,playerY)
+        end
+    end
+    if lives == 1 then
+        if isMale then 
+            player = display.newImage("art/Game1/mscared.png",playerX,playerY)
+        else
+            player = display.newImage("art/Game1/femscared.png",playerX,playerY)
+        end
+    end
+    --Scale Image
     player:scale(playerScale,playerScale)
+
 end
 
 --Function to draw/animate the Enemy image at the Enemy coordinates (enemyX,enemyY)
@@ -284,8 +309,9 @@ function evaluateAnswer()
         print("Wrong Answer")
         --Decrement Lives
         lives = lives - 1
-        --Draw Enemy and Update Hearts
+        --Draw Enemy, Player and Update Hearts
         drawEnemy()
+        drawPlayer() --//!@#
         updateHearts()
     end
     
@@ -345,6 +371,14 @@ end
 function Game2()
     --Start by setting 'lives' to 3.
     lives = 3
+    --And picking isMale
+    if (math.random(2)-1)==0 then
+        isMale = true
+    else
+        isMale = false
+    end
+    print(isMale)
+    print("the isMale value is above.")
     --Randomize Seed
     math.randomseed(os.time())
 
@@ -354,13 +388,16 @@ function Game2()
     questionBubble:scale(0.5,0.18)
     --Menu Button
     menu = display.newImage("images/Menu.png",menuX,menuY)
-    menu:scale(0.45,0.45)
+    menu:scale(0.40,0.40)
     menu:addEventListener("tap", goToMenu) 
+    
     --Draw Player and Enemy.
     drawPlayer()
     drawEnemy()
+    
     --Set Hearts and Lives Text.
     updateHearts()
+    
     --Score Text
     scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
     scoreText:setFillColor(0,1,0)
