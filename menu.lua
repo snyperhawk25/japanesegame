@@ -25,7 +25,10 @@ local miniFont = 14
 
 local webLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal Page
 --local webLink = "http://fccs.ok.ubc.ca/programs/other/japanese.html" --UBCO FCCS Japanese Studies Page
+
 local audioClick = audio.loadSound("audio/click1.wav")
+local menuMusic = audio.loadSound("audio/KissaVocabMenuMusic.mp3")
+
 local transitionOptions = {
 	effect="fade",
 	time=500
@@ -33,6 +36,8 @@ local transitionOptions = {
 
 --Function to delay the removal of the scene, smoothing out the transition between scenes
 local function delayedSceneRemoval()
+	--Stop Music
+	audio.fadeOut({time=500})
 	local function removeSceneListener(event)
 		storyboard.removeScene("menu")
 	end
@@ -260,6 +265,8 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
+	--MUSIC
+	audio.play(menuMusic)
 end
 
 

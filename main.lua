@@ -7,7 +7,8 @@
 -- show default status bar (iOS)
 require "dbFile" --where all the db commands come from
 
-audio.setSessionProperty(audio.MixMode, audio.AmbientMixMode)  --allows device audio to continue uninterrupted 
+--audio.setSessionProperty(audio.MixMode, audio.AmbientMixMode)  --allows device audio to continue uninterrupted 
+audio.setVolume(1.0)
 display.setStatusBar( display.HiddenStatusBar )  --hides the status bar on the top of the device
 
 
