@@ -27,9 +27,9 @@ local toggle1 = false
 local toggle2 = false
 local toogle3 = false
 local toggle4 = false
----------------------------------------------------------------------------------
--- BEGINNING OF YOUR IMPLEMENTATION
----------------------------------------------------------------------------------
+
+local audioClick = audio.loadSound("audio/click1.wav")
+audio.setVolume(1.0)
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
@@ -98,6 +98,8 @@ end
 local function incorrect(n)
 	local screenGroup = n
 	
+	audio.play(audioClick)
+
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
 	explosion:scale(0.2,0.2)
 	screenGroup:insert(explosion)
@@ -169,6 +171,7 @@ local function checkEnd(focus)
 			--b TESTPRINT
 			print("You Did It! All four toggles are ture")
 			
+
 			--Paramenters for Score Page
 			local gameOverOptions = {
 		        effect = "fade",
@@ -403,6 +406,8 @@ end
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
 	resetObjects()
+	--Dispose Audio
+	audio.dispose(audioClick)
 end
 
 

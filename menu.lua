@@ -28,6 +28,7 @@ local webLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal 
 
 local audioClick = audio.loadSound("audio/click1.wav")
 local menuMusic = audio.loadSound("audio/KissaVocabMenuMusic.mp3")
+audio.setVolume(1.0)
 
 local transitionOptions = {
 	effect="fade",
@@ -68,7 +69,7 @@ end
 local function goToNum()
 	audio.play(audioClick)
 	storyboard.gotoScene("numbers.numbers1",transitionOptions)
-	storyboard.removeScene("menu")
+	delayedSceneRemoval()
 end
 
 --Link to website
@@ -103,7 +104,7 @@ function scene:createScene( event )
 	titleBackground.anchorY=0.0
 	screenGroup:insert(titleBackground)
 
-	title = display.newText("KissaVocab, The Vocab Café",centerX, 30, native.systemFontBold, 38)
+	title = display.newText("KissaVocab, The Vocab Café",centerX, 30, native.systemFontBold, 35)
 	title:setFillColor(1)	
 	screenGroup:insert(title)
 
@@ -266,7 +267,9 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	--MUSIC
-	audio.play(menuMusic)
+	print("playing music")
+	audio.setVolume(1.0)
+	audio.play(menuMusic, {loops = -1, fadein = 250})
 end
 
 
@@ -277,7 +280,9 @@ end
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	
+	--Dispose audio
+	audio.dispose(audioClick)
+	audio.dispose(menuMusic)
 end
 
 

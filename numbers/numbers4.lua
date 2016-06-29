@@ -21,9 +21,9 @@ local num4
 local myText
 local bubble
 local answerGiven
----------------------------------------------------------------------------------
--- BEGINNING OF YOUR IMPLEMENTATION
----------------------------------------------------------------------------------
+
+local audioClick = audio.loadSound("audio/click1.wav")
+audio.setVolume(1.0)
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
@@ -68,6 +68,8 @@ end
 local function incorrect(n)
 	local screenGroup = n
 	
+	audio.play(audioClick)
+
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
 	explosion:scale(0.2,0.2)
 	screenGroup:insert(explosion)
@@ -86,6 +88,8 @@ local function incorrect(n)
 end 
 
 local function correct(n)
+	audio.play(audioClick)
+
 	storyboard.purgeScene("numbers.numbers4")
 	storyboard.gotoScene("numbers.numbers5","zoomOutInFadeRotate",1000)
 
@@ -298,7 +302,8 @@ end
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	
+	--Dispose Audion
+	audio.dispose(audioClick)
 end
 
 

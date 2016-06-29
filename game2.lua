@@ -45,6 +45,7 @@ local audioBox, audioSample
 local audioCorrect = audio.loadSound("audio/ding1.wav")
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
 local audioClick = audio.loadSound("audio/click1.wav")
+audio.setVolume(1.0)
 --Centers
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
@@ -483,6 +484,7 @@ end
 
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
+    audio.setVolume(1.0)
     --Play Game
     Game2()
 end
@@ -495,7 +497,10 @@ end
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-    
+    --Dispose Audio
+    audio.dispose(audioClick)
+    audio.dispose(audioCorrect)
+    audio.dispose(audioIncorrect)
 end
 
 
