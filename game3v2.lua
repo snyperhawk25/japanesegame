@@ -435,13 +435,11 @@ function gameOver()
         effect = "fade",
         time = 500,
         params = {
-            --var1 = "test",
             retryScene = "game3v2",
             gameName = "Food Vocab",
             finalScore = performanceScore,
             finalScoreUnit = "Points",
-            finalDescription = "You earned "..performanceScore.." points, for scoring "..winState.." in "..questionCounter.." question!",
-            var2 = "hi",
+            finalDescription = "You earned "..performanceScore.." points, for reaching "..winState.." in "..questionCounter.." question!",
             --app 42 info
             app42GameName = "Food_Vocab"
         }

@@ -102,15 +102,17 @@ function scene:createScene( event )
 
 	app42GameName = event.params.app42GameName
 	
-	--Confirm Print
-	if reloadScene==nil then
-		print("reloadScene was nil")
-	end
-	print("______gameOverOptions Readout:\nName Of Game: "..nameOfGame..".\nFinal Score: "..finalScore..".\nFinal Score Unit: "..finalScoreUnit..".\nFinal Description: "..finalDescription..".\nReload Scene: "..reloadScene..".\n_______END")
+	--Do NOT Submit "TimeIsNumbered"  Scores to App42
+	if nameOfGame~="TimeIsNumbered" then
+		--Console Print
+		if reloadScene==nil then
+			print("reloadScene was nil")
+		end
+		print("______gameOverOptions Readout:\nName Of Game: "..nameOfGame..".\nFinal Score: "..finalScore..".\nFinal Score Unit: "..finalScoreUnit..".\nFinal Description: "..finalDescription..".\nReload Scene: "..reloadScene..".\n_______END")
 
-	--Submit Score to App42
-	saveUserScore(app42GameName, myData.App42Username, finalScore)
-	
+		--Submit Score to App42
+		saveUserScore(app42GameName, myData.App42Username, finalScore)
+	end
 
 	--Draw Background image (rotated and fliped horizontally)
 	bg = display.newImage("images/bg.png", centerX,centerY+30) --yscale
@@ -181,7 +183,7 @@ function scene:enterScene( event )
 
 	--Bubble
 	bubble = display.newImage("images/bubble.png", bubbleX,bubbleY)
-    bubble:scale(0.6,0.40)  --0.6,0.35
+    bubble:scale(0.6,0.35)  --0.6,0.35
     screenGroup:insert(bubble)
 
 	--FinalScoreText "[Game] Score Is:"
@@ -189,17 +191,26 @@ function scene:enterScene( event )
 		nameOfGame="[Name Error]"
 	end
 	local text = ""..nameOfGame.." Final Score:"
-	finalScoreText = display.newText(text, finalScoreTextX, finalScoreTextY, native.systemFontBold, 45 ) --26 and not bold
+	finalScoreText = display.newText(text, finalScoreTextX, finalScoreTextY, native.systemFontBold, 35 ) --26 and not bold
 	finalScoreText:setFillColor(0.1,1,0.1) --green
 	screenGroup:insert(finalScoreText)
 
 	--Final Score and Unit "3 Correct"
-	playerScoreText = display.newText(finalScore.." "..finalScoreUnit, playerScoreTextX,playerScoreTextY, native.systemFontBold, 60)
+	playerScoreText = display.newText(finalScore.." "..finalScoreUnit, playerScoreTextX,playerScoreTextY, native.systemFontBold, 46)
 	playerScoreText:setFillColor(0)
 	screenGroup:insert(playerScoreText)
 
-	--Description
-	gameDescription = display.newText(finalDescription, centerX, centerY+55, native.systemFont, 20) --yscale and 18 and 75
+	--(Multiline) Description
+	local descriptionOptions = {
+		text = finalDescription,
+		x = centerX,
+		y = centerY+75,
+		width = 450,
+		height = 100,
+		fontSize = 20,
+		align = "left"
+	}	
+	gameDescription = display.newText(descriptionOptions)
 	gameDescription:setFillColor(1)
 	screenGroup:insert(gameDescription)
 end

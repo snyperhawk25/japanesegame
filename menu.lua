@@ -98,7 +98,7 @@ function scene:createScene( event )
 	titleBackground.anchorY=0.0
 	screenGroup:insert(titleBackground)
 
-	title = display.newText("KissaVocab, The Vocab Café",centerX, 30, native.systemFontBold, 40)
+	title = display.newText("KissaVocab, The Vocab Café",centerX, 30, native.systemFontBold, 38)
 	title:setFillColor(1)	
 	screenGroup:insert(title)
 

@@ -39,17 +39,26 @@ local function goToMenu()
     storyboard.removeScene("numbers.numbers6")
 end
 
+--Function to delay this scene's removal.
+local function delayedSceneRemoval()
+    local function removeSceneListener(event)
+        storyboard.removeScene("numbers6")
+    end
+    timer.performWithDelay(500, removeSceneListener)
+end
+
 local function restart()
 	storyboard.purgeScene("numbers.numbers6")
 	storyboard.gotoScene("numbers.numbers1")
 end
 
-local function goToScorePage()
-	print("\nGoing to score page\n")
-	storyboard.purgeScene("numbers.numbers6")
-	storyboard.removeScene("numbers.numbers6")
-	storyboard.gotoScene("numbers.numbersScorePage","zoomOutInFadeRotate",1000)
-end
+--DEPRICATED
+--local function goToScorePage()
+--	print("\nGoing to score page\n")
+--	storyboard.purgeScene("numbers.numbers6")
+--	storyboard.removeScene("numbers.numbers6")
+--	storyboard.gotoScene("numbers.numbersScorePage","zoomOutInFadeRotate",1000)
+--end
 
 local function correct(n)
 	local screenGroup = n
@@ -159,8 +168,27 @@ local function checkEnd(focus)
 		if toggle1 and toggle2 and toggle3 and toggle4 then
 			--b TESTPRINT
 			print("You Did It! All four toggles are ture")
-			--Once complete, go to the score page after timer
-			goToScorePage()
+			
+			--Paramenters for Score Page
+			local gameOverOptions = {
+		        effect = "fade",
+		        time = 500,
+		        params = {
+		            --var1 = "test",
+		            retryScene = "numbers1", --Should go back to Numbers1 Scene??
+		            gameName = "Time Is Numbered",
+		            finalScore = 100,
+		            finalScoreUnit = "%",
+		            finalDescription = "You managed to defuse the bomb and save the day. Well done!",
+		            --app 42 info
+		            app42GameName = "TimeIsNumbered"
+		        }
+		    }
+
+		    --Change Scenes and Delay Removal
+		    storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
+		    delayedSceneRemoval()
+
 		end
   	end
 end
