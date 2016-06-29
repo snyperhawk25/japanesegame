@@ -35,8 +35,8 @@ function scene:createScene( event )
 	--bg:scale(0.6*xscale,0.6*yscale)
 	screenGroup:insert(bg)
 
-	--Play Welcome Audio (//!@#uncomment when done)
-	--audio.play(audioWelcome)
+	--Play Welcome Audio 
+	audio.play(audioWelcome)
 
 	
 end

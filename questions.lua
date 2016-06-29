@@ -38,7 +38,7 @@ question[1].t1 = "door"
 question[1].t2 = "book"
 question[1].t3 = "bag"
 question[1].ans = 2
-question[1].audio = "audio/hon.ogg"
+question[1].audio = "audio/hon.wav"
  
  -- clock
 question[2] = {}
@@ -52,7 +52,7 @@ question[2].t1 = "window"
 question[2].t2 = "clock"
 question[2].t3 = "book"
 question[2].ans = 2
-question[2].audio = "audio/tokei.ogg"
+question[2].audio = "audio/tokei.wav"
  
  -- door
 question[3] = {}
@@ -183,7 +183,7 @@ question[11].t1 = "fish"
 question[11].t2 = "coffee"
 question[11].t3 = "hamburger"
 question[11].ans = 2
-question[11].audio = "audio/kohi.ogg"
+question[11].audio = "audio/kohi.wav"
  
  -- fish
 question[12] = {}
@@ -197,7 +197,7 @@ question[12].t1 = "water"
 question[12].t2 = "coffee"
 question[12].t3 = "fish"
 question[12].ans = 3
-question[12].audio = "audio/fish.ogg"
+question[12].audio = "audio/fish.wav"
 
  -- hamburger
 question[13] = {}
@@ -211,7 +211,7 @@ question[13].t1 = "hamburger"
 question[13].t2 = "coffee"
 question[13].t3 = "meat"
 question[13].ans = 1
-question[13].audio = "audio/hanbaga.ogg"
+question[13].audio = "audio/hanbaga.wav"
 
  -- meat
 question[14] = {}
@@ -225,7 +225,7 @@ question[14].t1 = "coffee"
 question[14].t2 = "meat"
 question[14].t3 = "rice"
 question[14].ans = 2
-question[14].audio = "audio/meat.ogg"
+question[14].audio = "audio/meat.wav"
 
  -- noodles
 question[15] = {}
@@ -239,7 +239,7 @@ question[15].t1 = "noodles"
 question[15].t2 = "meat"
 question[15].t3 = "bread"
 question[15].ans = 1
-question[15].audio = "audio/ramen.ogg"
+question[15].audio = "audio/ramen.wav"
 
  -- rice
 question[16] = {}
@@ -253,7 +253,7 @@ question[16].t1 = "water"
 question[16].t2 = "tea"
 question[16].t3 = "rice"
 question[16].ans = 3
-question[16].audio = "audio/rice.ogg"
+question[16].audio = "audio/rice.wav"
 
  -- salad
 question[17] = {}
@@ -267,7 +267,7 @@ question[17].t1 = "noodles"
 question[17].t2 = "salad"
 question[17].t3 = "coffee"
 question[17].ans = 2
-question[17].audio = "audio/ramen.ogg" -- No audio for Sarada was given, currently using Ramen in its place!
+question[17].audio = "audio/ramen.wav" -- No audio for Sarada was given, currently using Ramen in its place!
 
  -- tea
 question[18] = {}
@@ -281,7 +281,7 @@ question[18].t1 = "rice"
 question[18].t2 = "coffee"
 question[18].t3 = "tea"
 question[18].ans = 3
-question[18].audio = "audio/ocha.ogg" 
+question[18].audio = "audio/ocha.wav" 
 
  -- vegetables
 question[19] = {}
@@ -295,7 +295,7 @@ question[19].t1 = "vegetables"
 question[19].t2 = "water"
 question[19].t3 = "tea"
 question[19].ans = 1
-question[19].audio = "audio/yasai.ogg"
+question[19].audio = "audio/yasai.wav"
 
  -- water
 question[20] = {}
@@ -309,7 +309,7 @@ question[20].t1 = "bread"
 question[20].t2 = "coffee"
 question[20].t3 = "water"
 question[20].ans = 3
-question[20].audio = "audio/mizu.ogg"
+question[20].audio = "audio/mizu.wav"
 
  -- bread
 question[21] = {}
@@ -323,7 +323,7 @@ question[21].t1 = "bread"
 question[21].t2 = "coffee"
 question[21].t3 = "rice"
 question[21].ans = 1
-question[21].audio = "audio/pan.ogg"
+question[21].audio = "audio/pan.wav"
 
  -- lamian -- I don't know what this is and don't have a translation of it
  --[[
