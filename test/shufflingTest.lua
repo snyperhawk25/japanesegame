@@ -10,6 +10,8 @@ local centerY = display.contentCenterY
 local myArray1={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30}
 local myArray2
 
+--Reset Seed
+math.randomseed(os.time())
 
 --Function to shuffle arry by Fisher-Yates "inside out". **1-Indexed, the lua standard**
 function fisherYates(arr)
@@ -168,7 +170,6 @@ function scene:enterScene( event )
 	--fisherYates(myArray2)
 	--printArray(myArray2)
 
-	math.randomseed(os.time())
 	--myArray2=fisherYatesNumbers(24,39)
 	myArray2=fisherYatesNumbers(4,7,{4,7,5,6})
 	printArray(myArray2)
