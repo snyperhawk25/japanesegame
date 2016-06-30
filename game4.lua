@@ -15,6 +15,11 @@ require("test.shufflingTest")
 local widget = require("widget")
 local myData = require("mydata")
 
+--For Submit Score
+local App42API = require("App42-Lua-API.App42API")
+local tools=require("app42.App42Tools") --this is for App42:Initialize
+local scoreBoardService = App42API.buildScoreBoardService()   --For Leaderboard
+
 
 -----------------------------------------
 --SCENE VARIABLES
@@ -22,17 +27,19 @@ local myData = require("mydata")
 
 local score=0
 local questionCounter=0
-local questionsStartIndex = 1 --Default: Medium
+local questionsStartIndex = 1 
 local questionsEndIndex = table.getn(myData.custom.All) --Default: All
 local orderOfQuestions={}
 
 local scoreText
 local menu
---local questionBubble
+
 local scrollView, questionText = "This is a question"
 local downArrow
---local distanceDown=-100
 local Ans1Button, Ans2Button, Ans3Button, Ans4Button
+local submitButton
+local submitText
+local hasSubmitted=false
 local lives
 local correctAns
 local chosenAns
@@ -113,6 +120,31 @@ local function downArrowListener(event)
     print("Down Arrow Pressed. Scrolling Down")
     scrollView:scrollTo("bottom",{time=6000} )
 end  
+
+--Submit Listener
+local function submitListener(event)
+    --If the listener has not been pressed before, submit. Else ignore.
+    if hasSubmitted==false then
+        app42ScoreCallBack = {}
+        scoreBoardService:saveUserScore("Dynamic_Vocab", myData.App42Username, score,app42ScoreCallBack)
+        --If Successful, change button colour/text, and boolean  
+        function app42ScoreCallBack:onSuccess(object)
+            print("      -Score Saved: Value="..object:getScoreList():getValue()..";")
+            submitButton:setFillColor(0,0,1)
+            submitText:removeSelf() --?
+            submitText = display.newText("Submitted "..object:getScoreList():getValue(), 450,80, native.systemFont,11)
+            hasSubmitted=true
+        end
+        function app42ScoreCallBack:onException(exception)
+            print("      -Score "..scoreValue.." NOT Saved correctly.")
+        end
+    else
+        print("A previous submission was recorded, so this submission will be ignored.")
+        submitButton:setFillColor(1,0,0)
+            submitText:removeSelf() --?
+            submitText = display.newText("No Duplicates", 450,80, native.systemFont,11)
+    end
+end
 
 -- ScrollView listener
 local function scrollViewListener( event )
@@ -199,15 +231,18 @@ function generateQuestion()
         --Update distanceDown
         --distanceDown = (math.floor(qlen/31))*(-20)
         --print("Distance To Scroll Down: "..distanceDown)
-        downArrow = display.newPolygon(400,90,
-            {0,0,
-            0,20,
-            -10,20,
-            5,30,
-            20,20,
-            10,20,
-            10,0}
-        )
+        downArrow = display.newPolygon(centerX,140,
+            {
+            0,0,
+            -10,0,
+            -10,30,
+            -20,30,
+            0,50,
+            20,30,
+            10,30,
+            10,0
+            }
+        ) --400,80
         downArrow:setFillColor(1,0,0)
         downArrow:addEventListener("tap",downArrowListener)
     end
@@ -265,7 +300,6 @@ function generateQuestion()
 
 -----------------------------------------------------------------------------
 
---Add in the buttons now that we know what the scroll size is
 
 --Define Fill Colours (teal-blue)
     local fillR = 0.4
@@ -367,7 +401,7 @@ function evaluateAnswer()
         --Increment Score
         score=score+1
         scoreText:removeSelf()
-        scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
+        scoreText= display.newText(""..score, scoreTextX, scoreTextY, native.systemFont, 35)
         scoreText:setFillColor(0,1,0)
     else
         --Print/Sound Incorrect
@@ -411,6 +445,9 @@ local function removeAllDisplayObjects()
     
     display.remove(menu)
     display.remove(scoreText)
+
+    display.remove(submitButton)
+    display.remove(submitText)
 end
 
 --Function to return to the Main Menu (menu.lua)
@@ -440,6 +477,14 @@ function Game4()
     menu:scale(0.45,0.45)
     menu:addEventListener("tap", goToMenu) 
     
+    --Sumbit Score Button
+    submitButton = display.newRoundedRect(450,80,80,40,3)
+    submitButton.strokeWidth = 3
+    submitButton:setFillColor(0.1,0.9,0.3, 0.8)
+    submitButton:setStrokeColor(0,0,0)
+    submitButton:addEventListener("tap",submitListener)
+    submitText = display.newText("Submit Score", 450,80, native.systemFont,11)
+
     --Score Text
     scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
     scoreText:setFillColor(0,1,0)
@@ -462,6 +507,8 @@ function gameOver()
     Ans3Button:removeEventListener("tap", Ans3Button)
     Ans4Button:removeEventListener("tap", Ans4Button)
     scrollView:removeEventListener("tap", scrollView)
+    submitButton:removeEventListener("tap",submitButton)
+
     --down arrow listener removal needed??
     removeAllDisplayObjects()
 
@@ -547,9 +594,11 @@ end
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
     local screenGroup = self.view
-    --Load background image
-    bg = display.newImage("images/numbers/sign.png", centerX,centerY+30) --"images/bg.png"
-    bg:scale(1.6,2.5)
+
+    --Draw Background image (rotated and fliped horizontally)
+    bg = display.newImage("images/bg.png", centerX,centerY+30) --yscale
+    bg:rotate(180)
+    bg.xScale=-1
     screenGroup:insert(bg)
     
 end
