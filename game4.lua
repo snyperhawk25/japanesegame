@@ -388,8 +388,17 @@ function generateQuestion()
     --Set correct answer
     correctAns = myData.custom.All[num][7]
     
-    --Increment question counter
+    --Increment question counter, print countText
     questionCounter=questionCounter+1
+    if countText ~= nil then
+        countText:removeSelf()
+    end
+    if questionCounter > questionsEndIndex then
+        countText = display.newText("Questions Seen: "..questionsEndIndex.." / "..questionsEndIndex, 70, 120, native.systemFontBold, 13)
+    else
+        countText = display.newText("Questions Seen: "..questionCounter.." / "..questionsEndIndex, 70, 120, native.systemFontBold, 13)
+    end
+    countText:setFillColor(1,1,1)
 end
 
 --Function to evaluate the player-selected answer
@@ -445,6 +454,7 @@ local function removeAllDisplayObjects()
     
     display.remove(menu)
     display.remove(scoreText)
+    display.remove(countText)
 
     display.remove(submitButton)
     display.remove(submitText)

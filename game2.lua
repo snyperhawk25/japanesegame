@@ -26,7 +26,7 @@ local questionsStartIndex = 1
 local questionsEndIndex = 10
 local orderOfQuestions={}
 
-local scoreText
+local scoreText, countText
 local enemy
 local player
 local isMale=false 
@@ -288,8 +288,16 @@ function generateQuestion()
     audioBox:scale(audioBoxScale,audioBoxScale)
     audioBox:addEventListener("tap", AudioBoxListener)
 
-    --Increment question counter
+    --Increment question counter, print countText
     questionCounter=questionCounter+1
+    if countText ~= nil then
+        countText:removeSelf()
+    end
+    if questionCounter > (questionsEndIndex-questionsStartIndex+1) then
+        countText = display.newText("Questions Seen: "..(questionsEndIndex-questionsStartIndex+1).." / "..(questionsEndIndex-questionsStartIndex+1), 430, scoreTextY-10, native.systemFont, 13)
+    else
+        countText = display.newText("Questions Seen: "..questionCounter.." / "..(questionsEndIndex-questionsStartIndex+1), 430, scoreTextY-10, native.systemFont, 13)
+    end
 end
 
 --Function to evaluate the player-selected answer
@@ -353,6 +361,7 @@ local function removeAllDisplayObjects()
     display.remove(audioBox)
     display.remove(menu)
     display.remove(scoreText)
+    display.remove(countText)
 end
 
 --Function to return to the Main Menu (menu.lua)

@@ -43,7 +43,7 @@ local questionsEndIndex = 21
 local orderOfQuestions = {}
 
 --Display
-local scoreText
+local scoreText, countText, countText2
 local menu
 local customer, chef
 local questionBubble, questionText
@@ -149,6 +149,8 @@ local function removeAllDisplayObjects()
     display.remove(customer)
     display.remove(chef)
     display.remove(scoreText)
+    display.remove(countText)
+    display.remove(countText2)
 end	
 
 --Function to return to the Main Menu (menu.lua)
@@ -193,12 +195,15 @@ local function drawScene()
     chef = display.newImage("art/Game3/chef.png", chefX,chefY)
     chef:scale(chefScale, chefScale)
 
-    --3) Draw Question Bubble
+    --3) Draw Question Bubble and Count Text
     if questionBubble~=nil then
     	questionBubble:removeSelf()
     end
     questionBubble = display.newImage("images/bubble.png", questionBubbleX,questionBubbleY)
     questionBubble:scale(0.5,0.18)
+
+    countText2 = display.newText("Questions Seen:", 30, scoreTextY-20, native.systemFontBold, 13)
+    countText2:setFillColor(0,0,0)
 
     --4) Draw Menu Button
     if menu ~= nil then
@@ -210,7 +215,7 @@ local function drawScene()
 
     --5) Initialize ScoreText
     scoreText = display.newText(""..score, scoreTextX, scoreTextY, "Arial", 30)
-	scoreText:setFillColor(0,1,0)    
+	scoreText:setFillColor(0,0,1)    
 end
 
 
@@ -413,8 +418,17 @@ function generateQuestion()
     audioBox:scale(audioBoxScale,audioBoxScale)
     audioBox:addEventListener("tap", AudioBoxListener)
 
-    --Increment question counter
+    --Increment question counter, print countText
     questionCounter=questionCounter+1
+    if countText ~= nil then
+        countText:removeSelf()
+    end
+    if questionCounter > (questionsEndIndex-questionsStartIndex+1) then
+        countText = display.newText(""..(questionsEndIndex-questionsStartIndex+1).." / "..(questionsEndIndex-questionsStartIndex+1), 30, scoreTextY-5, native.systemFontBold, 13)
+    else
+        countText = display.newText(""..questionCounter.." / "..(questionsEndIndex-questionsStartIndex+1), 30, scoreTextY-5, native.systemFontBold, 13)
+    end
+    countText:setFillColor(0,0,0)
 
     --Register start time
     start=now()
