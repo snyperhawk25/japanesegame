@@ -48,9 +48,12 @@ local centerY = display.contentCenterY
 local function rotate() 
 	--Hour Hand (30 degrees / hour)
 	hour1:rotate(30*ha)
-	--Minute Hand (Only rotate if :30)
+	--If Minute is :30
 	if ma==30 then
+		--Rotate Min Hand to 6
 		minute1:rotate(180)
+		--Rotate Hour Hand 30/2 = 15 degrees for :30 time
+		hour1:rotate(15)
 	end
 end
 
