@@ -31,6 +31,8 @@ local questionsStartIndex = 1
 local questionsEndIndex = table.getn(myData.custom.All) --Default: All
 local orderOfQuestions={}
 
+local countText = nil --check this fix
+
 local scoreText
 local menu
 
