@@ -178,7 +178,7 @@ local function checkEnd(focus)
 		        time = 500,
 		        params = {
 		            --var1 = "test",
-		            retryScene = "numbers1", --Should go back to Numbers1 Scene??
+		            retryScene = "numbers.numbers1",
 		            gameName = "Time Is Numbered",
 		            finalScore = 100,
 		            finalScoreUnit = "%",
@@ -316,47 +316,47 @@ local function showAnswers(n)
 	screenGroup:insert(bl4)
 
 	asign = display.newImage("images/bubble.png",centerX+b[1],85)
-	asign:scale(0.1,0.082)
+	asign:scale(0.125,0.09)
 	asign.dragtext = "a"
 	asign.num = num1
 	asign:addEventListener("touch",drag)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(answer,centerX+b[1],85,native.systemFont,14)
+	atext = display.newText(answer,centerX+b[1],85,native.systemFontBold,13)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
 	bsign = display.newImage("images/bubble.png",centerX+b[2],85)
-	bsign:scale(0.1,0.082)
+	bsign:scale(0.125,0.09)
 	bsign.dragtext = "b"
 	bsign.num = num2
 	bsign:addEventListener("touch",drag)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(opt1,centerX+b[2],85,native.systemFont,14)
+	btext = display.newText(opt1,centerX+b[2],85,native.systemFontBold,13)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
 	csign = display.newImage("images/bubble.png",centerX+b[3],85)
-	csign:scale(0.1,0.082)
+	csign:scale(0.125,0.09)
 	csign.dragtext = "c"
 	csign.num = num3
 	csign:addEventListener("touch",drag)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(opt2,centerX+b[3],85,native.systemFont,14)
+	ctext = display.newText(opt2,centerX+b[3],85,native.systemFontBold,13)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
 	dsign = display.newImage("images/bubble.png",centerX+b[4],85)
-	dsign:scale(0.1,0.082)
+	dsign:scale(0.125,0.09)
 	dsign.dragtext = "d"
 	dsign.num = num4
 	dsign:addEventListener("touch",drag)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(opt3,centerX+b[4],85,native.systemFont,14)
+	dtext = display.newText(opt3,centerX+b[4],85,native.systemFontBold,13)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 

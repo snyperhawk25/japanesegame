@@ -174,7 +174,7 @@ local function showAnswers(n)
 
 	--A
 	asign = display.newImage("images/numbers/sign.png",centerX+b[1],85)
-	asign:scale(0.4,0.3)
+	asign:scale(0.55,0.4)
 	local function  myFunction()
 		if answerGiven==false then
 			correct(screenGroup)
@@ -185,13 +185,13 @@ local function showAnswers(n)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(answer,centerX+b[1],85,native.systemFont,16)
+	atext = display.newText(answer,centerX+b[1],85,native.systemFontBold,14)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
 	--B
 	bsign = display.newImage("images/numbers/sign.png",centerX+b[2],85)
-	bsign:scale(0.4,0.3)
+	bsign:scale(0.55,0.4)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -201,13 +201,13 @@ local function showAnswers(n)
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(opt1,centerX+b[2],85,native.systemFont,16)
+	btext = display.newText(opt1,centerX+b[2],85,native.systemFontBold,14)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
 	--C 
 	csign = display.newImage("images/numbers/sign.png",centerX+b[3],85)
-	csign:scale(0.4,0.3)
+	csign:scale(0.55,0.4)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -217,13 +217,13 @@ local function showAnswers(n)
 	csign:addEventListener("tap",myFunction)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(opt2,centerX+b[3],85,native.systemFont,16)
+	ctext = display.newText(opt2,centerX+b[3],85,native.systemFontBold,14)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
 	--D
 	dsign = display.newImage("images/numbers/sign.png",centerX+b[4],85)
-	dsign:scale(0.4,0.3)
+	dsign:scale(0.55,0.4)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -233,7 +233,7 @@ local function showAnswers(n)
 	dsign:addEventListener("tap",myFunction)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(opt3,centerX+b[4],85,native.systemFont,16)
+	dtext = display.newText(opt3,centerX+b[4],85,native.systemFontBold,14)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 

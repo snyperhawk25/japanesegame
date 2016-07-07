@@ -50,7 +50,7 @@ local function incorrect1(n)
 	screenGroup:insert(bubble)
 
 	local instructions = "Oh no! You went to the wrong room and the bomb blew up! Mission failed."
-	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+180,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
@@ -264,12 +264,12 @@ local function showAnswers(n)
 	end
 
 	--Bubble
-	bubble = display.newImage("images/bubble.png", centerX,centerY+90)
-	bubble:scale(0.74,0.43)
+	bubble = display.newImage("images/bubble.png", centerX,centerY+100)
+	bubble:scale(0.74,0.25)
 	screenGroup:insert(bubble)
 
 	local instructions = "The bomb is in room ".. answernum.. ". Go and defuse the bomb."
-	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+180,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 

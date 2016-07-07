@@ -402,7 +402,7 @@ function generateQuestion()
 
 
     --Add Question Text
-    questionText = display.newText(question[num].qj , questionTextX, questionTextY, "Arial", 24)
+    questionText = display.newText(question[num].qj , questionTextX, questionTextY, native.systemFont, 20)
     questionText:setFillColor(0, 0, 0)
     
     --Set correct answer and correct audio sample

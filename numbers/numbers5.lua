@@ -156,7 +156,7 @@ local function showAnswers(n)
 			buttonbgs[(3*i)+j]:scale(0.14,0.14)
 			
 			screenGroup:insert(buttonbgs[(3*i)+j])
-			buttons[(3*i)+j] = display.newText(syl[90+(3*i+j)][1],50*j,centerY-30-50*i, native.systemFont,20)
+			buttons[(3*i)+j] = display.newText(syl[90+(3*i+j)][1],50*j,centerY-30-50*i, native.systemFontBold,13) --20?
 			buttons[(3*i)+j]:setFillColor(0)
 			screenGroup:insert(buttons[(3*i)+j])
 		end
@@ -183,7 +183,7 @@ local function showAnswers(n)
 	zerobg.x = 100
 	zerobg.y = centerY+20
 	zerobg:scale(0.14,0.14)
-	zerobutton = display.newText(syl[90][1],100,centerY+20,native.systemFont,20) --changed to 20 to refelect 1-9 Button text sizes
+	zerobutton = display.newText(syl[90][1],100,centerY+20,native.systemFontBold,13) --changed to 20 to refelect 1-9 Button text sizes
 	zerobutton:setFillColor(0)
 
 	screenGroup:insert(zerobg)
@@ -236,12 +236,12 @@ local function showAnswers(n)
 
 	--b Bubble
 
-	bubble = display.newImage("images/bubble.png", centerX,centerY+100)
-	bubble:scale(0.74,0.43)
+	bubble = display.newImage("images/bubble.png", centerX,centerY+110)
+	bubble:scale(0.74,0.30)
 	screenGroup:insert(bubble)
 
 	local instructions = "You need to get the defuse code. Call your contact at ".. phonenumber.. " to get the defuse code."
-	myText = display.newText(instructions, centerX, centerY+150,400,200, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+175,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
