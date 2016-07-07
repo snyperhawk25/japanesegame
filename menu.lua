@@ -74,7 +74,8 @@ end
 
 --Link to website
 local function logoLinkListener()
-	print("Options Pressed.\nGoing to external link: "..webLink)
+	-- apprently null print("Options Pressed.\nGoing to external link: "..webLink)
+	print("Options Pressed.\nGoing to external link. ")
 	system.openURL(weblink)
 end
 
