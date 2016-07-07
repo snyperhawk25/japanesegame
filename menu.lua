@@ -23,9 +23,9 @@ local place3 = 200
 local place4 = 250
 local miniFont = 14
 
-local webLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal Page
+--local webLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal Page
 --local webLink = "http://fccs.ok.ubc.ca/programs/other/japanese.html" --UBCO FCCS Japanese Studies Page
-
+local weblink = "https://github.com/snyperhawk25/japanesegame/wiki" --KissaVocab Wikipedia
 local audioClick = audio.loadSound("audio/click1.wav")
 local menuMusic = audio.loadSound("audio/KissaVocabMenuMusic.mp3")
 audio.setVolume(1.0)

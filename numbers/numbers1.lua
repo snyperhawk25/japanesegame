@@ -209,7 +209,7 @@ local function showAnswers(screenGroup)
 	screenGroup:insert(asign)
 
 
-	atext = display.newText(syl[120+r1][1]..syl[120+r1][2],centerX+b[1][1],b[1][2],native.systemFont,18)
+	atext = display.newText(syl[120+r1][2],centerX+b[1][1],b[1][2],native.systemFont,18)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
@@ -225,7 +225,7 @@ local function showAnswers(screenGroup)
 	bsign:addEventListener("tap",myFunction)
 	screenGroup:insert(bsign)
 
-	btext = display.newText(syl[120+r2][1]..syl[120+r2][2],centerX+b[2][1],b[2][2],native.systemFont,18)
+	btext = display.newText(syl[120+r2][2],centerX+b[2][1],b[2][2],native.systemFont,18)
 	btext:setFillColor(0)
 	screenGroup:insert(btext)
 
@@ -241,7 +241,7 @@ local function showAnswers(screenGroup)
 	csign:addEventListener("tap",myFunction)
 	screenGroup:insert(csign)
 
-	ctext = display.newText(syl[120+r3][1]..syl[120+r3][2],centerX+b[3][1],b[3][2],native.systemFont,18)
+	ctext = display.newText(syl[120+r3][2],centerX+b[3][1],b[3][2],native.systemFont,18)
 	ctext:setFillColor(0)
 	screenGroup:insert(ctext)
 
@@ -257,7 +257,7 @@ local function showAnswers(screenGroup)
 	dsign:addEventListener("tap",myFunction)
 	screenGroup:insert(dsign)
 
-	dtext = display.newText(syl[120+r4][1]..syl[120+r4][2],centerX+b[4][1],b[4][2],native.systemFont,18)
+	dtext = display.newText(syl[120+r4][2],centerX+b[4][1],b[4][2],native.systemFont,18)
 	dtext:setFillColor(0)
 	screenGroup:insert(dtext)
 
