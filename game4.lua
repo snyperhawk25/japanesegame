@@ -233,16 +233,12 @@ function generateQuestion()
         --Update distanceDown
         --distanceDown = (math.floor(qlen/31))*(-20)
         --print("Distance To Scroll Down: "..distanceDown)
-        downArrow = display.newPolygon(centerX,140,
+        downArrow = display.newPolygon(400,90,
             {
-            0,0,
-            -10,0,
-            -10,30,
-            -20,30,
-            0,50,
-            20,30,
-            10,30,
-            10,0
+            --Old Arrow (2x; centerX,140)
+            --0,0,-10,0,-10,30,-20,30,0,50,20,30,10,30,10,0
+            --New Arrow
+            0,0,-5,0,-5,15,-10,15,0,25,10,15,5,15,5,0
             }
         ) --400,80
         downArrow:setFillColor(1,0,0)
@@ -490,12 +486,12 @@ function Game4()
     menu:addEventListener("tap", goToMenu) 
     
     --Sumbit Score Button
-    submitButton = display.newRoundedRect(450,80,80,40,3)
+    submitButton = display.newRoundedRect(450,140,80,40,3)
     submitButton.strokeWidth = 3
     submitButton:setFillColor(0.1,0.9,0.3, 0.8)
     submitButton:setStrokeColor(0,0,0)
     submitButton:addEventListener("tap",submitListener)
-    submitText = display.newText("Submit Score", 450,80, native.systemFont,11)
+    submitText = display.newText("Submit Score", 450,140, native.systemFont,11)
 
     --Score Text
     scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
