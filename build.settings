@@ -5,37 +5,60 @@ settings = {
 	
 	orientation = {
 		default = "landscapeRight",
-		supported = { "landscapeRight", }
+		supported = { "landscapeRight","landscapeLeft"}
 	},
 	
-	iphone = {
-		plist = {
-			UIStatusBarHidden = false,
-			UIPrerenderedIcon = true, -- set to false for "shine" overlay
-			--UIApplicationExitsOnSuspend = true, -- uncomment to quit app on suspend
+	--iphone = {
+	--	plist = {
+	--		UIStatusBarHidden = false,
+	--		UIPrerenderedIcon = true, -- set to false for "shine" overlay
+	--		--UIApplicationExitsOnSuspend = true, -- uncomment to quit app on suspend
+    --       --[[
+    --       -- iOS app URL schemes:
+    --        CFBundleURLTypes =
+    --        {
+    --            {
+    --                CFBundleURLSchemes =
+    --                {
+    --                    "fbXXXXXXXXXXXXXX", -- example scheme for facebook
+    --                    "coronasdkapp", -- example second scheme
+    --                }
+    --            }
+    --        }
+    --        --]]
+	--	}
+	--},
+	
 
-            --[[
-            -- iOS app URL schemes:
-            CFBundleURLTypes =
-            {
-                {
-                    CFBundleURLSchemes =
-                    {
-                        "fbXXXXXXXXXXXXXX", -- example scheme for facebook
-                        "coronasdkapp", -- example second scheme
-                    }
-                }
-            }
-            --]]
-		}
-	},
-	
-	--[[
 	-- Android permissions
 
-	androidPermissions = {
-  		"android.permission.INTERNET",
+	android = {
+		versionCode = "10", --for v1.0
+
+		usesPermissions = {
+			"android.permission.INTERNET",
+			"android.permission.WRITE_EXTERNAL_STORAGE",
+			"android.permission.READ_EXTERNAL_STORAGE",
+			--"android.permission.MANAGE_DOCUMENTS", -- Not as part of a document picker...
+			--"android.permission.VIBRATE", --As part of vibrate feature in future
+
+		},
+  		
   	},
 
-	]]--
+  	-- Windows 32 Desktop Permissions
+  	windows = {
+  		defaultMode = "maximized",
+  		defaultViewWidth = 640, --excedes 320 by 2x
+  		defaultViewHeight = 960, --excedes 480 by 2x
+  		resizable = false, --no handling of Corona's 'resize' event in v10 code
+  		enableCloseButton = true,
+  		enableMinimizeButton = true,
+  		enableMaximizeButton = true,
+  		suspendWhenMinimized = true, --Corona should suspend gmae runtime when minimized.
+  		titleText = {
+  			default = "KissaVocab (Vocab Cafe)"
+  		}
+  	},
+
 }

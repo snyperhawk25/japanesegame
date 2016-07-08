@@ -19,7 +19,7 @@ local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
 local function continue()
-	storyboard.gotoScene( "menu", "fade", 250 ) --b was 750
+	storyboard.gotoScene( "menu", "fade", 750 ) --b was 750
 end
 
 -- Called when the scene's view does not exist:
