@@ -348,16 +348,21 @@ function generateQuestion()
     
     --Shuffle Coordinates and Re-assign.
     local coordinateOrder = {}
-    coordinateOrder = fisherYates({{Ans1BoxX, Ans1ImageX, plate1X},{Ans2BoxX, Ans2ImageX, plate2X},{Ans3BoxX, Ans3ImageX, plate3X}})
-    Ans1BoxX=   coordinateOrder[1][1]
-    Ans1ImageX= coordinateOrder[1][2]
-    plate1X =   coordinateOrder[1][3]
-    Ans2BoxX =  coordinateOrder[2][1]
-    Ans2ImageX= coordinateOrder[2][2]
-    plate2X =   coordinateOrder[2][3]
-    Ans3BoxX =  coordinateOrder[3][1]
-    Ans3ImageX= coordinateOrder[3][2]
-    plate3X =   coordinateOrder[3][3]
+    --coordinateOrder = fisherYates({{Ans1BoxX, Ans1ImageX, plate1X},{Ans2BoxX, Ans2ImageX, plate2X},{Ans3BoxX, Ans3ImageX, plate3X}})
+    --coordinateOrder = fisherYates({{120, 120, 120},{280, 280, 280},{440, 440, 440}}) --shortened due to redundency
+    coordinateOrder = fisherYates({120,280,440})
+    Ans1BoxX=   coordinateOrder[1]
+    Ans1ImageX= coordinateOrder[1]
+    plate1X =   coordinateOrder[1]
+
+    Ans2BoxX =  coordinateOrder[2]
+    Ans2ImageX= coordinateOrder[2]
+    plate2X =   coordinateOrder[2]
+
+    Ans3BoxX =  coordinateOrder[3]
+    Ans3ImageX= coordinateOrder[3]
+    plate3X =   coordinateOrder[3]
+
     print("CoordTest1: Box:"..Ans1BoxX.."; Image:"..Ans1ImageX.."; plate:"..plate1X..";")
 
 
@@ -445,9 +450,7 @@ function gameOver()
     removeAllDisplayObjects()
 
     --performance Score calculation
-    --Draft Equation //!@# adjust when appropriate
-    -- performanceScore = (winState * maxCombo) + (10 Total Question*10 /questionCounter)
-    -- Constant 5 based on max performance of 5 * (<1/4sec answers @ 100pts) = 500 Win State
+    -- Constant 5 based on max performance of 5 * (<1/2sec answers @ 100pts) = 500 Win State
     performanceScore = (winState * maxCombo) + math.floor((5/questionCounter)*winState)
     print("PerformanceScore : "..performanceScore..";")
 

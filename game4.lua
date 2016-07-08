@@ -89,6 +89,8 @@ local Ans2ButtonX = 280
 local Ans3ButtonX = 20
 local Ans4ButtonX = 280
 
+--NOTE Hard coded thes position values for shuffling:
+--{{20,180},{280,180},{20,240},{280,240}}
 
 --Function to remove the elements of the active question. Also to empty "" the correct answer integer.
 function clearQuestion()
@@ -119,12 +121,16 @@ local function myTapListener(event)
 end    
 
 local function downArrowListener(event)
+    --Play Click and Alert
+    audio.play(audioClick)
     print("Down Arrow Pressed. Scrolling Down")
     scrollView:scrollTo("bottom",{time=6000} )
 end  
 
 --Submit Listener
 local function submitListener(event)
+    --Play Click
+    audio.play(audioClick)
     --If the listener has not been pressed before, submit. Else ignore.
     if hasSubmitted==false then
         app42ScoreCallBack = {}
@@ -134,7 +140,7 @@ local function submitListener(event)
             print("      -Score Saved: Value="..object:getScoreList():getValue()..";")
             submitButton:setFillColor(0,0,1)
             submitText:removeSelf() --?
-            submitText = display.newText("Submitted "..object:getScoreList():getValue(), 450,80, native.systemFont,11)
+            submitText = display.newText("Submitted "..object:getScoreList():getValue(), 450,140, native.systemFont,11)
             hasSubmitted=true
         end
         function app42ScoreCallBack:onException(exception)
@@ -144,7 +150,7 @@ local function submitListener(event)
         print("A previous submission was recorded, so this submission will be ignored.")
         submitButton:setFillColor(1,0,0)
             submitText:removeSelf() --?
-            submitText = display.newText("No Duplicates", 450,80, native.systemFont,11)
+            submitText = display.newText("No Duplicates", 450,140, native.systemFont,11)
     end
 end
 
@@ -203,15 +209,17 @@ function generateQuestion()
     q3=myData.custom.All[num][5]
     q4=myData.custom.All[num][6]
     
-    --Shuffle/REassign Coordinates
-    --local coordinateOrder = {}
-    --coordinateOrder = fisherYates({{Ans1ButtonX},{Ans2ButtonX},{Ans3ButtonX},{Ans4ButtonX}})  
-    --//!@# Fix this buggy reassignment
-    --Ans1ButtonX = coordinateOrder[1]
-    --Ans2ButtonX = coordinateOrder[2]
-    --Ans3ButtonX = coordinateOrder[3]
-    --Ans4ButtonX = coordinateOrder[4]
-    
+    --Shuffle/Reassign Coordinates
+    local coordinateOrder = {}
+    coordinateOrder = fisherYates({{20,180},{280,180},{20,240},{280,240}})  
+    Ans1ButtonX = coordinateOrder[1][1]
+    Ans2ButtonX = coordinateOrder[2][1]
+    Ans3ButtonX = coordinateOrder[3][1]
+    Ans4ButtonX = coordinateOrder[4][1]
+    Ans1ButtonY = coordinateOrder[1][2]
+    Ans2ButtonY = coordinateOrder[2][2]
+    Ans3ButtonY = coordinateOrder[3][2]
+    Ans4ButtonY = coordinateOrder[4][2]
 
 -----------------------------------------------------------------------------
     --Add In The Question

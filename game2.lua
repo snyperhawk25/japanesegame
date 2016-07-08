@@ -229,8 +229,10 @@ function generateQuestion()
     
     --Shuffle Coordinates and Re-assign.
     local coordinateOrder = {}
-    coordinateOrder = fisherYates({{Ans1BoxX, Ans1ImageX},{Ans2BoxX, Ans2ImageX},{Ans3BoxX, Ans3ImageX}})
-    Ans1BoxX=coordinateOrder[1][1]
+    --coordinateOrder = fisherYates({{Ans1BoxX, Ans1ImageX},{Ans2BoxX, Ans2ImageX},{Ans3BoxX, Ans3ImageX}})
+    coordinateOrder = fisherYates({{60, 10},{240, 190},{420, 370}})
+
+    Ans1BoxX = coordinateOrder[1][1]
     Ans1ImageX = coordinateOrder[1][2]
     Ans2BoxX = coordinateOrder[2][1]
     Ans2ImageX = coordinateOrder[2][2]
