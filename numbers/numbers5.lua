@@ -8,7 +8,8 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 local widget = require("widget")
-require "dbFile"
+require("test.shufflingTest") --?Needed for phone?
+--require "dbFile"
 
 
 local answer --answer

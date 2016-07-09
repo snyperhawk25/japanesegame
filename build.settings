@@ -1,33 +1,9 @@
--- Supported values for orientation:
--- portrait, portraitUpsideDown, landscapeLeft, landscapeRight
-
 settings = {
 	
 	orientation = {
 		default = "landscapeRight",
 		supported = { "landscapeRight","landscapeLeft"}
 	},
-	
-	--iphone = {
-	--	plist = {
-	--		UIStatusBarHidden = false,
-	--		UIPrerenderedIcon = true, -- set to false for "shine" overlay
-	--		--UIApplicationExitsOnSuspend = true, -- uncomment to quit app on suspend
-    --       --[[
-    --       -- iOS app URL schemes:
-    --        CFBundleURLTypes =
-    --        {
-    --            {
-    --                CFBundleURLSchemes =
-    --                {
-    --                    "fbXXXXXXXXXXXXXX", -- example scheme for facebook
-    --                    "coronasdkapp", -- example second scheme
-    --                }
-    --            }
-    --        }
-    --        --]]
-	--	}
-	--},
 	
 
 	-- Android permissions
@@ -47,11 +23,13 @@ settings = {
   	},
 
   	-- Windows 32 Desktop Permissions
-  	windows = {
-  		defaultMode = "maximized",
-  		defaultViewWidth = 640, --excedes 320 by 2x
-  		defaultViewHeight = 960, --excedes 480 by 2x
-  		resizable = false, --no handling of Corona's 'resize' event in v10 code
+  	window = {
+  		defaultMode = "maximized", --maximized
+  		defaultViewWidth = 1040, --excedes 480 by 2x (960+40*2)
+  		defaultViewHeight = 640, --excedes 320 by 2x
+  		minViewWidth = 520, --480+40
+  		minViewHeight = 320, --320
+  		resizable = true, --True for minViewWidth/Height values to apply --NOTE"no handling of Corona's 'resize' event in v10 code
   		enableCloseButton = true,
   		enableMinimizeButton = true,
   		enableMaximizeButton = true,

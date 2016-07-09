@@ -6,7 +6,8 @@
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-require "dbFile"
+require("test.shufflingTest")
+--require "dbFile"
 
 
 local answer --answer
@@ -154,9 +155,9 @@ end
 local function showAnswers(n)
 	local screenGroup = n
 
-	local a={-220,-90,55,210}
-	local b = {}
-	local count = 4
+	--local a={-220,-90,55,210}
+	--local b = {}
+	--local count = 4
 
 	-- while (count>0) do --randomize the array of x values
 	-- 	local r = math.random(1,count)
@@ -166,11 +167,16 @@ local function showAnswers(n)
 	-- end
 
 	--b Remove Randomization
-	count=4
-	a={-220,-90,55,210}
-	for i=1,count,1 do
-		b[i] = a[i]
-	end	
+	--count=4
+	--a={-220,-90,55,210}
+	--for i=1,count,1 do
+	--	b[i] = a[i]
+	--end	
+
+
+	--Shuffle
+	--local b = fisherYates({-220,-90,55,210})
+	local b = {-220,-90,55,210} --//!@#Removed Randomizer
 
 	--A
 	asign = display.newImage("images/numbers/sign.png",centerX+b[1],85)

@@ -8,9 +8,10 @@
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-require "dbFile"
+require("test.shufflingTest")
+--require "dbFile"
 
-local a={-200,-90,55,200}
+local a={-200,-90,55,200} 
 local answer --answer
 local answernum --answer
 local opt1 --options
@@ -278,8 +279,8 @@ local function showAnswers(n)
 	local screenGroup = n
 
 	--was a here.
-	local b = {}
-	local count = 4
+	--local b = {}
+	--local count = 4
 
 	-- while (count>0) do --randomize the array of x values
 	-- 	local r = math.random(1,count)
@@ -289,11 +290,17 @@ local function showAnswers(n)
 	-- end
 
 	--b Override Randomizer
-	count = 4
-	a={-200,-90,55,200}
-	for i=1,count,1 do
-		b[i]=a[i]
-	end	
+	--count = 4
+	--a={-200,-90,55,200}
+	--for i=1,count,1 do
+	--	b[i]=a[i]
+	--end	
+
+
+	--Shuffle
+	--local b = fisherYates({-200,-90,55,200})
+	local b = {-200,-90,55,200} --//!@#Removed Randomizer
+
 
 	bl1= display.newImage("images/numbers/bomblistener.png",centerX-155,centerY+0)
 	bl1:scale(0.35,0.28)

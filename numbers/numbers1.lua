@@ -6,7 +6,8 @@
 
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-require "dbFile"
+--require "dbFile"
+require("test.shufflingTest")
 
 
 local answer --answer
@@ -181,22 +182,24 @@ end
 local function showAnswers(screenGroup)
 	
 	--b Randomize x,y values, put into "b"
-	local a={{-200,65},{-200,120},{200,120},{200,65}}
-	local b = {}
-	local count = 4
-	print("\nShowAnswers():")
-	while (count>0) do --randomize the array of x values
-		local r = math.random(1,count)
-		b[count] = a[r]
+	--local a={{-200,65},{-200,120},{200,120},{200,65}}
+	--local b = {}
+	--local count = 4
+	--print("\nShowAnswers():")
+	--while (count>0) do --randomize the array of x values
+	--	local r = math.random(1,count)
+	--	b[count] = a[r]
 		--btest TEST PRINT
-		print("b["..count.."] is a["..r.."];\t"..a[r][1]..","..a[r][2]..".")
-		table.remove(a, r)
-		count=count-1
-	end
+	--	print("b["..count.."] is a["..r.."];\t"..a[r][1]..","..a[r][2]..".")
+	--	table.remove(a, r)
+	--	count=count-1
+	--end
 
-	-- --b REMOVING RANDOMIZER
-	--local b = a
-	b={{-200,65},{-200,120},{200,120},{200,65}}
+	--Shuffle
+	--b = fisherYates({{-200,65},{-200,120},{200,120},{200,65}})
+	b={{-200,65},{-200,120},{200,120},{200,65}} --//!@#Removed Randomizer
+	 
+	
 
 
 	--b A - Correct
