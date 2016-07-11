@@ -59,7 +59,7 @@ local audioBox, audioSample
 local audioCorrect = audio.loadSound("audio/ding1.wav")
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
 local audioClick = audio.loadSound("audio/click1.wav")
-audio.setVolume(1.0)
+--audio.setVolume(1.0)
 
 --Centers
 local centerX = display.contentCenterX
@@ -155,7 +155,7 @@ end
 --Function to return to the Main Menu (menu.lua)
 local function goToMenu()
     --Click Audio
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     --Remove Objects
     removeAllDisplayObjects()
 
@@ -486,7 +486,7 @@ function evaluateAnswer()
 	--Check correct
     if chosenAns == correctAns then
         --Print/Sound Correct
-        audio.play(audioCorrect)
+        audio.play(audioCorrect,{channel=4})
         print("Correct Answer")
         --Increment playerCombo
         --If player had correct answers combo before
@@ -501,7 +501,7 @@ function evaluateAnswer()
         updateScore(true,totalTime,playerCombo)
     else
         --Print/Sound Incorrect
-        audio.play(audioIncorrect)
+        audio.play(audioIncorrect,{channel=4})
         print("Wrong Answer")
         --Reset playerCombo, and updateScore()
         if playerCombo <= 0 then
@@ -555,7 +555,7 @@ end
 
 --Answer Box Listeners 1 - 3
 function Ans1BoxListener()
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     local function animate(event)
         transition.from(plate1,{time=200,x=plate1X,y=plateY,xScale=0.9,yScale=0.9})
     end
@@ -566,7 +566,7 @@ function Ans1BoxListener()
 end
 
 function Ans2BoxListener()
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     local function animate(event)
         transition.from(plate2,{time=200,x=plate2X,y=plateY,xScale=0.9,yScale=0.9})
     end
@@ -577,7 +577,7 @@ function Ans2BoxListener()
 end
 
 function Ans3BoxListener()
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     local function animate(event)
         transition.from(plate3,{time=200,x=plate3X,y=plateY,xScale=0.9,yScale=0.9})
     end
@@ -593,7 +593,7 @@ function AudioBoxListener()
         transition.from(audioBox,{time=1000,x=audioBoxX,y=audioBoxY,xScale=audioBoxScale-0.05,yScale=audioBoxScale-0.05})
     end  
     --Start Audio
-    audio.play(audioSample)
+    audio.play(audioSample,{channel=2})
     print("AudioBoxListener tapped.")
     --Then Animate
     animate() --timer didnt work here    

@@ -30,7 +30,7 @@ local weblink = "https://github.com/snyperhawk25/japanesegame/wiki" --KissaVocab
 --AUDIO
 local audioClick = audio.loadSound("audio/click1.wav")
 local menuMusic = audio.loadSound("audio/KissaVocabMenuMusic.mp3")
---audio.setVolume(1.0)
+
 
 local transitionOptions = {
 	effect="fade",
@@ -40,7 +40,6 @@ local transitionOptions = {
 --Function to delay the removal of the scene, smoothing out the transition between scenes
 local function delayedSceneRemoval()
 	--Stop Music
-	--audio.fadeOut({time=500})
 	audio.pause(menuMusic)
 
 	local function removeSceneListener(event)
@@ -53,7 +52,7 @@ end
 local function goToGame4()
 	--Click 
 	local function playClick()
-		if audio.play(audioClick)==0 then
+		if audio.play(audioClick,{channel=3})==0 then
 			print("Click Failed To Play...")
 		end
 	end
@@ -67,7 +66,7 @@ end
 local function goToGame2()
 	--Click 
 	local function playClick()
-		if audio.play(audioClick)==0 then
+		if audio.play(audioClick,{channel=3})==0 then
 			print("Click Failed To Play...")
 		end
 	end
@@ -80,7 +79,7 @@ end
 local function goToGame3()
 	--Click 
 	local function playClick()
-		if audio.play(audioClick)==0 then
+		if audio.play(audioClick,{channel=3})==0 then
 			print("Click Failed To Play...")
 		end
 	end
@@ -94,7 +93,7 @@ end
 local function goToNum()
 	--Click 
 	local function playClick()
-		if audio.play(audioClick)==0 then
+		if audio.play(audioClick,{channel=3})==0 then
 			print("Click Failed To Play...")
 		end
 	end
@@ -313,8 +312,8 @@ function scene:enterScene( event )
 	end
 	--Replaying menu music
 	print("Playing menuMusic")
-	audio.setVolume(1.0)
-	audio.play(menuMusic, {loops = -1})
+	--audio.setVolume(1.0)//!@#??commented out
+	audio.play(menuMusic, {channel = 1,loops = -1})
 
 	--Audio Readout
 	getAudioLevels()

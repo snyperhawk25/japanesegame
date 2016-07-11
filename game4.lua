@@ -55,7 +55,7 @@ local q4 = "ANSWER 4"
 local audioCorrect = audio.loadSound("audio/ding1.wav")
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
 local audioClick = audio.loadSound("audio/click1.wav")
-audio.setVolume(1.0)
+--audio.setVolume(1.0)
 
 --Centers
 local centerX = display.contentCenterX
@@ -116,7 +116,7 @@ end
 local function myTapListener(event)
     if event.numTaps == 2 then
         print("DOUBLE TAP!")
-        audio.play(audioClick)
+        audio.play(audioClick,{channel=3})
         scrollView:scrollToPosition({x=0,y=0,time=250})
     end
     return true   
@@ -124,7 +124,7 @@ end
 
 local function downArrowListener(event)
     --Play Click and Alert
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     print("Down Arrow Pressed. Scrolling Down")
     scrollView:scrollTo("bottom",{time=6000} )
 end  
@@ -132,7 +132,7 @@ end
 --Submit Listener
 local function submitListener(event)
     --Play Click
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     --If the listener has not been pressed before, submit. Else ignore.
     if hasSubmitted==false then
         app42ScoreCallBack = {}
@@ -413,7 +413,7 @@ end
 function evaluateAnswer()
     if chosenAns == correctAns then
         --Print/Sound Correct
-        audio.play(audioCorrect)
+        audio.play(audioCorrect,{channel=4})
         print("Correct Answer")
         --Increment Score
         score=score+1
@@ -422,7 +422,7 @@ function evaluateAnswer()
         scoreText:setFillColor(0,1,0)
     else
         --Print/Sound Incorrect
-        audio.play(audioIncorrect)
+        audio.play(audioIncorrect,{channel=4})
         print("Wrong Answer")
     end
     
@@ -471,7 +471,7 @@ end
 --Function to return to the Main Menu (menu.lua)
 local function goToMenu()
     --Click Audio
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     --Remove Display Objects
     removeAllDisplayObjects()
 
@@ -562,7 +562,7 @@ function Ans1BoxListener()
     local function animate(event)
         transition.from(Ans1Button,{time=200,x=Ans1ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed (A)")
     chosenAns = "A"
@@ -573,7 +573,7 @@ function Ans2BoxListener()
     local function animate(event)
         transition.from(Ans2Button,{time=200,x=Ans2ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed (B)")
     chosenAns = "B"
@@ -584,7 +584,7 @@ function Ans3BoxListener()
     local function animate(event)
         transition.from(Ans3Button,{time=200,x=Ans3ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed (C)")
     chosenAns = "C"
@@ -595,7 +595,7 @@ function Ans4BoxListener()
     local function animate(event)
         transition.from(Ans4Button,{time=200,x=Ans4ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick)
+    audio.play(audioClick,{channel=3})
     timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 4 Pressed (D)")
     chosenAns = "D"

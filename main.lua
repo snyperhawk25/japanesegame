@@ -15,10 +15,11 @@ function audround(num, idp)
   return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
--- Basic Information, Override
+-- Basic Information, Override Method
 function getAudioLevels()
 	getAudioLevels(0)
 end
+
 --All Audio Channel Information
 function getAudioLevels(needsMoreInfo)
 	if needsMoreInfo==1 then
@@ -56,6 +57,14 @@ end
 --Sets up the initial audio conditions for the game.
 function initializeAudio()
 	print("|| Initializing All Audio Channels ||")
+
+	--Reserved Audio Channel List
+	--Channel 1: Music
+	--Channel 2: Pronunciation Samples
+	--Channel 3: SFX 1 (clicks)
+	--Channel 4: SFX 2 (correct,incorrect,kazoo)
+	audio.reserveChannels(4)
+	
 	--Set the master volume to 100%
 	audio.setVolume(1.0)
 	--Set Minimums on all channels (20%)
