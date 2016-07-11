@@ -7,7 +7,6 @@
 --Note, this is a structural copy of game2, with visual modifications.
 
 
---//!@# click spam for points to solve
 --//!@# remember to remove event listeners on game over
 --------------------------------------------------------------------------------
 
@@ -556,6 +555,7 @@ end
 
 --Answer Box Listeners 1 - 3
 function Ans1BoxListener()
+    audio.play(audioClick)
     local function animate(event)
         transition.from(plate1,{time=200,x=plate1X,y=plateY,xScale=0.9,yScale=0.9})
     end
@@ -566,6 +566,7 @@ function Ans1BoxListener()
 end
 
 function Ans2BoxListener()
+    audio.play(audioClick)
     local function animate(event)
         transition.from(plate2,{time=200,x=plate2X,y=plateY,xScale=0.9,yScale=0.9})
     end
@@ -576,6 +577,7 @@ function Ans2BoxListener()
 end
 
 function Ans3BoxListener()
+    audio.play(audioClick)
     local function animate(event)
         transition.from(plate3,{time=200,x=plate3X,y=plateY,xScale=0.9,yScale=0.9})
     end
@@ -627,9 +629,9 @@ end
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
     --Dispose Audio
-    audio.dispose(audioClick)
-    audio.dispose(audioCorrect)
-    audio.dispose(audioIncorrect)
+    --audio.dispose(audioClick)
+    --audio.dispose(audioCorrect)
+    --audio.dispose(audioIncorrect)
 end
 
 

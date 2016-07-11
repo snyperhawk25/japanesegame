@@ -26,9 +26,11 @@ local miniFont = 14
 --local webLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal Page
 --local webLink = "http://fccs.ok.ubc.ca/programs/other/japanese.html" --UBCO FCCS Japanese Studies Page
 local weblink = "https://github.com/snyperhawk25/japanesegame/wiki" --KissaVocab Wikipedia
+
+--AUDIO
 local audioClick = audio.loadSound("audio/click1.wav")
 local menuMusic = audio.loadSound("audio/KissaVocabMenuMusic.mp3")
-audio.setVolume(1.0)
+--audio.setVolume(1.0)
 
 local transitionOptions = {
 	effect="fade",
@@ -38,36 +40,66 @@ local transitionOptions = {
 --Function to delay the removal of the scene, smoothing out the transition between scenes
 local function delayedSceneRemoval()
 	--Stop Music
-	audio.fadeOut({time=500})
+	--audio.fadeOut({time=500})
+	audio.pause(menuMusic)
+
 	local function removeSceneListener(event)
 		storyboard.removeScene("menu")
 	end
 	timer.performWithDelay(500, removeSceneListener)
 end
 
---//!@# hijacked to go to game4
-local function goToGame1()
-	audio.play(audioClick)
+
+local function goToGame4()
+	--Click 
+	local function playClick()
+		if audio.play(audioClick)==0 then
+			print("Click Failed To Play...")
+		end
+	end
+	timer.performWithDelay(50, playClick)
+
 	storyboard.gotoScene("game4",transitionOptions)
 	--storyboard.gotoScene("test.shufflingTest",transitionOptions)
 	--storyboard.gotoScene("test.testPrintCharactersScreen",transitionOptions)
 	delayedSceneRemoval()
 end
 local function goToGame2()
-	audio.play(audioClick)
+	--Click 
+	local function playClick()
+		if audio.play(audioClick)==0 then
+			print("Click Failed To Play...")
+		end
+	end
+	timer.performWithDelay(50, playClick)
+
 	storyboard.gotoScene("game2",transitionOptions)
 	--storyboard.removeScene("menu")
 	delayedSceneRemoval()
 end
 local function goToGame3()
-	audio.play(audioClick)
+	--Click 
+	local function playClick()
+		if audio.play(audioClick)==0 then
+			print("Click Failed To Play...")
+		end
+	end
+	timer.performWithDelay(50, playClick)
+
 	storyboard.gotoScene("game3v2",transitionOptions)
 	delayedSceneRemoval()
 end
 
 --b test Numbers Game.
 local function goToNum()
-	audio.play(audioClick)
+	--Click 
+	local function playClick()
+		if audio.play(audioClick)==0 then
+			print("Click Failed To Play...")
+		end
+	end
+	timer.performWithDelay(50, playClick)
+
 	storyboard.gotoScene("numbers.numbers1",transitionOptions)
 	delayedSceneRemoval()
 end
@@ -157,7 +189,7 @@ function scene:createScene( event )
         fillColor = { default={ 1,0.6,1, 1 }, over={ 1,0.72,1,1 } }, --Purple
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
         strokeWidth = 4,
-        onPress = goToGame1
+        onPress = goToGame4
       }
     )
    	game1.anchorY = 0.0
@@ -268,9 +300,24 @@ end
 -- Called immediately after scene has moved onscreen:
 function scene:enterScene( event )
 	--MUSIC
-	print("playing music")
+	--Stopping all audio, and clearing all channels
+	local wasStopped = audio.stop()
+	if wasStopped > 0 then
+		print("Stopped "..wasStopped.." Audio Channels.")		
+	else
+		if wasStopped < 0 then
+			print("Error Stopping Audio.")
+		else
+			print("No Audio Channels To Stop.")
+		end
+	end
+	--Replaying menu music
+	print("Playing menuMusic")
 	audio.setVolume(1.0)
-	audio.play(menuMusic, {loops = -1, fadein = 250})
+	audio.play(menuMusic, {loops = -1})
+
+	--Audio Readout
+	getAudioLevels()
 end
 
 
@@ -281,9 +328,7 @@ end
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	--Dispose audio
-	audio.dispose(audioClick)
-	audio.dispose(menuMusic)
+
 end
 
 

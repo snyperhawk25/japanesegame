@@ -144,13 +144,22 @@ local function checkEnd(focus)
 			if focus.num~=bl1.num then
 				incorrect(endgroup)
 			else
+				--click sfx
+				if not toggle1 then
+					audio.play(audioClick)
+				end
 				toggle1 = true
+
 			end
 		end
 		if hasCollided(focus,bl2) then
 			if focus.num~=bl2.num then
 				incorrect(endgroup)
 			else
+				--click sfx
+				if not toggle2 then
+					audio.play(audioClick)
+				end
 				toggle2 = true
 			end
 		end
@@ -158,6 +167,10 @@ local function checkEnd(focus)
 			if focus.num~=bl3.num then
 				incorrect(endgroup)
 			else
+				--click sfx
+				if not toggle3 then
+					audio.play(audioClick)
+				end
 				toggle3 = true
 			end
 		end
@@ -165,6 +178,10 @@ local function checkEnd(focus)
 			if focus.num~=bl4.num then
 				incorrect(endgroup)
 			else
+				--click sfx
+				if not toggle4 then
+					audio.play(audioClick)
+				end
 				toggle4 = true
 			end
 		end

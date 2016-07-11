@@ -14,9 +14,12 @@ local widget = require("widget")
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
+
+--AUDIO
 local audioClick = audio.loadSound("audio/click1.wav")
 local audioKazoo = audio.loadSound("audio/kazoo1.wav")
 audio.setVolume(1.0)
+
 
 local bubble, gameDescription, retry
 
@@ -129,10 +132,17 @@ end
 function scene:enterScene( event )
 	local screenGroup = self.view
 
-	--MUSIC 
-	print("playing kazoo")
-	audio.play(kazoo1)
-
+	--Kazoo 
+	local function playKazoo()
+		local kaz = audio.play(audioKazoo)
+		if kaz==0 then
+			print("Kazoo could NOT be played...")
+		else
+			print("Kazoo played on Ch "..kaz..".")
+		end
+	end
+	timer.performWithDelay(200, playKazoo)
+	
 	--Menu Button
 	--menu = display.newImage("images/Menu.png",centerX+160,centerY+130) --yscale
 	--menu:scale(0.4,0.4)
@@ -231,8 +241,8 @@ end
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
 	--Dispose Audio
-	audio.dispose(audioClick)
-	audio.dispose(audioKazoo)
+	--audio.dispose(audioClick)
+	--audio.dispose(audioKazoo)
 	
 end
 

@@ -56,6 +56,7 @@ local audioCorrect = audio.loadSound("audio/ding1.wav")
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
 local audioClick = audio.loadSound("audio/click1.wav")
 audio.setVolume(1.0)
+
 --Centers
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
@@ -115,6 +116,7 @@ end
 local function myTapListener(event)
     if event.numTaps == 2 then
         print("DOUBLE TAP!")
+        audio.play(audioClick)
         scrollView:scrollToPosition({x=0,y=0,time=250})
     end
     return true   

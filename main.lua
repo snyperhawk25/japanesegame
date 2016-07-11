@@ -7,8 +7,71 @@
 -- show default status bar (iOS)
 require "dbFile" --where all the db commands come from
 
+---------------------------------------------------
+--AUDIO Management Section
+--------------------------------------------------
+--Quick Decimal Rounding
+function audround(num, idp)
+  return tonumber(string.format("%." .. (idp or 0) .. "f", num))
+end
+
+-- Basic Information, Override
+function getAudioLevels()
+	getAudioLevels(0)
+end
+--All Audio Channel Information
+function getAudioLevels(needsMoreInfo)
+	if needsMoreInfo==1 then
+		--Advanced Information
+		print("ALL CHANNELS STATUS:")
+		local i
+		for i=1,32,1 do
+			print("Ch "..i..
+				"; Act: "..tostring(audio.isChannelActive(i))..
+				", Pl: "..tostring(audio.isChannelPlaying(i))..
+				", Pa: "..tostring(audio.isChannelPaused(i))..
+				", Cur: "..audio.getVolume(i)..
+				", Max: "..audio.getMaxVolume({channel=i})..
+				", Min: "..audround(audio.getMinVolume({channel=i}),3)
+			)
+		end
+	else
+		--Basic Information
+		print("LIVE CHANNELS ONLY:")
+		local i
+		for i=1,32,1 do
+			if audio.isChannelActive(i) then
+			print("Ch "..i..
+				", Pl: "..tostring(audio.isChannelPlaying(i))..
+				", Pa: "..tostring(audio.isChannelPaused(i))..
+				", Cur: "..audio.getVolume(i)..
+				", Max: "..audio.getMaxVolume({channel=i})..
+				", Min: "..audround(audio.getMinVolume({channel=i}),3)
+			)
+			end
+		end
+	end
+end
+
+--Sets up the initial audio conditions for the game.
+function initializeAudio()
+	print("|| Initializing All Audio Channels ||")
+	--Set the master volume to 100%
+	audio.setVolume(1.0)
+	--Set Minimums on all channels (20%)
+	audio.setMinVolume(0.2, {channel=0})
+	--Set Maximums on all channels (100%)
+	audio.setMaxVolume(1.0, {channel=0})
+	--Set Volum on ALL channels to 100%
+	audio.setVolume(1.0, {channel=0})
+	print("|| Complete ||")
+end
+initializeAudio()
+
+---------------------------------------------------------
+
+
 --audio.setSessionProperty(audio.MixMode, audio.AmbientMixMode)  --allows device audio to continue uninterrupted 
-audio.setVolume(1.0)
 --display.setStatusBar( display.HiddenStatusBar )  --hides the status bar on the top of the device
 
 
@@ -55,9 +118,10 @@ function toScale()
 end
 --toScale() --//!@#should be used for the numbers games.
 
+--Commenting out SQLite3 db usage
 --database setup starts here
-local tablesetup = [[CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, amount INTEGER);]]
-db:exec( tablesetup )
+--local tablesetup = [[CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, amount INTEGER);]]
+--db:exec( tablesetup )
 
 
 ---------------------------------------
