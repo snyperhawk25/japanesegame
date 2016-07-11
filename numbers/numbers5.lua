@@ -34,7 +34,6 @@ local phonenumber
 local hiragananumber
 
 local audioClick = audio.loadSound("audio/click1.wav")
-audio.setVolume(1.0)
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
@@ -78,7 +77,10 @@ end
 local function incorrect(n)
 	local screenGroup = n
 	
-	audio.play(audioClick)
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
 
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
 	explosion:scale(0.2,0.2)
@@ -98,7 +100,10 @@ local function incorrect(n)
 end 
 
 local function correct()
-	audio.play(audioClick)
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
 
 	storyboard.purgeScene("numbers.numbers5")
 	storyboard.gotoScene("numbers.numbers6","zoomOutInFadeRotate",1000)

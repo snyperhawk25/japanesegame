@@ -9,7 +9,6 @@
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
 require("test.shufflingTest")
---require "dbFile"
 
 local a={-200,-90,55,200} 
 local answer --answer
@@ -30,7 +29,6 @@ local toogle3 = false
 local toggle4 = false
 
 local audioClick = audio.loadSound("audio/click1.wav")
-audio.setVolume(1.0)
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
@@ -99,7 +97,10 @@ end
 local function incorrect(n)
 	local screenGroup = n
 	
-	audio.play(audioClick)
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
 
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
 	explosion:scale(0.2,0.2)
@@ -146,7 +147,10 @@ local function checkEnd(focus)
 			else
 				--click sfx
 				if not toggle1 then
-					audio.play(audioClick)
+					local function playSound()
+						audio.play(audioClick,{channel=3})
+					end
+					timer.performWithDelay(20,playSound)
 				end
 				toggle1 = true
 
@@ -158,7 +162,10 @@ local function checkEnd(focus)
 			else
 				--click sfx
 				if not toggle2 then
-					audio.play(audioClick)
+					local function playSound()
+						audio.play(audioClick,{channel=3})
+					end
+					timer.performWithDelay(20,playSound)
 				end
 				toggle2 = true
 			end
@@ -169,7 +176,10 @@ local function checkEnd(focus)
 			else
 				--click sfx
 				if not toggle3 then
-					audio.play(audioClick)
+					local function playSound()
+						audio.play(audioClick,{channel=3})
+					end
+					timer.performWithDelay(20,playSound)
 				end
 				toggle3 = true
 			end
@@ -180,7 +190,10 @@ local function checkEnd(focus)
 			else
 				--click sfx
 				if not toggle4 then
-					audio.play(audioClick)
+					local function playSound()
+						audio.play(audioClick,{channel=3})
+					end
+					timer.performWithDelay(20,playSound)
 				end
 				toggle4 = true
 			end

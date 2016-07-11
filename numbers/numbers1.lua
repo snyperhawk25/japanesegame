@@ -40,8 +40,9 @@ local ma1text=""
 local ma2text=""
 local ma3text=""
 local answerGiven
+--Audio
 local audioClick = audio.loadSound("audio/click1.wav")
-audio.setVolume(1.0)
+
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
@@ -152,8 +153,10 @@ end
 
 local function incorrect(n)
 	local screenGroup = n
-	
-	audio.play(audioClick)
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
 
 	explosion = display.newImage("images/numbers/explosion.png",centerX,centerY)
 	explosion:scale(0.2,0.2)
@@ -173,7 +176,11 @@ local function incorrect(n)
 end 
 
 local function correct(n)
-	audio.play(audioClick)	storyboard.purgeScene("numbers.numbers1")
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)	
+	storyboard.purgeScene("numbers.numbers1")
 	storyboard.gotoScene("numbers.numbers2","zoomOutInFadeRotate",1000)
 	
 end

@@ -1,6 +1,5 @@
 --NumbersScorePage.lua
 --This file is for displaying the final score of the numbers game.
---b
 
 
 local storyboard = require( "storyboard" )
@@ -18,7 +17,7 @@ local centerY = display.contentCenterY
 --AUDIO
 local audioClick = audio.loadSound("audio/click1.wav")
 local audioKazoo = audio.loadSound("audio/kazoo1.wav")
-audio.setVolume(1.0)
+
 
 
 local bubble, gameDescription, retry
@@ -84,14 +83,14 @@ end
 
 --Return to the menu
 local function goToMenu()
-	audio.play(audioClick)
+	audio.play(audioClick,{channel=3})
 	goToGivenScene("menu")
 end
 
 --Function to goto the 'reloadScene' scene.
 --Need this for listener function.
 local function goToReloadScene()
-	audio.play(audioClick)
+	audio.play(audioClick,{channel=3})
 	goToGivenScene(reloadScene)
 end
 
@@ -134,7 +133,7 @@ function scene:enterScene( event )
 
 	--Kazoo 
 	local function playKazoo()
-		local kaz = audio.play(audioKazoo)
+		local kaz = audio.play(audioKazoo,{channel=4})
 		if kaz==0 then
 			print("Kazoo could NOT be played...")
 		else
