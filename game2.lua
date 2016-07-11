@@ -468,16 +468,16 @@ function gameClear()
 end
 
 -------------------------------------------
---LISTENERS //!@#messed up timer delay. 1000->1sec
+--LISTENERS
 -------------------------------------------
 
 --Answer Box Listeners 1 - 3
 function Ans1BoxListener()
     local function animate(event)
+        audio.play(audioClick,{channel=3})
         transition.from(Ans1Box,{time=200,x=Ans1BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick,{channel=3})
-    timer.performWithDelay(1,animate) --timer required to animate properly.
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed")
     chosenAns = 1
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
@@ -485,10 +485,10 @@ end
 
 function Ans2BoxListener()
     local function animate(event)
+        audio.play(audioClick,{channel=3})
         transition.from(Ans2Box,{time=200,x=Ans2BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick,{channel=3})
-    timer.performWithDelay(1,animate) --timer required to animate properly.
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed")
     chosenAns = 2
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
@@ -496,10 +496,10 @@ end
 
 function Ans3BoxListener()
     local function animate(event)
+        audio.play(audioClick,{channel=3})
         transition.from(Ans3Box,{time=200,x=Ans3BoxX,y=AnsBoxY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick,{channel=3})
-    timer.performWithDelay(1,animate) --timer required to animate properly.
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed")
     chosenAns = 3
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
@@ -507,14 +507,13 @@ end
 
 --Audio Box Listener
 function AudioBoxListener()
-    local function animate(event)
-        transition.from(audioBox,{time=1000,x=audioBoxX,y=audioBoxY,xScale=audioBoxScale-0.05,yScale=audioBoxScale-0.05})
-    end  
-    --Start Audio
-    audio.play(audioSample,{channel=2})
     print("AudioBoxListener tapped.")
-    --Then Animate
-    animate() --timer didnt work here    
+    local function animate(event)
+        --Start Audio Pronunciation
+        audio.play(audioSample,{channel=2})
+        transition.from(audioBox,{time=1000,x=audioBoxX,y=audioBoxY,xScale=audioBoxScale-0.05,yScale=audioBoxScale-0.05})
+    end
+    timer.performWithDelay(50,animate)
 end
 
 -------------------------------------------------

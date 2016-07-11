@@ -9,11 +9,11 @@
 ----------------------------------------
 local storyboard = require( "storyboard" )
 local scene = storyboard.newScene()
-require("questions")
-require("vocab")
-require("test.shufflingTest")
 local widget = require("widget")
 local myData = require("mydata")
+require("questions")
+require("test.shufflingTest")
+
 
 --For Submit Score
 local App42API = require("App42-Lua-API.App42API")
@@ -132,7 +132,11 @@ end
 --Submit Listener
 local function submitListener(event)
     --Play Click
-    audio.play(audioClick,{channel=3})
+    local function playSound()
+        audio.play(audioClick,{channel=3})
+    end
+    timer.performWithDelay(50,playSound)
+    
     --If the listener has not been pressed before, submit. Else ignore.
     if hasSubmitted==false then
         app42ScoreCallBack = {}
@@ -147,6 +151,9 @@ local function submitListener(event)
         end
         function app42ScoreCallBack:onException(exception)
             print("      -Score "..scoreValue.." NOT Saved correctly.")
+            print("Score failed to save to App42. Reseting hasSumbitted.")
+            --Score failed to register, so submit should be allowed to be pressed again.
+            hasSubmitted=false
         end
     else
         print("A previous submission was recorded, so this submission will be ignored.")
@@ -413,7 +420,10 @@ end
 function evaluateAnswer()
     if chosenAns == correctAns then
         --Print/Sound Correct
-        audio.play(audioCorrect,{channel=4})
+        local function playSound()
+            audio.play(audioCorrect,{channel=4})
+        end
+        timer.performWithDelay(50,playSound)
         print("Correct Answer")
         --Increment Score
         score=score+1
@@ -422,8 +432,11 @@ function evaluateAnswer()
         scoreText:setFillColor(0,1,0)
     else
         --Print/Sound Incorrect
-        audio.play(audioIncorrect,{channel=4})
         print("Wrong Answer")
+        local function playSound()
+            audio.play(audioIncorrect,{channel=4})
+        end
+        timer.performWithDelay(50,playSound)
     end
     
     --Continue playing with new question.
@@ -559,45 +572,45 @@ end
 
 --Answer Box Listeners 1 - 4
 function Ans1BoxListener()
+    print("Answer Box 1 Pressed (A)")
     local function animate(event)
+        audio.play(audioClick,{channel=3})
         transition.from(Ans1Button,{time=200,x=Ans1ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick,{channel=3})
-    timer.performWithDelay(1,animate) --timer required to animate properly.
-    print("Answer Box 1 Pressed (A)")
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     chosenAns = "A"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
 function Ans2BoxListener()
+    print("Answer Box 2 Pressed (B)")
     local function animate(event)
+        audio.play(audioClick,{channel=3})
         transition.from(Ans2Button,{time=200,x=Ans2ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick,{channel=3})
-    timer.performWithDelay(1,animate) --timer required to animate properly.
-    print("Answer Box 2 Pressed (B)")
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     chosenAns = "B"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
 function Ans3BoxListener()
+    print("Answer Box 3 Pressed (C)")
     local function animate(event)
+        audio.play(audioClick,{channel=3})
         transition.from(Ans3Button,{time=200,x=Ans3ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick,{channel=3})
-    timer.performWithDelay(1,animate) --timer required to animate properly.
-    print("Answer Box 3 Pressed (C)")
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     chosenAns = "C"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
 function Ans4BoxListener()
+    print("Answer Box 4 Pressed (D)")
     local function animate(event)
+        audio.play(audioClick,{channel=3})
         transition.from(Ans4Button,{time=200,x=Ans4ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
-    audio.play(audioClick,{channel=3})
-    timer.performWithDelay(1,animate) --timer required to animate properly.
-    print("Answer Box 4 Pressed (D)")
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     chosenAns = "D"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
@@ -637,9 +650,9 @@ end
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
     --Dispose Audio
-    audio.dispose(audioClick)
-    audio.dispose(audioCorrect)
-    audio.dispose(audioIncorrect)
+    --audio.dispose(audioClick)
+    --audio.dispose(audioCorrect)
+    --audio.dispose(audioIncorrect)
 end
 
 

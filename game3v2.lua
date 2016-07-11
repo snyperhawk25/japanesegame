@@ -486,8 +486,11 @@ function evaluateAnswer()
 	--Check correct
     if chosenAns == correctAns then
         --Print/Sound Correct
-        audio.play(audioCorrect,{channel=4})
         print("Correct Answer")
+        local function playSound()
+            audio.play(audioCorrect,{channel=4})
+        end
+        timer.performWithDelay(50,playSound)
         --Increment playerCombo
         --If player had correct answers combo before
         if playerCombo >= 0 then
@@ -501,8 +504,11 @@ function evaluateAnswer()
         updateScore(true,totalTime,playerCombo)
     else
         --Print/Sound Incorrect
-        audio.play(audioIncorrect,{channel=4})
         print("Wrong Answer")
+        local function playSound()
+            audio.play(audioIncorrect,{channel=4})
+        end
+        timer.performWithDelay(50,playSound)
         --Reset playerCombo, and updateScore()
         if playerCombo <= 0 then
         	--'wrong after wrongs'
@@ -555,48 +561,47 @@ end
 
 --Answer Box Listeners 1 - 3
 function Ans1BoxListener()
-    audio.play(audioClick,{channel=3})
-    local function animate(event)
-        transition.from(plate1,{time=200,x=plate1X,y=plateY,xScale=0.9,yScale=0.9})
-    end
-    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 1 Pressed")
+    local function animate(event)
+        audio.play(audioClick,{channel=3})
+        transition.from(plate1,{time=150,x=plate1X,y=plateY,xScale=0.9,yScale=0.9})
+    end
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     chosenAns = 1
-    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
+    timer.performWithDelay(150,evaluateAnswer) --timer to allow animation to finish
 end
 
 function Ans2BoxListener()
-    audio.play(audioClick,{channel=3})
-    local function animate(event)
-        transition.from(plate2,{time=200,x=plate2X,y=plateY,xScale=0.9,yScale=0.9})
-    end
-    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 2 Pressed")
+    local function animate(event)
+        audio.play(audioClick,{channel=3})
+        transition.from(plate2,{time=150,x=plate2X,y=plateY,xScale=0.9,yScale=0.9})
+    end
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     chosenAns = 2
-    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
+    timer.performWithDelay(150,evaluateAnswer) --timer to allow animation to finish
 end
 
 function Ans3BoxListener()
-    audio.play(audioClick,{channel=3})
-    local function animate(event)
-        transition.from(plate3,{time=200,x=plate3X,y=plateY,xScale=0.9,yScale=0.9})
-    end
-    timer.performWithDelay(1,animate) --timer required to animate properly.
     print("Answer Box 3 Pressed")
+    local function animate(event)
+        audio.play(audioClick,{channel=3})
+        transition.from(plate3,{time=150,x=plate3X,y=plateY,xScale=0.9,yScale=0.9})
+    end
+    timer.performWithDelay(50,animate) --timer required to animate properly.
     chosenAns = 3
-    timer.performWithDelay(200,evaluateAnswer) --timer to allow animation to finish
+    timer.performWithDelay(150,evaluateAnswer) --timer to allow animation to finish
 end
 
 --Audio Box Listener
 function AudioBoxListener()
+    print("AudioBoxListener tapped.")
     local function animate(event)
+        --Start Audio Pronunciation
+        audio.play(audioSample,{channel=2})
         transition.from(audioBox,{time=1000,x=audioBoxX,y=audioBoxY,xScale=audioBoxScale-0.05,yScale=audioBoxScale-0.05})
     end  
-    --Start Audio
-    audio.play(audioSample,{channel=2})
-    print("AudioBoxListener tapped.")
-    --Then Animate
-    animate() --timer didnt work here    
+    timer.performWithDelay(50,animate)
 end
 
 -------------------------------------------------
