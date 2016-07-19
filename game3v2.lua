@@ -462,7 +462,10 @@ function gameOver()
             gameName = "Food Vocab",
             finalScore = performanceScore,
             finalScoreUnit = "Points",
-            finalDescription = "You earned "..performanceScore.." points, for reaching "..winState.." in "..questionCounter.." questions!",
+            --finalDescription = "You earned "..performanceScore.." points, for reaching "..winState.." in "..questionCounter.." questions!",
+            finalDescription = "You earned "..performanceScore.." points, for the speed and accuracy of your answers. Great job!",
+            --finalDescription = "You won in "..questionCounter.." questions, giving you a score of "..performanceScore.." points!",
+            --finalDescription = "Number Of Questions: "..questionCounter..". Best Correct Answer Combo: "..maxCombo..". Final Score: "..performanceScore.." points!",
             --app 42 info
             app42GameName = "Food_Vocab"
         }

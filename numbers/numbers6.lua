@@ -261,20 +261,28 @@ local function drag(event)
  
 end
 
---b To reset the objects after success
+--To reset the sign and text objects after success //!@# IN PROGRESS
 local function resetObjects()
 	print("\nReseting Object x,y Positions\n")
 	asign.x=centerX+a[1]
 	asign.y=85
+	atext.x=centerX+a[1]
+	atext.y=85
 
 	bsign.x=centerX+a[2]
 	bsign.y=85
+	btext.x=centerX+a[2]
+	btext.y=85
 
 	csign.x=centerX+a[3]
 	csign.y=85
+	ctext.x=centerX+a[3]
+	ctext.y=85
 
 	dsign.x=centerX+a[1]
 	dsign.y=85
+	dtext.x=centerX+a[1]
+	dtext.y=85
 
 end
 
@@ -437,12 +445,13 @@ end
 
 -- Called when scene is about to move offscreen:
 function scene:exitScene( event )
+	resetObjects()
 end
 
 
 -- Called prior to the removal of scene's "view" (display group)
 function scene:destroyScene( event )
-	resetObjects()
+	--resetObjects()
 end
 
 

@@ -283,7 +283,6 @@ syl[110] = {syl[92][1]..syl[100][1]}
 
 --Numbers1.lua; Clock Numbers Start here
 --Approved by Nina/Julia
---Additional (formal) resources: http://japanese-lesson.com/vocabulary/words/time.html
 
 --Original
 syl[120] = {"12:00","じゅうにじ","jyuuniji"}

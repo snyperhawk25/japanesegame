@@ -253,7 +253,7 @@ local function showAnswers(n)
 	bubble:scale(0.74,0.43)
 	screenGroup:insert(bubble)
 
-	local instructions = "The bomb is on this street in building ".. answernum.. ". Go to that building and defuse the bomb."
+	local instructions = "The bomb is on this street in building ".. answernum.. ". Click on the sign for that building."
 	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)

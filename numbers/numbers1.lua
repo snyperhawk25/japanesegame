@@ -87,16 +87,12 @@ local function generateAnswers()
 	--Get New Seed
 	math.randomseed( os.time() )
 
-	--Generate All 4 answers (inefficiently); 0-23
-	local it=0
-	repeat
-		it=it+1
-		r1 = math.random(24)-1
-		r2 = math.random(24)-1
-		r3 = math.random(24)-1
-		r4 = math.random(24)-1
-		print("loops="..it)
-	until (r1 ~= r2) and (r2 ~= r3) and (r3 ~= r4) 	
+	--Generate All 4 unique answers; 0-23
+	--(future question of efficiency of 3 repeat-until VS. Fisher-Yates{0,1,2...23} and selecting first 4 elements. Lazy, so doing this for now.)
+	r1 = math.random(24)-1
+	repeat r2 = math.random(24)-1 until (r2 ~= r1)
+	repeat r3 = math.random(24)-1 until (r3 ~= r1) and (r3 ~= r2)
+	repeat r4 = math.random(24)-1 until (r4 ~= r1) and (r4 ~= r2) and (r4 ~= r3)
 
 	print("Here Are Todays Numbers..."..r1..","..r2..","..r3..","..r4..".")
 	

@@ -184,7 +184,7 @@ local function showAnswers(n)
 
 	--A
 	asign = display.newImage("images/numbers/sign.png",centerX+b[1],85)
-	asign:scale(0.4,0.4)
+	asign:scale(0.4,0.5)
 	local function  myFunction()
 		if answerGiven==false then
 			correct(screenGroup)
@@ -199,15 +199,15 @@ local function showAnswers(n)
 	screenGroup:insert(atext)
 
 	if asign.x==centerX-60 or asign.x==centerX+10 then
-		asign:scale(0.7,0.7)
-		asign.y=asign.y+10
-		atext:scale(0.7,0.7)
-		atext.y = atext.y+10
+		asign:scale(0.85,0.85)
+		asign.y=asign.y+20
+		atext:scale(0.85,0.85)
+		atext.y = atext.y+20
 	end
 
 	--B
 	bsign = display.newImage("images/numbers/sign.png",centerX+b[2],85)
-	bsign:scale(0.4,0.4)
+	bsign:scale(0.4,0.5)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -222,15 +222,15 @@ local function showAnswers(n)
 	screenGroup:insert(btext)
 
 	if bsign.x==centerX-60 or bsign.x==centerX+10 then
-		bsign:scale(0.7,0.7)
-		bsign.y=bsign.y+10
-		btext:scale(0.7,0.7)
-		btext.y = btext.y+10
+		bsign:scale(0.85,0.85)
+		bsign.y=bsign.y+20
+		btext:scale(0.85,0.85)
+		btext.y = btext.y+20
 	end
 
 	--C
 	csign = display.newImage("images/numbers/sign.png",centerX+b[3],85)
-	csign:scale(0.4,0.4)
+	csign:scale(0.4,0.5)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -245,15 +245,15 @@ local function showAnswers(n)
 	screenGroup:insert(ctext)
 
 	if csign.x==centerX-60 or csign.x==centerX+10 then
-		csign:scale(0.7,0.7)
-		csign.y=csign.y+10
-		ctext:scale(0.7,0.7)
-		ctext.y = ctext.y+10
+		csign:scale(0.85,0.85)
+		csign.y=csign.y+20
+		ctext:scale(0.85,0.85)
+		ctext.y = ctext.y+20
 	end
 
 	--D
 	dsign = display.newImage("images/numbers/sign.png",centerX+b[4],85)
-	dsign:scale(0.4,0.4)
+	dsign:scale(0.4,0.5)
 	local function  myFunction()
 		if answerGiven==false then
 			incorrect(screenGroup)
@@ -268,10 +268,10 @@ local function showAnswers(n)
 	screenGroup:insert(dtext)
 
 	if dsign.x==centerX-60 or dsign.x==centerX+10 then
-		dsign:scale(0.7,0.7)
-		dsign.y=dsign.y+10
-		dtext:scale(0.7,0.7)
-		dtext.y = dtext.y+10
+		dsign:scale(0.85,0.85)
+		dsign.y=dsign.y+20
+		dtext:scale(0.85,0.85)
+		dtext.y = dtext.y+20
 	end
 
 	--Bubble
