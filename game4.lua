@@ -627,9 +627,12 @@ function scene:createScene( event )
     local screenGroup = self.view
 
     --Draw Background image (rotated and fliped horizontally)
-    bg = display.newImage("images/bg.png", centerX,centerY+30) --yscale
-    bg:rotate(180)
-    bg.xScale=-1
+    --bg = display.newImage("images/bg.png", centerX,centerY+30) --yscale    
+    --bg:rotate(180)
+    --bg.xScale=-1
+
+    bg = display.newImage("images/CherryBlossoms.png", centerX,centerY)
+    bg:scale(0.45,0.42)    
     screenGroup:insert(bg)
     
 end
