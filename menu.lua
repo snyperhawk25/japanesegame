@@ -147,7 +147,7 @@ local function goToNum()
 		playedNumbers = true
 		--Update And Goto Dialogue
 		transitionOptions.params.dialogueTitle = "Time To Defuse"
-		transitionOptions.params.dialogueText = "- You've discovered a bomb, and it's up to you to defuse it.\n\n- Follow the instructions in each level to complete the tasks to defuse the bomb."
+		transitionOptions.params.dialogueText = "- You are a bomb specialist and your skills have been called on to defuse a bomb in a limited amount of time.\n\n- Follow the instructions in each level to complete the tasks and save the day."
 		transitionOptions.params.nextScene = "numbers.numbers1"
 		--printTransitionArray()
 		storyboard.gotoScene("dialoguePage",transitionOptions)
