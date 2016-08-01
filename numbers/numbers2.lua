@@ -28,15 +28,40 @@ local audioClick = audio.loadSound("audio/click1.wav")
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
-local function goToMenu()
+local transitionOptions = {
+	effect="zoomOutInFadeRotate",
+	time=1000,
+}
+local menuTransition = {
+	effect="fade",
+	time=500,
+}
 
-    storyboard.gotoScene("menu")
-    storyboard.removeScene("numbers.numbers2")
+--Function to delay this scene's removal.
+local function delayedSceneRemoval()
+    local function removeSceneListener(event)
+        storyboard.removeScene("numbers.numbers2")
+    end
+    timer.performWithDelay(1000, removeSceneListener)
+end
+
+local function goToMenu()
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
+    storyboard.gotoScene("menu", menuTransition)
+    --storyboard.removeScene("numbers.numbers2")
+    delayedSceneRemoval()
 end
 
 local function restart()
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
 	storyboard.purgeScene("numbers.numbers2")
-	storyboard.gotoScene("numbers.numbers1")
+	storyboard.gotoScene("numbers.numbers1", transitionOptions)
 end
 
 

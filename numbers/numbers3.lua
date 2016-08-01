@@ -28,16 +28,42 @@ local audioClick = audio.loadSound("audio/click1.wav")
 
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
-local function goToMenu()
 
-    storyboard.gotoScene("menu")
-    storyboard.removeScene("numbers.numbers3")
+local transitionOptions = {
+	effect="zoomOutInFadeRotate",
+	time=1000,
+}
+local menuTransition = {
+	effect="fade",
+	time=500,
+}
+
+--Function to delay this scene's removal.
+local function delayedSceneRemoval()
+    local function removeSceneListener(event)
+        storyboard.removeScene("numbers.numbers3")
+    end
+    timer.performWithDelay(1000, removeSceneListener)
+end
+
+local function goToMenu()
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
+    storyboard.gotoScene("menu", menuTransition)
+    --storyboard.removeScene("numbers.numbers3")
+    delayedSceneRemoval()
 end
 
 
 local function restart()
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
 	storyboard.purgeScene("numbers.numbers3")
-	storyboard.gotoScene("numbers.numbers1")
+	storyboard.gotoScene("numbers.numbers1", transitionOptions)
 end
 
 
@@ -256,24 +282,46 @@ local function showAnswers(n)
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 
-	local c={-240,-260,-220,-200,-160,-140,-120,-80,-40,-60,240,260,220,200,160,140,120,80,50,60}
+	--Original Location Randomizer
+	--local c={-240,-260,-220,-200,-160,-140,-120,-80,-40,-60,240,260,220,200,160,140,120,80,50,60}
+	--local d = {}
+	--count = 20
+
+	--while (count>0) do --randomize the array of x values
+	--	local r = math.random(1,count)
+	--	d[count] = centerX+c[r]
+	--	table.remove(c, r)
+	--	count=count-1
+	--end
+
+
+	--!@#//Use Fisher Yates HERE instead
+	--!@#// New Coordinates for 300px across / 20 max. Please remove +centerX from positioning.
+	-- {300,285,270,255,240,225,210,195,180,165,150,135,120,105,90,75,60,45,30,15}
+	local c={300,285,270,255,240,225,210,195,180,165,150,135,120,105,90,75,60,45,30,15}
 	local d = {}
 	count = 20
 
 	while (count>0) do --randomize the array of x values
 		local r = math.random(1,count)
-		d[count] = centerX+c[r]
+		d[count] = c[r]
 		table.remove(c, r)
 		count=count-1
 	end
 
+
 	badguys = {}
 	for i = 1,answernum,1 do
-		badguys[i] = display.newImage("images/numbers/stickfig.png",d[i],centerY-10)
 		if i%2==0 then
-			badguys[i]:scale(0.3,0.3)
+			--Bright Red
+			badguys[i] = display.newImage("images/numbers/stickfig.png",d[i],centerY-10)
+			badguys[i].anchorX = 0.0
+			badguys[i]:scale(0.27,0.3)
 		else
-			badguys[i]:scale(-0.3,0.3)
+			--Maroon
+			badguys[i] = display.newImage("images/numbers/stickfig2.png",d[i],centerY-10)
+			badguys[i].anchorX = 0.0
+			badguys[i]:scale(-0.27,0.3)
 		end
 		screenGroup:insert(badguys[i])
 	end

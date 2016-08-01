@@ -43,6 +43,7 @@ local transitionOptions = {
 	}
 }
 
+--TEST METHOD. CAN REMOVE
 local function printTransitionArray()
 	print("PRINTING TRANSITION ARRAY:")
 	print("dialogueTitle: "..transitionOptions.params.dialogueTitle..";")
@@ -77,7 +78,7 @@ local function goToGame4()
 		transitionOptions.params.dialogueTitle = "Sensei’s Sentence Quiz"
 		transitionOptions.params.dialogueText = "\n- Choose the appropriate word, in order to make a MEANINGFUL sentence.\n\n- Try to get the highest score possible!"
 		transitionOptions.params.nextScene = "game4"
-		printTransitionArray()
+		--printTransitionArray()
 		storyboard.gotoScene("dialoguePage",transitionOptions)
 	else
 		storyboard.gotoScene("game4",transitionOptions)
@@ -100,7 +101,7 @@ local function goToGame2()
 		transitionOptions.params.dialogueTitle = "Yakuza Vocab"
 		transitionOptions.params.dialogueText = "- Answer the questions correctly to keep the Yakuza gangster away from you.\n\n- Make three (3) mistakes and you will lose your life."
 		transitionOptions.params.nextScene = "game2"
-		printTransitionArray()
+		--printTransitionArray()
 		storyboard.gotoScene("dialoguePage",transitionOptions)
 	else
 		storyboard.gotoScene("game2",transitionOptions)
@@ -123,7 +124,7 @@ local function goToGame3()
 		transitionOptions.params.dialogueTitle = "Kaiten Vocab"
 		transitionOptions.params.dialogueText = "- You are a customer at a kaiten zushi (conveyor belt sushi) restaurant.\n\n- Pick out the food item from the questions as quickly as possible.\n\n- Try to reach a score of 500 as FAST as you can."
 		transitionOptions.params.nextScene = "game3v2"
-		printTransitionArray()
+		--printTransitionArray()
 		storyboard.gotoScene("dialoguePage",transitionOptions)
 	else
 		storyboard.gotoScene("game3v2",transitionOptions)
@@ -147,11 +148,11 @@ local function goToNum()
 		--Update And Goto Dialogue
 		transitionOptions.params.dialogueTitle = "Time To Defuse"
 		transitionOptions.params.dialogueText = "- You've discovered a bomb, and it's up to you to defuse it.\n\n- Follow the instructions in each level to complete the tasks to defuse the bomb."
-		transitionOptions.params.nextScene = "numbers.numbers6"
-		printTransitionArray()
+		transitionOptions.params.nextScene = "numbers.numbers1"
+		--printTransitionArray()
 		storyboard.gotoScene("dialoguePage",transitionOptions)
 	else
-		storyboard.gotoScene("numbers.numbers6",transitionOptions)
+		storyboard.gotoScene("numbers.numbers1",transitionOptions)
 	end
 	delayedSceneRemoval()
 end

@@ -46,6 +46,23 @@ local audioClick = audio.loadSound("audio/click1.wav")
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
+local transitionOptions = {
+	effect="zoomOutInFadeRotate",
+	time=1000,
+}
+local menuTransition = {
+	effect="fade",
+	time=500,
+}
+
+--Function to delay this scene's removal.
+local function delayedSceneRemoval()
+    local function removeSceneListener(event)
+        storyboard.removeScene("numbers.numbers1")
+    end
+    timer.performWithDelay(1000, removeSceneListener)
+end
+
 --Function to rotate the clock's arms to the correct time
 local function rotate() 
 	--Hour Hand (30 degrees / hour)
@@ -113,13 +130,22 @@ local function generateAnswers()
 end
 
 local function goToMenu()
-    storyboard.gotoScene("menu")
-    storyboard.removeScene("numbers.numbers1")
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
+    storyboard.gotoScene("menu", menuTransition)
+    --storyboard.removeScene("numbers.numbers1")
+    delayedSceneRemoval()
 end
 
 local function restart()
+	local function playSound()
+		audio.play(audioClick,{channel=3})
+	end
+	timer.performWithDelay(20,playSound)
 	storyboard.purgeScene("numbers.numbers1")
-	storyboard.reloadScene()
+	storyboard.reloadScene() --can't use transitionOptions here.
 end
 
 
@@ -176,8 +202,9 @@ local function correct(n)
 		audio.play(audioClick,{channel=3})
 	end
 	timer.performWithDelay(20,playSound)	
-	storyboard.purgeScene("numbers.numbers1")
-	storyboard.gotoScene("numbers.numbers2","zoomOutInFadeRotate",1000)
+	--storyboard.purgeScene("numbers.numbers1")
+	storyboard.gotoScene("numbers.numbers2", transitionOptions)
+	delayedSceneRemoval()
 	
 end
 
@@ -198,9 +225,12 @@ local function showAnswers(screenGroup)
 	--	count=count-1
 	--end
 
+
+
+
 	--Shuffle
-	--b = fisherYates({{-200,65},{-200,120},{200,120},{200,65}})
-	b={{-200,65},{-200,120},{200,120},{200,65}} --//!@#Removed Randomizer
+	--b = fisherYates({{-170,65},{-170,120},{170,120},{170,65}})
+	b={{-170,65},{-170,120},{170,120},{170,65}} --//!@#Removed Randomizer
 	 
 	
 
