@@ -413,7 +413,7 @@ function generateQuestion()
     else
         countText = display.newText("Questions Seen: "..questionCounter.." / "..questionsEndIndex, 70, 120, native.systemFontBold, 13)
     end
-    countText:setFillColor(1,1,1)
+    countText:setFillColor(0,0,0)
 end
 
 --Function to evaluate the player-selected answer

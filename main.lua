@@ -89,11 +89,16 @@ local centerY = display.contentCenterY
 
 local storyboard = require( "storyboard" )
 
---//!@# Required For Numbers Games
---this methods gives appropriate x and y scale values for use when displaying text, images, etc. based
---on the devices screen size. This way everything shows up the same on all devices
---B: This method doesnt work with Corona's content scaling.
---It, and its variables are not used in game2-game4.
+--Dialogue Booleans
+playedGame4 = false
+playedGame2 = false
+playedGame3 = false
+playedNumbers = false
+
+
+
+--USED TO BE REQUIRED FOR NUMBERS GAMES, this methods gives appropriate x and y scale values for use when displaying text, images, etc. based on the devices screen size. This way everything shows up the same on all devices
+--However This method doesnt work with Corona's content scaling, AND its variables are not used in game2-game4.
 function toScale()
 	local iphone5x = 640
 	local iphone5y = 1136
@@ -127,6 +132,7 @@ function toScale()
 end
 --toScale() --//!@#should be used for the numbers games.
 
+
 --Commenting out SQLite3 db usage
 --database setup starts here
 --local tablesetup = [[CREATE TABLE IF NOT EXISTS score (id INTEGER PRIMARY KEY, amount INTEGER);]]
@@ -154,7 +160,6 @@ cgl_downloadFile()
 
 --Step 3) Initialize Leaderboard
 runInitialTest()
---initializeLeaderboards()
 
 --Step 4) Read Custom Levels into myData
 initializeGameReader()

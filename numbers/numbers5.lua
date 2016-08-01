@@ -59,7 +59,7 @@ local function incorrect1(n)
 	screenGroup:insert(bubble)
 
 	local instructions = "Oh no! You dialed the wrong number and the bomb blew up! Mission failed."
-	myText = display.newText(instructions, centerX, centerY+150,400,200, native.systemFont, 18 )
+	myText = display.newText(instructions, centerX, centerY+180,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)
 

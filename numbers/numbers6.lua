@@ -11,18 +11,18 @@ local scene = storyboard.newScene()
 require("test.shufflingTest")
 
 local a={-200,-90,55,200} 
-local answer --answer
-local answernum --answer
-local opt1 --options
-local opt2
-local opt3
-local num1
-local num2
-local num3
-local num4
-local myText
-local bubble
-local endgroup
+local answer = nil--answer
+local answernum = nil --answer
+local opt1 = nil --options
+local opt2 = nil
+local opt3 = nil
+local num1 = nil
+local num2 = nil
+local num3 = nil
+local num4 = nil
+local myText = nil
+local bubble = nil
+local endgroup = nil
 local toggle1 = false
 local toggle2 = false
 local toogle3 = false

@@ -51,7 +51,7 @@ local retryY = 240
 --Function to remove all display objects, and listeners
 local function removeAllDisplayObjects()
 	--Listeners
-	retry:removeEventListener("tap", retry)
+	--retry:removeEventListener("tap", retry)
 	--Display
 	display.remove(finalScoreText)
 	display.remove(playerScoreText)

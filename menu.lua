@@ -23,6 +23,7 @@ local place3 = 200
 local place4 = 250
 local miniFont = 14
 
+
 --local webLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal Page
 --local webLink = "http://fccs.ok.ubc.ca/programs/other/japanese.html" --UBCO FCCS Japanese Studies Page
 local weblink = "https://github.com/snyperhawk25/japanesegame/wiki" --KissaVocab Wikipedia
@@ -34,9 +35,20 @@ local menuMusic = audio.loadSound("audio/KissaVocabMenuMusic.mp3")
 
 local transitionOptions = {
 	effect="fade",
-	time=500
+	time=500,
+	params = {
+		dialogueTitle = "general title",
+		dialogueText = "This is some general dialogue text.",
+		nextScene = "general level name"
+	}
 }
 
+local function printTransitionArray()
+	print("PRINTING TRANSITION ARRAY:")
+	print("dialogueTitle: "..transitionOptions.params.dialogueTitle..";")
+	print("dialogueText: "..transitionOptions.params.dialogueText..";")
+	print("nextScene: "..transitionOptions.params.nextScene..";")
+end
 --Function to delay the removal of the scene, smoothing out the transition between scenes
 local function delayedSceneRemoval()
 	--Stop Music
@@ -58,9 +70,18 @@ local function goToGame4()
 	end
 	timer.performWithDelay(50, playClick)
 
-	storyboard.gotoScene("game4",transitionOptions)
-	--storyboard.gotoScene("test.shufflingTest",transitionOptions)
-	--storyboard.gotoScene("test.testPrintCharactersScreen",transitionOptions)
+	--First Time to DialoguePage, otherwise normal
+	if not playedGame4 then
+		playedGame4 = true
+		--Update And Goto Dialogue
+		transitionOptions.params.dialogueTitle = "Sensei’s Sentence Quiz"
+		transitionOptions.params.dialogueText = "\n- Choose the appropriate word, in order to make a MEANINGFUL sentence.\n\n- Try to get the highest score possible!"
+		transitionOptions.params.nextScene = "game4"
+		printTransitionArray()
+		storyboard.gotoScene("dialoguePage",transitionOptions)
+	else
+		storyboard.gotoScene("game4",transitionOptions)
+	end
 	delayedSceneRemoval()
 end
 local function goToGame2()
@@ -72,8 +93,18 @@ local function goToGame2()
 	end
 	timer.performWithDelay(50, playClick)
 
-	storyboard.gotoScene("game2",transitionOptions)
-	--storyboard.removeScene("menu")
+	--First Time to DialoguePage, otherwise normal
+	if not playedGame2 then
+		playedGame2 = true
+		--Update And Goto Dialogue
+		transitionOptions.params.dialogueTitle = "Yakuza Vocab"
+		transitionOptions.params.dialogueText = "- Answer the questions correctly to keep the Yakuza gangster away from you.\n\n- Make three (3) mistakes and you will lose your life."
+		transitionOptions.params.nextScene = "game2"
+		printTransitionArray()
+		storyboard.gotoScene("dialoguePage",transitionOptions)
+	else
+		storyboard.gotoScene("game2",transitionOptions)
+	end
 	delayedSceneRemoval()
 end
 local function goToGame3()
@@ -85,11 +116,22 @@ local function goToGame3()
 	end
 	timer.performWithDelay(50, playClick)
 
-	storyboard.gotoScene("game3v2",transitionOptions)
+	--First Time to DialoguePage, otherwise normal
+	if not playedGame3 then
+		playedGame3 = true
+		--Update And Goto Dialogue
+		transitionOptions.params.dialogueTitle = "Kaiten Vocab"
+		transitionOptions.params.dialogueText = "- You are a customer at a kaiten zushi (conveyor belt sushi) restaurant.\n\n- Pick out the food item from the questions as quickly as possible.\n\n- Try to reach a score of 500 as FAST as you can."
+		transitionOptions.params.nextScene = "game3v2"
+		printTransitionArray()
+		storyboard.gotoScene("dialoguePage",transitionOptions)
+	else
+		storyboard.gotoScene("game3v2",transitionOptions)
+	end
 	delayedSceneRemoval()
 end
 
---b test Numbers Game.
+--Numbers Game. //!@#fix !!!
 local function goToNum()
 	--Click 
 	local function playClick()
@@ -99,7 +141,18 @@ local function goToNum()
 	end
 	timer.performWithDelay(50, playClick)
 
-	storyboard.gotoScene("numbers.numbers1",transitionOptions)
+	--First Time to DialoguePage, otherwise normal
+	if not playedNumbers then
+		playedNumbers = true
+		--Update And Goto Dialogue
+		transitionOptions.params.dialogueTitle = "Time To Defuse"
+		transitionOptions.params.dialogueText = "- You've discovered a bomb, and it's up to you to defuse it.\n\n- Follow the instructions in each level to complete the tasks to defuse the bomb."
+		transitionOptions.params.nextScene = "numbers.numbers6"
+		printTransitionArray()
+		storyboard.gotoScene("dialoguePage",transitionOptions)
+	else
+		storyboard.gotoScene("numbers.numbers6",transitionOptions)
+	end
 	delayedSceneRemoval()
 end
 
@@ -179,7 +232,7 @@ function scene:createScene( event )
         id = "game1",
         x = centerX-150,
         y = place1,
-        label = "Nina's Questions",
+        label = "Sensei’s Sentence Quiz",
         labelAlign = "left",
         shape = "rect",
         font = native.systemFontBold,
@@ -212,7 +265,7 @@ function scene:createScene( event )
         id = "game2",
         x = centerX-50,
         y = place2,
-        label = "Item Identity",
+        label = "Yakuza Vocab",
         labelAlign = "left",
         shape = "rect",
         font = native.systemFontBold,
@@ -245,7 +298,7 @@ function scene:createScene( event )
         id = "game3",
         x = centerX+50,
         y = place3,
-        label = "Food Frenzy",
+        label = "Kaiten Vocab",
         labelAlign = "left",
         shape = "rect",
         font = native.systemFontBold,
@@ -278,7 +331,7 @@ function scene:createScene( event )
         id = "game4",
         x = centerX+150,
         y = place4,
-        label = "Time Is Numbered",
+        label = "Time To Defuse",
         labelAlign = "left",
         shape = "rect",
         font = native.systemFontBold,
