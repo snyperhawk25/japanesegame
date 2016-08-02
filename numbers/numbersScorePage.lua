@@ -106,18 +106,17 @@ function scene:createScene( event )
 	reloadScene = event.params.retryScene
 
 	app42GameName = event.params.app42GameName
-	
-	--Do NOT Submit "TimeIsNumbered"  Scores to App42
-	if nameOfGame~="TimeIsNumbered" then
-		--Console Print
-		if reloadScene==nil then
-			print("reloadScene was nil")
-		end
-		print("______gameOverOptions Readout:\nName Of Game: "..nameOfGame..".\nFinal Score: "..finalScore..".\nFinal Score Unit: "..finalScoreUnit..".\nFinal Description: "..finalDescription..".\nReload Scene: "..reloadScene..".\n_______END")
 
-		--Submit Score to App42
-		saveUserScore(app42GameName, myData.App42Username, finalScore)
+	--Print GameOverOptions to console
+	if reloadScene==nil then
+		print("reloadScene was nil")
 	end
+	print("______gameOverOptions Readout:\nName Of Game: "..nameOfGame..".\nFinal Score: "..finalScore..".\nFinal Score Unit: "..finalScoreUnit..".\nFinal Description: "..finalDescription..".\nReload Scene: "..reloadScene..".\n_______END")
+
+	
+	--Submit ALL Scores to App42 (TimeIsNumbered: 100 is a meaningless number)
+	saveUserScore(app42GameName, myData.App42Username, finalScore)	
+	
 
 	--Draw Background image (rotated and fliped horizontally)
 	bg = display.newImage("images/bg.png", centerX,centerY+30) --yscale

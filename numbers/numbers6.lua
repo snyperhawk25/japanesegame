@@ -234,7 +234,7 @@ local function checkEnd(focus)
 		            finalScoreUnit = "%",
 		            finalDescription = "You managed to defuse the bomb and save the day. Well done!",
 		            --app 42 info
-		            app42GameName = "TimeIsNumbered"
+		            app42GameName = "Numbers_Game" --TimeIsNumbered?
 		        }
 		    }
 
