@@ -114,7 +114,7 @@ function scene:enterScene( event )
 		y = 70,
 		width = 450,
 		height = 160,
-		fontSize = 20,
+		fontSize = 17,
 		align = "left"
 	}	
 	gameDescription = display.newText(descriptionOptions)
