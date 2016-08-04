@@ -5,7 +5,7 @@
 -----------------------------------------------------------------------------------------
 
 -- show default status bar (iOS)
-require "dbFile" --where all the db commands come from
+--require "dbFile" --where all the db commands come from
 
 ---------------------------------------------------
 --AUDIO Management Section
@@ -159,13 +159,10 @@ cgl_downloadFile()
 --cgl_uploadFile()
 
 --Step 3) Initialize Leaderboard
-runInitialTest()
+--runInitialTest()
 
---Step 4) Read Custom Levels into myData
-initializeGameReader()
-
----TESTING NEW READER
---require("test.testReader")
+--Step 4) Read Custom Levels into myData 
+--(Moved to downloadCustomGameLEvels.lua, to respond to events from download directly.)
 --initializeGameReader()
 
 

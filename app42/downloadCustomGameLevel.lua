@@ -10,7 +10,7 @@ local tools=require("app42.App42Tools") --this is for App42:Initialize
 local ACL= require("App42-Lua-API.ACL")   
 require("App42-Lua-API.UploadFileType")   
 require("App42-Lua-API.Permission") 
-require("app42.customLevelReader")
+require("app42.customLevelReader") -- for initializing game reader
 --------------------------------------
 
 --Global Variables
@@ -57,8 +57,9 @@ end
 -- This listener is given to the networkDownload function, to handle its events .
 local networkListener = function( event )
 	    if ( event.isError ) then
-	    	--Failure
-	        print( "Network Download Error. Download Failed. :(" )
+	    	--Failure. Try to read local.s
+	        print( "Network Download Error. Download Failed. :(. Looking for local customGameLevels.txt file." )
+	        initializeGameReader()
 	    elseif ( event.phase == "began" ) then
 	    	--Begining Dowload
 	        print( "Progress Phase: Downloading..." )
@@ -67,7 +68,7 @@ local networkListener = function( event )
 	        print("File Downloaded. :)")
 	        --Once downloadd, call the GameReader to read in the new file.
 	        --gameReader transition
-			--initializeGameReader()
+			initializeGameReader()
 	    end
 end
 
