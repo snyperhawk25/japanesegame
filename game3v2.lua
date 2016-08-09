@@ -34,7 +34,7 @@ local questionCounter=0 --questions counter
 local playerCombo=0 --player current combo
 local maxCombo=0 --maximum combo
 local start, finish --times
-local winState = 500 --score to achieve Win
+local winState = 1000 --score to achieve Win
 
 --Question Randomization
 local questionsStartIndex = 11
@@ -449,7 +449,7 @@ function gameOver()
     removeAllDisplayObjects()
 
     --performance Score calculation
-    -- Constant 5 based on max performance of 5 * (<1/2sec answers @ 100pts) = 500 Win State
+    -- Constant 5 based on max performance of 5 * (<1/2sec answers @ 100pts) = 1000 Win State
     performanceScore = (winState * maxCombo) + math.floor((5/questionCounter)*winState)
     print("PerformanceScore : "..performanceScore..";")
 

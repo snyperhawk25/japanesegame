@@ -305,7 +305,7 @@ local function showAnswers(screenGroup)
 	bubble:scale(0.74,0.43)
 	screenGroup:insert(bubble)
 
-	local instructions = "You see a clock on the wall, but it is not set to the correct time. You hear a very suspicious ticking sound coming from the clock, making you suddenly nervous. What time is shown on the clock?"
+	local instructions = "You hear a very suspicious ticking sound coming from the clock, making you suddenly nervous. What time is shown on the clock?"
 	myText = display.newText(instructions, centerX, centerY+140,400,200, native.systemFont, 18 )
 	myText:setFillColor(0)
 	screenGroup:insert(myText)

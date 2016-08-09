@@ -1,5 +1,11 @@
 settings = {
 	
+  excludeFiles = {
+    all = {
+      "gallery/*.jpg"
+    },
+  },
+
 	orientation = {
 		default = "landscapeRight",
 		supported = { "landscapeRight","landscapeLeft"}
@@ -10,7 +16,6 @@ settings = {
 
 	android = {
 		versionCode = "10", --for v1.0
-
 		usesPermissions = {
 			"android.permission.INTERNET",
 			"android.permission.WRITE_EXTERNAL_STORAGE",

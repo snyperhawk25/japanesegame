@@ -229,7 +229,7 @@ local function checkEnd(focus)
 		        params = {
 		            --var1 = "test",
 		            retryScene = "numbers.numbers1",
-		            gameName = "Time Is Numbered",
+		            gameName = "Time To Defuse",
 		            finalScore = 100,
 		            finalScoreUnit = "%",
 		            finalDescription = "You managed to defuse the bomb and save the day. Well done!",

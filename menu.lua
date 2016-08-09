@@ -122,7 +122,7 @@ local function goToGame3()
 		playedGame3 = true
 		--Update And Goto Dialogue
 		transitionOptions.params.dialogueTitle = "Kaiten Vocab"
-		transitionOptions.params.dialogueText = "- You are a customer at a kaiten zushi (conveyor belt sushi) restaurant.\n\n- Pick out the food item from the questions as quickly as possible.\n\n- Try to reach a score of 500 as FAST as you can."
+		transitionOptions.params.dialogueText = "- You are a customer at a kaiten zushi (conveyor belt sushi) restaurant.\n\n- Pick out the food item from the questions as quickly as possible.\n\n- Try to reach a score of 1000 as FAST as you can."
 		transitionOptions.params.nextScene = "game3v2"
 		--printTransitionArray()
 		storyboard.gotoScene("dialoguePage",transitionOptions)

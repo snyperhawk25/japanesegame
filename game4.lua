@@ -71,7 +71,7 @@ local centerY = display.contentCenterY
 local questionTextX = 240
 local questionTextY = 30
 local scoreTextX = centerX+2
-local scoreTextY = 240
+local scoreTextY = centerY
 
 local menuX = 445
 local menuY = 30
@@ -429,7 +429,7 @@ function evaluateAnswer()
         score=score+1
         scoreText:removeSelf()
         scoreText= display.newText(""..score, scoreTextX, scoreTextY, native.systemFont, 35)
-        scoreText:setFillColor(0,1,0)
+        scoreText:setFillColor(0,0,0)
     else
         --Print/Sound Incorrect
         print("Wrong Answer")
@@ -518,7 +518,7 @@ function Game4()
 
     --Score Text
     scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
-    scoreText:setFillColor(0,1,0)
+    scoreText:setFillColor(0,0,0)
 
     --Finally, Begin Playing by Generating A Question.
     generateQuestion()
