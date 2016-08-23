@@ -2,7 +2,18 @@ settings = {
 	
   excludeFiles = {
     all = {
-      "gallery/*.jpg"
+      "gallery/*.jpg",
+      "images/syllabary/*jpg",
+      "images/Food-Vocab.png",
+      "images/info.png",
+      "images/Numbers.png",
+      "images/Pause.png",
+      "images/Pause_Selected.png",
+      "images/play.png",
+      "images/power_icon.png",
+      "images/settings.png",
+      "images/title.png",
+      "images/Vocab.png",
     },
   },
 
@@ -10,38 +21,30 @@ settings = {
 		default = "landscapeRight",
 		supported = { "landscapeRight","landscapeLeft"}
 	},
-	
-
-	-- Android permissions
 
 	android = {
-		versionCode = "10", --for v1.0
+		versionCode = "13", 
 		usesPermissions = {
 			"android.permission.INTERNET",
 			"android.permission.WRITE_EXTERNAL_STORAGE",
 			"android.permission.READ_EXTERNAL_STORAGE",
-			--"android.permission.MANAGE_DOCUMENTS", -- Not as part of a document picker...
-			--"android.permission.VIBRATE", --As part of vibrate feature in future
+		},	
+  },
 
-		},
-  		
-  	},
-
-  	-- Windows 32 Desktop Permissions
-  	window = {
-  		defaultMode = "maximized", --maximized
-  		defaultViewWidth = 1040, --excedes 480 by 2x (960+40*2)
-  		defaultViewHeight = 640, --excedes 320 by 2x
-  		minViewWidth = 520, --480+40
-  		minViewHeight = 320, --320
-  		resizable = true, --True for minViewWidth/Height values to apply --NOTE"no handling of Corona's 'resize' event in v10 code
-  		enableCloseButton = true,
-  		enableMinimizeButton = true,
-  		enableMaximizeButton = true,
-  		suspendWhenMinimized = true, --Corona should suspend gmae runtime when minimized.
-  		titleText = {
+  	
+  window = {
+  	defaultMode = "maximized",
+  	defaultViewWidth = 1040,
+  	defaultViewHeight = 640, 
+  	minViewWidth = 520,
+  	minViewHeight = 320,
+  	resizable = true,
+  	enableCloseButton = true,
+  	enableMinimizeButton = true,
+  	enableMaximizeButton = true,
+  	suspendWhenMinimized = true,
+  	titleText = {
   			default = "KissaVocab (Vocab Cafe)"
   		}
-  	},
-
+  },
 }

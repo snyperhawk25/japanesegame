@@ -257,8 +257,8 @@ function updateScore(isCorrect,time,combo)
 	--< 5  sec =  20pts
 	-->=5  sec =  10pts
 	--Note: Scores above are multiplied by a factor of
-	--      how many combos of 5 correct answers they 
-	--      have, up to a maximum of 5x multiplier
+	--      how many combos of (winState/100) correct answers they 
+	--      have.
 	--Note: Incorrect Answers lose 10pts, to minimum of 0.
 	--Note: To prevent cheating, if the playerCombo goes
 	--      below -6 (6 consectively incorrect), it's assumed
@@ -267,7 +267,7 @@ function updateScore(isCorrect,time,combo)
 	--Copy Current score
 	local newScore=0+score
 
-	--Calulate Combo multiplier
+	--Calulate Combo multiplier (ie, streaks of 5)
 	local newCombo
 	if combo>0 then
         --Positive Combo
@@ -276,6 +276,7 @@ function updateScore(isCorrect,time,combo)
         --Cheating
 		print("CHEATING")
 		newCombo=10000--cheating (> 6 wrongs, assumed cheating)
+        --This positive number actually subtracts the score. See incorrect answer comment.
 	else
         --Negative Combo
 		newCombo=1
@@ -449,8 +450,8 @@ function gameOver()
     removeAllDisplayObjects()
 
     --performance Score calculation
-    -- Constant 5 based on max performance of 5 * (<1/2sec answers @ 100pts) = 1000 Win State
-    performanceScore = (winState * maxCombo) + math.floor((5/questionCounter)*winState)
+    -- Constant (winState/100) based on max performance of winState/100pts (<1/2sec answers @ 100pts) = 1000 Win State
+    performanceScore = (winState * maxCombo) + math.floor(((winState/100)/questionCounter)*winState)
     print("PerformanceScore : "..performanceScore..";")
 
 
