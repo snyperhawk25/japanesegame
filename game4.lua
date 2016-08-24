@@ -150,7 +150,7 @@ local function submitListener(event)
             hasSubmitted=true
         end
         function app42ScoreCallBack:onException(exception)
-            print("      -Score "..scoreValue.." NOT Saved correctly.")
+            print("      -Score "..score.." NOT Saved correctly.")
             print("Score failed to save to App42. Reseting hasSumbitted.")
             --Score failed to register, so submit should be allowed to be pressed again.
             hasSubmitted=false
