@@ -274,7 +274,8 @@ end
 
 
 function gR_testPrintLevels()
-	print("TEST: Printing Levels Array...")
+	print("TEST: Printing All Levels Array...")
+	print("- myData.custom.All: "..table.getn(myData.custom.All)..".")
 	for i=1,numQuestions,1 do
 		print("---------------------------------------")
 		print("Level "..i..", QID: "..myData.custom.All[i][1])

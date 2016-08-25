@@ -23,7 +23,7 @@ settings = {
 	},
 
 	android = {
-		versionCode = "13", 
+		versionCode = "14", 
 		usesPermissions = {
 			"android.permission.INTERNET",
 			"android.permission.WRITE_EXTERNAL_STORAGE",

@@ -204,11 +204,18 @@ function generateQuestion()
 
     --Check questionCounter for need of reordering orderOfQuestions
     if questionCounter%(questionsEndIndex-questionsStartIndex+1)==0 then
+        print("Reorder of Questions required.") --TEST
         --Check for first-time ordering
         if questionCounter==0 then
+            print("First Time Order.")
             orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex)
         end  
         orderOfQuestions = fisherYatesNumbers(questionsStartIndex,questionsEndIndex,orderOfQuestions[1])
+        local showOrderString = "{Question Ordering: "
+        for i=1, table.getn(orderOfQuestions),1 do
+            showOrderString = showOrderString..orderOfQuestions[i]..", "
+        end
+        print(showOrderString.."}")
     end    
     print("orderOfQuestions["..((questionCounter % (questionsEndIndex-questionsStartIndex+1))+1).."];")
     local num = orderOfQuestions[(questionCounter%(questionsEndIndex-questionsStartIndex+1))+1]
@@ -420,13 +427,26 @@ end
 
 --Function to evaluate the player-selected answer
 function evaluateAnswer()
+    print("     Evaluating Answer(). ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
+
+    --Preparing strings
+    chosenAns = string.gsub(chosenAns, " ", "")
+    correctAns = string.gsub(correctAns, " ", "")
+    chosenAns = string.upper(chosenAns)
+    correctAns = string.upper(correctAns)
+    print("     After Prepared. ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
+
+    --Print evaluation condition boolean
+    print("     chosenAns == correctAns:")
+    print((chosenAns == correctAns))
+
     if chosenAns == correctAns then
         --Print/Sound Correct
         local function playSound()
             audio.play(audioCorrect,{channel=4})
         end
         timer.performWithDelay(50,playSound)
-        print("Correct Answer")
+        print("     Correct Answer")
         --Increment Score
         score=score+1
         scoreText:removeSelf()
@@ -434,7 +454,7 @@ function evaluateAnswer()
         scoreText:setFillColor(0,0,0)
     else
         --Print/Sound Incorrect
-        print("Wrong Answer")
+        print("     Wrong Answer")
         local function playSound()
             audio.play(audioIncorrect,{channel=4})
         end
