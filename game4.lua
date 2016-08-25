@@ -4,6 +4,8 @@
 -- Barrett Sharpe, 2016. GitHub:"Snyperhawk25/japanesegame"
 --------------------------------------------------------------------------------
 
+--NOTE) myData.custom.Medium, and other difficulties are NOT used.
+
 ----------------------------------------
 --REQUIRE
 ----------------------------------------

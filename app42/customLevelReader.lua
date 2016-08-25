@@ -31,8 +31,8 @@ function initializeGameReader()
 		--read questions
 		gR_readFile()
 
-		--print em out
-		--gR_testPrintLevels()
+		--//!@#BETA Print Out Level Information
+		gR_testPrintLevels()
 
 	else
 		--no custom levels downloaded
@@ -163,8 +163,9 @@ function gR_readFile()
 
 	end
 
+	--//!@#BETA Removing unused sort feature.
 	--Before returning text, sort and file into myData
-	gL_sort(levels)
+	--gL_sort(levels)
 
 	--return fileText
 	return fileText
@@ -210,6 +211,7 @@ function gR_deleteFile()
 	end
 end
 
+--Depricated due to error and unused in beta
 function gL_sort(arr)
 
 	--TEST print out incoming array
@@ -228,34 +230,32 @@ function gL_sort(arr)
 	myData.custom.Easy = {}
 	myData.custom.Medium = {}
 	myData.custom.Hard = {}
-	for l=1,table.getn(arr) do
+	for l=1,table.getn(arr),1 do
 		--get hold of diffculty param 8
 		local dif=arr[l][8]
-		--test print di
-		--print("dif="..dif)
 
-		--if valid value
+		--if non-nil value
 		if dif~= nil then
-			--switch for dificulty
-
-			if dif=="Easy" then
+			--dificulties
+			if dif=="Easy" or dif=="easy" then
 				myData.custom.Easy[i]=arr[l]
 				i=i+1
-			elseif dif=="Medium" then
+			elseif dif=="Medium" or dif=="medium" then
 				myData.custom.Medium[j]=arr[l]
 				j=j+1
-			elseif dif=="Hard" then
+			elseif dif=="Hard" or dif=="hard" then
 				myData.custom.Hard[k]=arr[l]
 				k=k+1
 			else
 				--ERROR
-				print("Error in sorting. dif="..tostring(dif))
+				print("Error in gL_sort. dif="..tostring(dif))
 			end
 
 		end
 	end
 	--Print Array numbers
 	print("- myData.custom.All: "..table.getn(myData.custom.All)..".")
+	print("Below Difficulty Arrays are NOT being used. They should be 0:")
 	print("- myData.custom.Easy: "..table.getn(myData.custom.Easy)..".")
 	print("- myData.custom.Medium: "..table.getn(myData.custom.Medium)..".")
 	print("- myData.custom.Hard: "..table.getn(myData.custom.Hard)..".")
@@ -277,14 +277,14 @@ function gR_testPrintLevels()
 	print("TEST: Printing Levels Array...")
 	for i=1,numQuestions,1 do
 		print("---------------------------------------")
-		print("Level "..i..", QID: "..myData.Game2.customLevels[i][1])
-		print("Question: "..myData.Game2.customLevels[i][2])
-		print("A) "..myData.Game2.customLevels[i][3])
-		print("B) "..myData.Game2.customLevels[i][4])
-		print("C) "..myData.Game2.customLevels[i][5])
-		print("D) "..myData.Game2.customLevels[i][6])
-		print("Correct Answer: "..myData.Game2.customLevels[i][7])
-		print("Difficulty: "..myData.Game2.customLevels[i][8])
+		print("Level "..i..", QID: "..myData.custom.All[i][1])
+		print("Question: "..myData.custom.All[i][2])
+		print("A) "..myData.custom.All[i][3])
+		print("B) "..myData.custom.All[i][4])
+		print("C) "..myData.custom.All[i][5])
+		print("D) "..myData.custom.All[i][6])
+		print("Correct Answer: "..myData.custom.All[i][7])
+		print("Difficulty: "..myData.custom.All[i][8])
 	end
 	print("---------------------------------------")
 
