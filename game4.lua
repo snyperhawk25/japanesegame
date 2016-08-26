@@ -435,6 +435,10 @@ function evaluateAnswer()
     correctAns = string.upper(correctAns)
     print("     After Prepared. ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
     
+    --string to Number
+    --local x = tonumber("123")
+
+
     --Print evaluation condition boolean
     --BETA NOTE) Android Lua does NOT see "A"=="A" as true, so will be converting letters to numbers and then comparing them.
     print("     Letter Comparison:")
@@ -455,7 +459,6 @@ function evaluateAnswer()
         correctAnsNum = 4
     else
         print("ERROR: Didn't recognize correctAns. Set to 1.")
-        error("ERROR: Didn't recognize correctAns. Set to 1.")
         correctAnsNum = 1
     end
     -- Chosen Answer Number
@@ -469,7 +472,6 @@ function evaluateAnswer()
         chosenAnsNum = 4
     else
         print("ERROR: Didn't recognize chosenAns. Set to 2.")
-        error("ERROR: Didn't recognize chosenAns. Set to 2.")
         chosenAnsNum = 2
     end
    
