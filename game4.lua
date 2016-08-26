@@ -110,8 +110,8 @@ function clearQuestion()
     Ans3Button:removeSelf()
     Ans4Button:removeSelf()
 
-    --Reset Answer
-    correctAns = ""
+    --Reset Answer Numeric
+    correctAns = 0
 end
 
 --Listener to look for double tap
@@ -407,10 +407,8 @@ function generateQuestion()
     Ans4Button.anchorY=0.0
     Ans4Button.anchorX=0.0
 
-
-
-    --Set correct answer
-    correctAns = myData.custom.All[num][7]
+    --Set Numeric correct answer
+    correctAns = tonumber(myData.custom.All[num][7]) --tonumber cast
     
     --Increment question counter, print countText
     questionCounter=questionCounter+1
@@ -428,60 +426,16 @@ end
 --Function to evaluate the player-selected answer
 function evaluateAnswer()
     print("     Evaluating Answer(). ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
-    --Preparing strings
-    chosenAns = string.gsub(chosenAns, " ", "")
-    correctAns = string.gsub(correctAns, " ", "")
-    chosenAns = string.upper(chosenAns)
-    correctAns = string.upper(correctAns)
-    print("     After Prepared. ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
     
-    --string to Number
-    --local x = tonumber("123")
 
-
-    --Print evaluation condition boolean
-    --BETA NOTE) Android Lua does NOT see "A"=="A" as true, so will be converting letters to numbers and then comparing them.
-    print("     Letter Comparison:")
-    print("     chosenAns == correctAns:")
-    print((chosenAns == correctAns))
-
-    --Preparing Numbers
-    local chosenAnsNum = 0
-    local correctAnsNum = 0
-    --Correct Answer Number
-    if correctAns == "A" then
-        correctAnsNum = 1
-    elseif correctAns == "B" then
-        correctAnsNum = 2
-    elseif correctAns == "C" then
-        correctAnsNum = 3
-    elseif correctAns == "D" then
-        correctAnsNum = 4
-    else
-        print("ERROR: Didn't recognize correctAns. Set to 1.")
-        correctAnsNum = 1
-    end
-    -- Chosen Answer Number
-    if chosenAns == "A" then
-        chosenAnsNum = 1
-    elseif chosenAns == "B" then
-        chosenAnsNum = 2
-    elseif chosenAns == "C" then
-        chosenAnsNum = 3
-    elseif chosenAns == "D" then
-        chosenAnsNum = 4
-    else
-        print("ERROR: Didn't recognize chosenAns. Set to 2.")
-        chosenAnsNum = 2
-    end
+    
    
     --Print evaluation condition boolean
     print("     Numeric Comparison:")
-    print("     chosenAnsNum == correctAnsNum:")
-    print(chosenAnsNum == correctAnsNum)
+    print("     chosenAns == correctAns:")
+    print(chosenAns == correctAns)
 
-    --if chosenAns == correctAns then --Letters
-    if chosenAnsNum == correctAnsNum then --Numbers
+    if (chosenAns == correctAns) then --Numbers
         --Print/Sound Correct
         local function playSound()
             audio.play(audioCorrect,{channel=4})
@@ -641,7 +595,7 @@ function Ans1BoxListener()
         transition.from(Ans1Button,{time=200,x=Ans1ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "A"
+    chosenAns = 1 --"A"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
@@ -652,7 +606,7 @@ function Ans2BoxListener()
         transition.from(Ans2Button,{time=200,x=Ans2ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "B"
+    chosenAns = 2 --"B"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
@@ -663,7 +617,7 @@ function Ans3BoxListener()
         transition.from(Ans3Button,{time=200,x=Ans3ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "C"
+    chosenAns = 3 --"C"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
@@ -674,7 +628,7 @@ function Ans4BoxListener()
         transition.from(Ans4Button,{time=200,x=Ans4ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "D"
+    chosenAns = 4 --"D"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
