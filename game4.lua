@@ -428,19 +428,58 @@ end
 --Function to evaluate the player-selected answer
 function evaluateAnswer()
     print("     Evaluating Answer(). ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
-
     --Preparing strings
     chosenAns = string.gsub(chosenAns, " ", "")
     correctAns = string.gsub(correctAns, " ", "")
     chosenAns = string.upper(chosenAns)
     correctAns = string.upper(correctAns)
     print("     After Prepared. ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
-
+    
     --Print evaluation condition boolean
+    --BETA NOTE) Android Lua does NOT see "A"=="A" as true, so will be converting letters to numbers and then comparing them.
+    print("     Letter Comparison:")
     print("     chosenAns == correctAns:")
     print((chosenAns == correctAns))
 
-    if chosenAns == correctAns then
+    --Preparing Numbers
+    local chosenAnsNum = 0
+    local correctAnsNum = 0
+    --Correct Answer Number
+    if correctAns == "A" then
+        correctAnsNum = 1
+    elseif correctAns == "B" then
+        correctAnsNum = 2
+    elseif correctAns == "C" then
+        correctAnsNum = 3
+    elseif correctAns == "D" then
+        correctAnsNum = 4
+    else
+        print("ERROR: Didn't recognize correctAns. Set to 1.")
+        error("ERROR: Didn't recognize correctAns. Set to 1.")
+        correctAnsNum = 1
+    end
+    -- Chosen Answer Number
+    if chosenAns == "A" then
+        chosenAnsNum = 1
+    elseif chosenAns == "B" then
+        chosenAnsNum = 2
+    elseif chosenAns == "C" then
+        chosenAnsNum = 3
+    elseif chosenAns == "D" then
+        chosenAnsNum = 4
+    else
+        print("ERROR: Didn't recognize chosenAns. Set to 2.")
+        error("ERROR: Didn't recognize chosenAns. Set to 2.")
+        chosenAnsNum = 2
+    end
+   
+    --Print evaluation condition boolean
+    print("     Numeric Comparison:")
+    print("     chosenAnsNum == correctAnsNum:")
+    print(chosenAnsNum == correctAnsNum)
+
+    --if chosenAns == correctAns then --Letters
+    if chosenAnsNum == correctAnsNum then --Numbers
         --Print/Sound Correct
         local function playSound()
             audio.play(audioCorrect,{channel=4})
