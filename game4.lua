@@ -102,6 +102,7 @@ function clearQuestion()
     scrollView:removeSelf()
 
     display.remove(downArrow)
+    display.remove(extensionRect)
     
 
     --Clear buttons --need??
@@ -256,19 +257,27 @@ function generateQuestion()
     if qlen>128 then
         --Alert
         print("Exceded 128 characters (375x128 worth). Adding Down Arrow.")
+
+        --ScrollView Background Extension Rectangle
+        local extensionRect = display.newRect(379,105,30,30)
+        extensionRect.anchorX=0.0
+        extensionRect.anchorY=1.0
+        extensionRect:setFillColor(1,1,1,0.8)
+        extensionRect:addEventListener("tap",downArrowListener)
+
         --Update distanceDown
         --distanceDown = (math.floor(qlen/31))*(-20)
         --print("Distance To Scroll Down: "..distanceDown)
-        downArrow = display.newPolygon(400,90,
+        downArrow = display.newPolygon(393,90,
             {
             --Old Arrow (2x; centerX,140)
             --0,0,-10,0,-10,30,-20,30,0,50,20,30,10,30,10,0
             --New Arrow
             0,0,-5,0,-5,15,-10,15,0,25,10,15,5,15,5,0
             }
-        ) --400,80
-        downArrow:setFillColor(1,0,0)
-        downArrow:addEventListener("tap",downArrowListener)
+        )
+        downArrow:setFillColor(0.15,0.15,1)
+        --downArrow:addEventListener("tap",downArrowListener) --moved to extensionRect for better contact area
     end
 
     local textOptions = {
@@ -310,15 +319,16 @@ function generateQuestion()
     --Top Corner Rectangle
     local questionFrame = display.newRect(0,0,10,10)
     questionFrame:setFillColor(0,0,0)
-    scrollView:insert(questionFrame)
 
-    --Insert Text into Scrollview
+    --Insert Into ScrollView:
+    --Top Rectangle
+    scrollView:insert(questionFrame)
+    --Question Text
     scrollView:insert(questionText)
-    
-    --Add Double Tap Listener to Scrollview
+    --Double Tap Listener
     scrollView:addEventListener("tap", myTapListener)
 
-    --scroll to top
+    --And Scroll To Top
     scrollView:scrollToPosition{x=0,y=0,time=250}
 
 
@@ -416,9 +426,9 @@ function generateQuestion()
         countText:removeSelf()
     end
     if questionCounter > questionsEndIndex then
-        countText = display.newText("Questions Seen: "..questionsEndIndex.." / "..questionsEndIndex, 70, 120, native.systemFontBold, 13)
+        countText = display.newText(""..questionsEndIndex.." / "..questionsEndIndex, 25, 130, native.systemFontBold, 18) --questions seen
     else
-        countText = display.newText("Questions Seen: "..questionCounter.." / "..questionsEndIndex, 70, 120, native.systemFontBold, 13)
+        countText = display.newText(""..questionCounter.." / "..questionsEndIndex, 25, 130, native.systemFontBold, 18) --questions seen
     end
     countText:setFillColor(0,0,0)
 end
@@ -482,8 +492,10 @@ local function removeAllDisplayObjects()
     Ans3Button:removeSelf()
     Ans4Button:removeSelf()
 
-    display.remove(questionText)
     display.remove(downArrow)
+    display.remove(extensionRect)
+
+    display.remove(questionText)
     scrollView:remove(questionFrame)
     scrollView:remove(questionText)
     scrollView:removeSelf()
