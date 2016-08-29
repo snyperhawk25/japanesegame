@@ -16,13 +16,6 @@ local myData = require("mydata")
 require("questions")
 require("test.shufflingTest")
 
-
---For Submit Score
-local App42API = require("App42-Lua-API.App42API")
-local tools=require("app42.App42Tools") --this is for App42:Initialize
-local scoreBoardService = App42API.buildScoreBoardService()   --For Leaderboard
-
-
 -----------------------------------------
 --SCENE VARIABLES
 -----------------------------------------

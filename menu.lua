@@ -160,8 +160,12 @@ end
 --Link to website
 local function logoLinkListener()
 	-- apprently null print("Options Pressed.\nGoing to external link: "..webLink)
-	print("Options Pressed.\nGoing to external link. ")
-	system.openURL(weblink)
+	--print("Options Pressed.\nGoing to external link. ")
+	--system.openURL(weblink)
+
+	--Options.lua
+	storyboard.gotoScene("app42.options",transitionOptions)
+	delayedSceneRemoval()
 end
 
 -- Called when the scene's view does not exist:
