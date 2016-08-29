@@ -39,15 +39,15 @@ local scoreText
 local menu
 
 local scrollView, questionText = "This is a question"
-local downArrow
+local downArrow, extensionRect
 local Ans1Button, Ans2Button, Ans3Button, Ans4Button
-local submitButton
+--local submitButton
 local submitText
-local hasSubmitted=false
+--local hasSubmitted=false no longer used
 local lives
 local correctAns
 local chosenAns
-local gameOver, gameOverText
+local gameOver
 local q1 = "ANSWER 1"
 local q2 = "ANSWER 2"
 local q3 = "ANSWER 3"
@@ -132,39 +132,7 @@ local function downArrowListener(event)
     scrollView:scrollTo("bottom",{time=6000} )
 end  
 
---Submit Listener
-local function submitListener(event)
-    --Play Click
-    local function playSound()
-        audio.play(audioClick,{channel=3})
-    end
-    timer.performWithDelay(50,playSound)
-    
-    --If the listener has not been pressed before, submit. Else ignore.
-    if hasSubmitted==false then
-        app42ScoreCallBack = {}
-        scoreBoardService:saveUserScore("Dynamic_Vocab", myData.App42Username, score,app42ScoreCallBack)
-        --If Successful, change button colour/text, and boolean  
-        function app42ScoreCallBack:onSuccess(object)
-            print("      -Score Saved: Value="..object:getScoreList():getValue()..";")
-            submitButton:setFillColor(0,0,1)
-            submitText:removeSelf() --?
-            submitText = display.newText("Submitted "..object:getScoreList():getValue(), 450,140, native.systemFont,11)
-            hasSubmitted=true
-        end
-        function app42ScoreCallBack:onException(exception)
-            print("      -Score "..score.." NOT Saved correctly.")
-            print("Score failed to save to App42. Reseting hasSumbitted.")
-            --Score failed to register, so submit should be allowed to be pressed again.
-            hasSubmitted=false
-        end
-    else
-        print("A previous submission was recorded, so this submission will be ignored.")
-        submitButton:setFillColor(1,0,0)
-            submitText:removeSelf() --?
-            submitText = display.newText("No Duplicates", 450,140, native.systemFont,11)
-    end
-end
+
 
 -- ScrollView listener
 local function scrollViewListener( event )
@@ -259,7 +227,7 @@ function generateQuestion()
         print("Exceded 128 characters (375x128 worth). Adding Down Arrow.")
 
         --ScrollView Background Extension Rectangle
-        local extensionRect = display.newRect(379,105,30,30)
+        extensionRect = display.newRect(379,105,30,30)
         extensionRect.anchorX=0.0
         extensionRect.anchorY=1.0
         extensionRect:setFillColor(1,1,1,0.8)
@@ -436,9 +404,6 @@ end
 --Function to evaluate the player-selected answer
 function evaluateAnswer()
     print("     Evaluating Answer(). ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
-    
-
-    
    
     --Print evaluation condition boolean
     print("     Numeric Comparison:")
@@ -500,13 +465,12 @@ local function removeAllDisplayObjects()
     scrollView:remove(questionText)
     scrollView:removeSelf()
 
-    display.remove(gameOverText)
     
     display.remove(menu)
     display.remove(scoreText)
     display.remove(countText)
 
-    display.remove(submitButton)
+    --display.remove(submitButton)
     display.remove(submitText)
 end
 
@@ -533,17 +497,12 @@ function Game4()
     --Now we draw our scene elements.
 
     --Menu Button
+    --Menu now transitions to GameOver function, in order to go to the score screen
     menu = display.newImage("images/Menu.png",menuX,menuY)
     menu:scale(0.45,0.45)
-    menu:addEventListener("tap", goToMenu) 
+    menu:addEventListener("tap", gameOver)
     
-    --Sumbit Score Button
-    submitButton = display.newRoundedRect(450,140,80,40,3)
-    submitButton.strokeWidth = 3
-    submitButton:setFillColor(0.1,0.9,0.3, 0.8)
-    submitButton:setStrokeColor(0,0,0)
-    submitButton:addEventListener("tap",submitListener)
-    submitText = display.newText("Submit Score", 450,140, native.systemFont,11)
+    
 
     --Score Text
     scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
@@ -560,6 +519,8 @@ end
 function gameOver()
     --Print to Console
     print("GAME OVER")
+    --Decrement questionCounter by 1 to reflect unattempted question they quit on.
+    questionCounter = questionCounter - 1
 
     --Remove All Event Listeners and Display Objects //!@# expand
     Ans1Button:removeEventListener("tap", Ans1Button)
@@ -567,32 +528,36 @@ function gameOver()
     Ans3Button:removeEventListener("tap", Ans3Button)
     Ans4Button:removeEventListener("tap", Ans4Button)
     scrollView:removeEventListener("tap", scrollView)
-    submitButton:removeEventListener("tap",submitButton)
+    --submitButton:removeEventListener("tap",submitButton) --element has been deleted
 
     --down arrow listener removal needed??
     removeAllDisplayObjects()
 
-    --Collect Important Information (along with transition info)
-    local gameOverOptions = {
-        effect = "fade",
-        time = 500,
-        params = {
-            --var1 = "test",
-            retryScene = "game4",
-            gameName = "Dynamic Vocab",
-            finalScore = score,
-            finalScoreUnit = "Correct",
-            finalDescription = "You got "..score.." correct word(s).",
-            var2 = "hi",
-            --app 42 info
-            app42GameName = "Dynamic_Vocab"
+    --If the player wants to leave the game immediately
+    if questionCounter==0 then
+        goToMenu()
+    else
+        --Collect Important Information (along with transition info)
+        local gameOverOptions = {
+            effect = "fade",
+            time = 500,
+            params = {
+                --var1 = "test",
+                retryScene = "game4",
+                gameName = "Sensei's Quiz",
+                finalScore = score,
+                finalScoreUnit = "Correct",
+                finalDescription = "You got "..score.." sentences correct, out of the "..questionCounter.." you attempted!",
+                var2 = "hi",
+                --app 42 info
+                app42GameName = "Dynamic_Vocab"
+            }
         }
-    }
 
-    --Change Scenes and Delay Removal
-    storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
-    delayedSceneRemoval()
-
+        --Change Scenes and Delay Removal
+        storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
+        delayedSceneRemoval()
+    end
 end 
 
 -------------------------------------------
