@@ -10,6 +10,17 @@
 ---------------------------------------------------
 --AUDIO Management Section
 --------------------------------------------------
+require("app42.options")
+
+print("|| Options File ||")
+--Channel Volume Variables Defaults
+musicVol = 1.00
+sfxVol = 1.00
+pronunVol = 0.70
+
+--Read options.txt
+readOptionsFile()
+
 --Quick Decimal Rounding
 function audround(num, idp)
   return tonumber(string.format("%." .. (idp or 0) .. "f", num))
@@ -25,6 +36,11 @@ function getAudioLevels(needsMoreInfo)
 	if needsMoreInfo==1 then
 		--Advanced Information
 		print("ALL CHANNELS STATUS:")
+		--Volume Info
+		print("VOLUME LEVELS:")
+		print("Music Volume: "..musicVol)
+		print("SFX Volume: "..sfxVol)
+		print("Pronun Volume: "..pronunVol)
 		local i
 		for i=1,32,1 do
 			print("Ch "..i..
@@ -51,11 +67,16 @@ function getAudioLevels(needsMoreInfo)
 			)
 			end
 		end
+		--Volume Info
+		print("VOLUME LEVELS:")
+		print("Music Volume: "..musicVol)
+		print("SFX Volume: "..sfxVol)
+		print("Pronun Volume: "..pronunVol)
 	end
 end
 
 --Sets up the initial audio conditions for the game.
-function initializeAudio()
+local function initializeAudio()
 	print("|| Initializing All Audio Channels ||")
 
 	--Reserved Audio Channel List
@@ -67,12 +88,15 @@ function initializeAudio()
 	
 	--Set the master volume to 100%
 	audio.setVolume(1.0)
-	--Set Minimums on all channels (20%)
-	audio.setMinVolume(0.2, {channel=0})
+	--Set Minimums on all channels (0%)
+	--audio.setMinVolume(0.0, {channel=0})
 	--Set Maximums on all channels (100%)
 	audio.setMaxVolume(1.0, {channel=0})
-	--Set Volum on ALL channels to 100%
-	audio.setVolume(1.0, {channel=0})
+	--Set Channel-Specific Volumes
+	audio.setVolume(musicVol, {channel=1})
+  	audio.setVolume(pronunVol, {channel=2})
+  	audio.setVolume(sfxVol, {channel=3})
+  	audio.setVolume(sfxVol, {channel=4})
 	print("|| Complete ||")
 end
 initializeAudio()

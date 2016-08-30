@@ -17,16 +17,12 @@ local myData = require("mydata")
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
-local place1 = 100
-local place2 = 150 
-local place3 = 200
-local place4 = 250
+local place1 = 90
+local place2 = 141 
+local place3 = 192
+local place4 = 243
 local miniFont = 14
 
-
---local webLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal Page
---local webLink = "http://fccs.ok.ubc.ca/programs/other/japanese.html" --UBCO FCCS Japanese Studies Page
-local weblink = "https://github.com/snyperhawk25/japanesegame/wiki" --KissaVocab Wikipedia
 
 --AUDIO
 local audioClick = audio.loadSound("audio/click1.wav")
@@ -162,6 +158,15 @@ local function logoLinkListener()
 	-- apprently null print("Options Pressed.\nGoing to external link: "..webLink)
 	--print("Options Pressed.\nGoing to external link. ")
 	--system.openURL(weblink)
+	
+	--Click 
+	local function playClick()
+		if audio.play(audioClick,{channel=3})==0 then
+			print("Click Failed To Play...")
+		end
+	end
+	timer.performWithDelay(50, playClick)
+
 
 	--Options.lua
 	storyboard.gotoScene("app42.options",transitionOptions)
@@ -245,7 +250,7 @@ function scene:createScene( event )
         labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
         fillColor = { default={ 1,0.6,1, 1 }, over={ 1,0.72,1,1 } }, --Purple
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
+        strokeWidth = 3,
         onPress = goToGame4
       }
     )
@@ -278,7 +283,7 @@ function scene:createScene( event )
         labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
         fillColor = { default={ 1, 0.36, 0.2, 1 }, over={ 1, 0.52, 0.4, 1 } }, --Red
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
+        strokeWidth = 3,
         onPress = goToGame2
       }
     )
@@ -311,7 +316,7 @@ function scene:createScene( event )
         labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
         fillColor = { default={ 0.36,0.83,0.36, 1 }, over={ 0.6,0.9,0.6, 1 } }, --GREEN
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
+        strokeWidth = 3,
         onPress = goToGame3
       }
     )
@@ -344,7 +349,7 @@ function scene:createScene( event )
         labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
         fillColor = { default={ 0.2,0.6,1, 1 }, over={0.5,0.75,1 } }, --BLUE
         strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
-        strokeWidth = 4,
+        strokeWidth = 3,
         onPress = goToNum
       }
     )
