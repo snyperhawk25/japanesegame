@@ -128,7 +128,7 @@ local function goToGame3()
 	delayedSceneRemoval()
 end
 
---Numbers Game. //!@#fix !!!
+--Numbers Game. //!@#fix
 local function goToNum()
 	--Click 
 	local function playClick()
@@ -146,9 +146,12 @@ local function goToNum()
 		transitionOptions.params.dialogueText = "- You are a bomb specialist and your skills have been called on to defuse a bomb in a limited amount of time.\n\n- Follow the instructions in each level to complete the tasks and save the day."
 		transitionOptions.params.nextScene = "numbers.numbers1"
 		--printTransitionArray()
+		
 		storyboard.gotoScene("dialoguePage",transitionOptions)
+		--storyboard.gotoScene("numbers.numbers5",transitionOptions) --BETA Tests
 	else
 		storyboard.gotoScene("numbers.numbers1",transitionOptions)
+		--storyboard.gotoScene("numbers.numbers5",transitionOptions) --BETA TESTS
 	end
 	delayedSceneRemoval()
 end

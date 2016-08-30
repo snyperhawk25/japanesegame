@@ -22,7 +22,7 @@ local devLink = "http://play.google.com/store/apps/dev?id=5168709452795191961"
 --AUDIO
 local audioClick = audio.loadSound("audio/click1.wav") --//!@# Remember to add clicks for buttons
 local audioIncorrect = audio.loadSound("audio/buzz1.wav")
-local menuMusic = audio.loadSound("audio/KissaVocabMenuMusic.mp3")
+local menuMusic = audio.loadSound("audio/KVMenuMusicSlice.wav")
 local pronunDemo = audio.loadSound("audio/ji-nzu.wav")
 
 local title = nil
@@ -82,7 +82,7 @@ end
 --Function to delay this scene's removal.
 local function delayedSceneRemoval()
     local function removeSceneListener(event)
-        storyboard.removeScene("options.lua") --? numbers. ....
+        storyboard.removeScene("options") --? numbers. ....
     end
     timer.performWithDelay(500, removeSceneListener)
 end
@@ -194,9 +194,11 @@ local function playMusicListener(event)
     print("PlayMusic Clicked.")
     saveOptionsFile()
     relevelChannels()
+    audio.stop(1) --music channel needs to stop in order to facilitate the '..slice.wav' on same channel
     local function playSound()
-      --audio.seek(5000, menuMusic, {channel=1}) --?
-      audio.play(menuMusic,{channel=1})
+        if audio.play(menuMusic,{channel=1})==0 then
+          print("KVMenuMusicSlice play error.")
+        end
     end
     timer.performWithDelay(50,playSound)
 
