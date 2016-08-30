@@ -297,9 +297,9 @@ function generateQuestion()
         countText:removeSelf()
     end
     if questionCounter > (questionsEndIndex-questionsStartIndex+1) then
-        countText = display.newText("Questions Seen: "..(questionsEndIndex-questionsStartIndex+1).." / "..(questionsEndIndex-questionsStartIndex+1), 430, scoreTextY-10, native.systemFont, 13)
+        countText = display.newText(""..(questionsEndIndex-questionsStartIndex+1).." / "..(questionsEndIndex-questionsStartIndex+1), 450, 60, native.systemFont, 15)
     else
-        countText = display.newText("Questions Seen: "..questionCounter.." / "..(questionsEndIndex-questionsStartIndex+1), 430, scoreTextY-10, native.systemFont, 13)
+        countText = display.newText(""..questionCounter.." / "..(questionsEndIndex-questionsStartIndex+1), 450, 60, native.systemFont, 15)
     end
 end
 

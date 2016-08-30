@@ -2,7 +2,6 @@
 --
 -- number5.lua
 -- Notes:
--- Potential random generate phone number positions, or vary them in preprogramed ways, and randomly choose from them.
 ---------------------------------------------------------------------------------
 
 local storyboard = require( "storyboard" )
@@ -168,12 +167,17 @@ local function showAnswers(n)
 
 	buttons = {}
 	buttonbgs = {}
-	--b Buttons 1 - 9
+	--Buttons 1 - 9
+	--
+	local randomNumbers = fisherYatesNumbers(0,9)
 	for i = 0,2,1 do
 		for j = 1,3,1 do
+			print("Button ".. ((3*i)+j) .. " is: " .. randomNumbers[(3*i)+j]..".")
 			local function myFunction(event)
 				if event.phase == "ended" then
-					recordPress((3*i)+j)
+					--recordPress((3*i)+j)
+					recordPress(randomNumbers[(3*i)+j])
+					print("Player pressed "..randomNumbers[(3*i)+j])
 				end
 			end
 			buttonbgs[(3*i)+j] = widget.newButton
@@ -187,22 +191,26 @@ local function showAnswers(n)
 			buttonbgs[(3*i)+j]:scale(0.14,0.14)
 			
 			screenGroup:insert(buttonbgs[(3*i)+j])
-			buttons[(3*i)+j] = display.newText(syl[90+(3*i+j)][1],50*j,centerY-30-50*i, native.systemFontBold,13) --20?
+			--buttons[(3*i)+j] = display.newText(syl[90+(3*i+j)][1],50*j,centerY-30-50*i, native.systemFontBold,13)
+			buttons[(3*i)+j] = display.newText(syl[90+randomNumbers[(3*i)+j]][1],50*j,centerY-30-50*i, native.systemFontBold,13)
 			buttons[(3*i)+j]:setFillColor(0)
 			screenGroup:insert(buttons[(3*i)+j])
 		end
 	end
 	
-	--Phone Orientation
+	-- Original Phone Orientation
 	-- 7 8 9
 	-- 4 5 6
 	-- 1 2 3
 	--   0
 
 	--b Zero Button
+	print("Button 10 is: " .. randomNumbers[10]..".")
 	local function myFunction(event)
 		if event.phase == "ended" then
-			recordPress(0)
+			--recordPress(0)
+			recordPress(randomNumbers[10])
+			print("Player pressed "..randomNumbers[10])
 		end
 	end
 	zerobg = widget.newButton
@@ -214,7 +222,8 @@ local function showAnswers(n)
 	zerobg.x = 100
 	zerobg.y = centerY+20
 	zerobg:scale(0.14,0.14)
-	zerobutton = display.newText(syl[90][1],100,centerY+20,native.systemFontBold,14) --changed to 20 to refelect 1-9 Button text sizes. --later changed to 14 because of report of zero being too small
+	--zerobutton = display.newText(syl[90][1],100,centerY+20,native.systemFontBold,14) --changed to 20 to refelect 1-9 Button text sizes. --later changed to 14 because of report of zero being too small
+	zerobutton = display.newText(syl[90+randomNumbers[10]][1],100,centerY+20,native.systemFontBold,14)
 	zerobutton:setFillColor(0)
 
 	screenGroup:insert(zerobg)

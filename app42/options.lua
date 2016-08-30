@@ -1,170 +1,447 @@
-local composer = require( "composer" )
-local scene = composer.newScene()
+--Options Page
+--This page is for displaying/managing the game's options
+
+--LISTED SETTINGS-----------
+--1. Music Vol
+--2. Sound Effects Vol
+--3. Pronunciation Vol
+----------------------------
+
+local storyboard = require( "storyboard" )
+local scene = storyboard.newScene()
+--local myData = require("mydata")
 local widget = require("widget")
-local myData = require("Code.mydata")
 
----------------------------------------------------------------------------------
+--Variables
+local optionsFileName = "options.txt"
+--local helpLink = "http://fccs.ok.ubc.ca/faculty/nlangton.html" --Nina's Personal Page
+--local helpLink = "http://fccs.ok.ubc.ca/programs/other/japanese.html" --UBCO FCCS Japanese Studies Page
+local helpLink = "https://github.com/snyperhawk25/japanesegame/wiki" --KissaVocab Wikipedia
+local devLink = "http://play.google.com/store/apps/dev?id=5168709452795191961"
 
--- local forward references should go here
-local background
-local soundEffect = audio.loadSound( "SFX/Common/Menu1.wav" )
-local resume
-local musict
-local SFXt
-local musics
-local sfxs
-local exit
-local parent
----------------------------------------------------------------------------------
---Save the user's settings
-local function saveOptions(event)
-  local path = system.pathForFile("options.txt", system.DocumentsDirectory)
+--AUDIO
+local audioClick = audio.loadSound("audio/click1.wav") --//!@# Remember to add clicks for buttons
+local audioIncorrect = audio.loadSound("audio/buzz1.wav")
+local menuMusic = audio.loadSound("audio/KVMenuMusicSlice.wav")
+local pronunDemo = audio.loadSound("audio/ji-nzu.wav")
+
+local title = nil
+
+--Widgets
+local musicSlider, sfxSlider, pronunSlider
+local musicLabel, sfxLabel, pronunLabel
+local playMusic, playSFX, playPronun
+local helpButton, devButton, accept
+
+
+
+--------------------------------------------
+--Coordinates
+--------------------------------------------
+local centerX = display.contentCenterX
+local centerY = display.contentCenterY
+
+local acceptX = centerX--45
+local acceptY = 240
+
+local sliderX = 150 --130
+local sliderY = 70
+
+local buttonX = 300
+local buttonY = sliderY
+
+
+
+
+--Function to remove all display objects, and listeners
+local function removeAllDisplayObjects()
+  display.remove(title)
+  display.remove(accept)
+
+  display.remove(musicSlider)
+  display.remove(sfxSlider)
+  display.remove(pronunSlider)
+
+  display.remove(musicLabel)
+  display.remove(sfxLabel)
+  display.remove(pronunLabel)
+
+  --playMusic:removeEventListener("tap", playMusicListener) --Error, nil key?
+  --playSFX:removeEventListener("tap", playSFXListener)
+  --playPronun:removeEventListener("tap", playPronunListener)
+  display.remove(playMusic)
+  display.remove(playSFX)
+  display.remove(playPronun)
+
+  display.remove(helpButton)
+  display.remove(devButton)
+
+
+end
+
+--Function to delay this scene's removal.
+local function delayedSceneRemoval()
+    local function removeSceneListener(event)
+        storyboard.removeScene("options") --? numbers. ....
+    end
+    timer.performWithDelay(500, removeSceneListener)
+end
+
+--Function to go to scene, given name of the scene
+function goToGivenScene(sceneName)
+  if sceneName~=nil then
+    removeAllDisplayObjects()
+    delayedSceneRemoval()
+    storyboard.gotoScene(sceneName, "fade", 500)
+  else
+    print("sceneName was nil. Failed to transition.")
+  end
+end
+
+--Return to the menu
+local function goToMenu()
+  audio.play(audioClick,{channel=3})
+  goToGivenScene("menu")
+end
+
+--Function to goto the 'reloadScene' scene.
+--Need this for listener function.
+local function goToReloadScene()
+  audio.play(audioClick,{channel=3})
+  goToGivenScene()
+end
+
+
+--Sets the channel levels
+local function relevelChannels()
+  print("Audio Channels Releveled.")
+  audio.setVolume(musicVol, {channel=1})
+  audio.setVolume(pronunVol, {channel=2})
+  audio.setVolume(sfxVol, {channel=3})
+  audio.setVolume(sfxVol, {channel=4})
+end
+
+--Function to Write user's settings
+function saveOptionsFile(event)
+  local path = system.pathForFile(optionsFileName, system.DocumentsDirectory)
   local file, errorString = io.open( path,  "w")
   if not file then
-    print("File error: " .. errorString)
+    print("Options File Error: " .. errorString)
     io.close(file)
   else
-    file:write("music=" ..myData.music .."\nsfx=" .. myData.sfx)
+    file:write("musicVol=" ..musicVol .."\nsfxVol=" .. sfxVol .. "\npronunVol=" .. pronunVol)
+    print("< Options File Written >")
     io.close(file)
   end
   file = nil
-  print("Music Volume: " .. myData.music)
-  print("SFX Valume: " .. myData.sfx)
 end
 
---Set music volume
-local function musicSet(event)
-  --if event.phase == "ended" then
-    myData.music = event.value/100
-    --Music is being played on channel 1
-    audio.setVolume(myData.music, {channel=1})
-    --audio.play(soundEffect, {channel=1})
---  end
+--Function to Read in, if existant, options file
+function readOptionsFile(event)
+  local filePath = system.pathForFile(optionsFileName, system.DocumentsDirectory)
+    if (filePath) then
+        local file, errorString = io.open( filePath, "r" ) --open
+        if not file then
+            -- Error occurred; output the cause
+            --print( "Options File error: " .. errorString )
+            print("No Options file found. Writing default file...")
+            saveOptionsFile()
+        else
+            --Read Ready. Start at Music
+            local contents = file:read( "*l" )
+            contents = string.gsub(contents, "musicVol=", "")
+            musicVol = tonumber(contents)
+            print( "Read: musicVol set to " .. musicVol..";")
+            --SFX
+            contents = file:read( "*l" )
+            contents = string.gsub(contents, "sfxVol=", "")
+            sfxVol = tonumber(contents)
+            print( "Read: sfxVol set to " .. sfxVol..";")
+            --Pronun
+            contents = file:read( "*l" )
+            contents = string.gsub(contents, "pronunVol=", "")
+            pronunVol = tonumber(contents)
+            print( "Read: pronunVol set to " .. pronunVol..";")
+            -- Close the file
+            io.close( file )
+        end
+    else
+      print("Options FilePath Error. Invalid filepath.")
+    end
 end
 
---Set SFX valume
-local function sfxSet(event)
-  if event.phase == "ended" then
-    myData.sfx = event.value/100
-    --sfx should be played on channel 2
-    audio.setVolume(myData.sfx, {channel=2})
-    audio.play(soundEffect, {channel=2})
+----------------------------
+--LISTENERS
+----------------------------
+--SLIDERS
+local function musicSliderListener(event)
+    print( "Music Slider at " .. event.value .. "%" )
+    musicVol = (event.value / 100.0)
+end
+
+local function sfxSliderListener(event)
+    print( "SFX Slider at " .. event.value .. "%" )
+    sfxVol = (event.value / 100.0)
+end
+
+local function pronunSliderListener(event)
+    print( "Pronun Slider at " .. event.value .. "%" )
+    pronunVol = (event.value / 100.0)
+end
+
+--PLAY
+local function playMusicListener(event)
+    print("PlayMusic Clicked.")
+    saveOptionsFile()
+    relevelChannels()
+    audio.stop(1) --music channel needs to stop in order to facilitate the '..slice.wav' on same channel
+    local function playSound()
+        if audio.play(menuMusic,{channel=1})==0 then
+          print("KVMenuMusicSlice play error.")
+        end
+    end
+    timer.performWithDelay(50,playSound)
+
+end
+local function playSFXListener(event)
+    print("PlaySFX Clicked.")
+    saveOptionsFile()
+    relevelChannels()
+    local function playSound()
+      audio.play(audioIncorrect,{channel=4})
+    end
+    timer.performWithDelay(50,playSound)    
+
+end
+local function playPronunListener(event)
+    print("PlayPronun Clicked.")
+    saveOptionsFile()
+    relevelChannels()
+    local function playSound()
+      audio.play(pronunDemo,{channel=2})
+    end
+    timer.performWithDelay(50,playSound)
+
+end
+
+--BUTTONS
+local function helpButtonListener(event)
+    print("HelpButton Clicked.")
+    audio.play(audioClick,{channel=3})
+    system.openURL(helpLink)
+end
+local function devButtonListener(event)
+    print("DevButton Clicked.")
+    audio.play(audioClick,{channel=3})
+    system.openURL(devLink)
+end
+local function acceptListener(event)
+    print("Accept Pressed")
+    audio.play(audioClick,{channel=3})
+    saveOptionsFile()
+    relevelChannels()
+    goToMenu()
+end
+
+
+
+-- Called when the scene's view does not exist:
+function scene:createScene( event )
+  local screenGroup = self.view
+
+  --Draw Background image (rotated and fliped horizontally)
+  bg = display.newImage("images/CherryBlossoms.png", centerX,centerY)    
+  bg.xScale=-1
+  bg:scale(0.45,0.42)
+  screenGroup:insert(bg)
+
+  colorFilter = display.newRect(centerX,centerY,2000,2000)
+  colorFilter:setFillColor(0.5,0.5,0.5,0.6)
+  screenGroup:insert(colorFilter)
+
+  --Collect the 'dialogueOptions' parameters from the scene event
+  --title = event.params.dialogueTitle
+  --description = event.params.dialogueText
+  --nextSceneName = event.params.nextScene
+end
+
+
+-- Called immediately after scene has moved onscreen:
+function scene:enterScene( event )
+  local screenGroup = self.view
+
+  --Title:
+  title = display.newText("Options:", 70, 30, native.systemFontBold, 40 ) --26 and not bold
+  title:setFillColor(0,0,0) --Black
+  screenGroup:insert(title)
+
+  --Music Volume Slider
+    musicSlider = widget.newSlider(
+      {
+        top = (sliderY),
+        left = sliderX,
+        width = 150,
+        value = (musicVol*100.0),
+        height = 50,
+        listener = musicSliderListener
+      }
+    )
+    musicLabel = display.newText("Music Volume:",sliderX-70, (sliderY)+10, native.systemFontBold, 12)
+    musicLabel.anchorY=0
+    musicLabel:setFillColor(0,0,0)
+
+    --SFX Volume Slider
+    sfxSlider = widget.newSlider(
+      {
+        top = (1.5*sliderY),
+        left = sliderX,
+        width = 150,
+        value = (sfxVol*100.0),
+        listener = sfxSliderListener
+      }
+    )
+    sfxLabel = display.newText("Sound Effects Volume:",sliderX-70, (1.5*sliderY)+10, native.systemFontBold, 12)
+    sfxLabel.anchorY=0
+    sfxLabel:setFillColor(0,0,0)
+
+    --Pronun Volume Slider
+    pronunSlider = widget.newSlider(
+      {
+        top = (2*sliderY),
+        left = sliderX,
+        width = 150,
+        value = (pronunVol*100.0),
+        listener = pronunSliderListener
+      }
+    )
+    pronunLabel = display.newText("Pronunciation Volume:",sliderX-70, (2*sliderY)+10, native.systemFontBold, 12)
+    pronunLabel.anchorY=0
+    pronunLabel:setFillColor(0,0,0)
+
+    local playScale=0.20
+    --playMusic
+    playMusic = display.newImage("images/Speaker_Icon.png", sliderX+170, sliderY+20)
+    playMusic:scale(playScale, playScale)
+    playMusic.anchorX=0.0
+    playMusic:addEventListener("tap", playMusicListener)
+
+    --playMusic
+    playSFX = display.newImage("images/Speaker_Icon.png", sliderX+170, (1.5*sliderY)+20)
+    playSFX:scale(playScale, playScale)
+    playSFX.anchorX=0.0
+    playSFX:addEventListener("tap", playSFXListener)
+
+    --playMusic
+    playPronun = display.newImage("images/Speaker_Icon.png", sliderX+170, (2*sliderY)+20)
+    playPronun:scale(playScale, playScale)
+    playPronun.anchorX=0.0
+    playPronun:addEventListener("tap", playPronunListener)
+
+
+    --Help Button
+    helpButton = widget.newButton (
+        {
+          id = "helpButton",
+          left = buttonX,
+          top = buttonY,
+          label = "Help?",
+          width = 130,
+          height = 40,
+          shape = "roundedRect",
+          font = native.systemFontBold,
+          labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 1 } },
+          fillColor = { default={ 0.4, 1, 0.2, 1 }, over={0.4, 1, 0.2, 0.4} }, --Green
+          strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+          strokeWidth = 2,
+          onPress = helpButtonListener
+        }
+      )
+      helpButton.anchorX = 0.0
+      screenGroup:insert(helpButton)
+
+    --Developer Button
+    devButton = widget.newButton (
+        {
+          id = "devButton",
+          left = buttonX,
+          top = (1.5*buttonY),
+          label = "Our Games!",
+          width = 130,
+          height = 40,
+          shape = "roundedRect",
+          font = native.systemFontBold,
+          labelColor = { default={ 1, 1, 1, 1 }, over={ 1, 1, 1, 1 } },
+          fillColor = { default={ 0, 0.13, 0.27, 1 }, over={ 0, 0.13, 0.27, 0.4} }, --UBC Blue
+          strokeColor = { default={ 0,0,0, 1 }, over={ 0,0,0, 1 } },
+          strokeWidth = 2,
+          onPress = devButtonListener
+        }
+      )
+      devButton.anchorX = 0.0
+      devButton.anchorY = 0.0
+      screenGroup:insert(devButton)
+
+
+  --Accept Button
+  function renderAcceptButton()
+    accept = widget.newButton (
+        {
+          id = "accept",
+          x = acceptX,
+          y = acceptY,
+          label = "Accept",
+          shape = "roundedRect",
+          font = native.systemFontBold,
+          labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 1 } },
+          fillColor = { default={ 1, 1, 0, 1 }, over={ 1, 1, 0.5, 0.8 } }, --Yellow
+          strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+          strokeWidth = 2,
+          onPress = acceptListener
+        }
+      )
+      --accept.anchorX = 0.0
+      accept.anchorY = 0.0
+      screenGroup:insert(accept)
   end
+  timer.performWithDelay(100, renderAcceptButton)
 end
 
---Close the options/pause menu,
-local function closeOptions( event )
-  --Hide the overlay with the appropriate options
-  if event.phase == "ended" then
-    saveOptions()
-    composer.hideOverlay("fade", 250)
-  end
+
+-- Called when scene is about to move offscreen:
+function scene:exitScene( event )
 end
 
-local function toTitle(event)
-  local p = event.parent
-  if event.phase == "ended" then
-    saveOptions()
-    parent:optionsToTitle(event)
-  end
+
+-- Called prior to the removal of scene's "view" (display group)
+function scene:destroyScene( event )
+  --Eliminate varaible values from memory
+  accept:removeSelf()
+  title = nil
+  description = nil
+  finalScoreText = nil
+  
 end
 
--- "scene:create()"
-function scene:create( event )
-   local sceneGroup = self.view
 
-   --Generate and set background music
-   background = display.newImageRect("GFX/Common/options.png", 320, 320)
-   background.x = display.contentCenterX
-   background.y = display.contentCenterY
-   sceneGroup:insert(background)
 
-   --Generate text and set colors
-   resume = display.newText(sceneGroup, event.params.text1, display.contentCenterX, display.contentHeight - 74, native.systemFont, 24)
-   resume:setTextColor(0, 0, 0)
-
-   musict = display.newText(sceneGroup, "Music: ", display.contentCenterX, 94, native.systemFont, 24)
-   musict:setTextColor(0, 0, 0)
-   SFXt = display.newText(sceneGroup, "SFX: ", display.contentCenterX, 154, native.systemFont, 24)
-   SFXt:setTextColor(0, 0, 0)
-
-   musics = widget.newSlider{
-     left = display.contentCenterX-50,
-     top = musict.y+5,
-     value = tonumber(myData.music)*100,
-     listener = musicSet,
-     width = 100
-   }
-   sceneGroup:insert(musics)
-
-   sfxs = widget.newSlider{
-     left = display.contentCenterX-50,
-     top = SFXt.y+5,
-     value = tonumber(myData.sfx)*100,
-     listener = sfxSet,
-     width = 100
-   }
-   sceneGroup:insert(sfxs)
-
-   if event.params.text1 == "Resume" then
-     exit = display.newText(sceneGroup, "Return to Menu", display.contentCenterX, display.contentHeight - 40, native.systemFont, 24)
-     exit:setTextColor(0,0,0)
-   end
-
-end
-
--- "scene:show()"
-function scene:show( event )
-
-   local sceneGroup = self.view
-   local phase = event.phase
-   parent = event.parent
-   if ( phase == "will" ) then
-
-   elseif ( phase == "did" ) then
-      resume:addEventListener("touch", closeOptions)
-      if exit then
-        exit:addEventListener("touch", toTitle)
-      end
-      --musics:addEventListener("moved", musicSet)
-      --sfxs:addEventListener("moved", sfxSet)
-   end
-end
-
--- "scene:hide()"
-function scene:hide( event )
-
-   local sceneGroup = self.view
-   local phase = event.phase
-
-   if ( phase == "will" ) then
-
-   elseif ( phase == "did" ) then
-      resume:removeEventListener("touch", closeOptions)
-      if exit then
-        exit:removeEventListener("touch", toTitle)
-      end
-      --musics:removeEventListener("moved", musicSet)
-      --sfxs:removeEventListener("moved", sfxSet)
-   end
-end
-
--- "scene:destroy()"
-function scene:destroy( event )
-
-   local sceneGroup = self.view
-   background:removeSelf()
-   background = nil
-end
 
 ---------------------------------------------------------------------------------
+-- END OF YOUR IMPLEMENTATION
+---------------------------------------------------------------------------------
 
--- Listener setup
-scene:addEventListener( "create", scene )
-scene:addEventListener( "show", scene )
-scene:addEventListener( "hide", scene )
-scene:addEventListener( "destroy", scene )
+-- "createScene" event is dispatched if scene's view does not exist
+scene:addEventListener( "createScene", scene )
 
+-- "enterScene" event is dispatched whenever scene transition has finished
+scene:addEventListener( "enterScene", scene )
+
+-- "exitScene" event is dispatched before next scene's transition begins
+scene:addEventListener( "exitScene", scene )
+
+-- "destroyScene" event is dispatched before view is unloaded, which can be
+-- automatically unloaded in low memory situations, or explicitly via a call to
+-- storyboard.purgeScene() or storyboard.removeScene().
+scene:addEventListener( "destroyScene", scene )
 
 ---------------------------------------------------------------------------------
 

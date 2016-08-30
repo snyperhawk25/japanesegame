@@ -16,13 +16,6 @@ local myData = require("mydata")
 require("questions")
 require("test.shufflingTest")
 
-
---For Submit Score
-local App42API = require("App42-Lua-API.App42API")
-local tools=require("app42.App42Tools") --this is for App42:Initialize
-local scoreBoardService = App42API.buildScoreBoardService()   --For Leaderboard
-
-
 -----------------------------------------
 --SCENE VARIABLES
 -----------------------------------------
@@ -39,15 +32,15 @@ local scoreText
 local menu
 
 local scrollView, questionText = "This is a question"
-local downArrow
+local downArrow, extensionRect
 local Ans1Button, Ans2Button, Ans3Button, Ans4Button
-local submitButton
+--local submitButton
 local submitText
-local hasSubmitted=false
+--local hasSubmitted=false no longer used
 local lives
 local correctAns
 local chosenAns
-local gameOver, gameOverText
+local gameOver
 local q1 = "ANSWER 1"
 local q2 = "ANSWER 2"
 local q3 = "ANSWER 3"
@@ -102,6 +95,7 @@ function clearQuestion()
     scrollView:removeSelf()
 
     display.remove(downArrow)
+    display.remove(extensionRect)
     
 
     --Clear buttons --need??
@@ -110,8 +104,8 @@ function clearQuestion()
     Ans3Button:removeSelf()
     Ans4Button:removeSelf()
 
-    --Reset Answer
-    correctAns = ""
+    --Reset Answer Numeric
+    correctAns = 0
 end
 
 --Listener to look for double tap
@@ -131,39 +125,7 @@ local function downArrowListener(event)
     scrollView:scrollTo("bottom",{time=6000} )
 end  
 
---Submit Listener
-local function submitListener(event)
-    --Play Click
-    local function playSound()
-        audio.play(audioClick,{channel=3})
-    end
-    timer.performWithDelay(50,playSound)
-    
-    --If the listener has not been pressed before, submit. Else ignore.
-    if hasSubmitted==false then
-        app42ScoreCallBack = {}
-        scoreBoardService:saveUserScore("Dynamic_Vocab", myData.App42Username, score,app42ScoreCallBack)
-        --If Successful, change button colour/text, and boolean  
-        function app42ScoreCallBack:onSuccess(object)
-            print("      -Score Saved: Value="..object:getScoreList():getValue()..";")
-            submitButton:setFillColor(0,0,1)
-            submitText:removeSelf() --?
-            submitText = display.newText("Submitted "..object:getScoreList():getValue(), 450,140, native.systemFont,11)
-            hasSubmitted=true
-        end
-        function app42ScoreCallBack:onException(exception)
-            print("      -Score "..score.." NOT Saved correctly.")
-            print("Score failed to save to App42. Reseting hasSumbitted.")
-            --Score failed to register, so submit should be allowed to be pressed again.
-            hasSubmitted=false
-        end
-    else
-        print("A previous submission was recorded, so this submission will be ignored.")
-        submitButton:setFillColor(1,0,0)
-            submitText:removeSelf() --?
-            submitText = display.newText("No Duplicates", 450,140, native.systemFont,11)
-    end
-end
+
 
 -- ScrollView listener
 local function scrollViewListener( event )
@@ -256,19 +218,27 @@ function generateQuestion()
     if qlen>128 then
         --Alert
         print("Exceded 128 characters (375x128 worth). Adding Down Arrow.")
+
+        --ScrollView Background Extension Rectangle
+        extensionRect = display.newRect(379,105,30,30)
+        extensionRect.anchorX=0.0
+        extensionRect.anchorY=1.0
+        extensionRect:setFillColor(1,1,1,0.8)
+        extensionRect:addEventListener("tap",downArrowListener)
+
         --Update distanceDown
         --distanceDown = (math.floor(qlen/31))*(-20)
         --print("Distance To Scroll Down: "..distanceDown)
-        downArrow = display.newPolygon(400,90,
+        downArrow = display.newPolygon(393,90,
             {
             --Old Arrow (2x; centerX,140)
             --0,0,-10,0,-10,30,-20,30,0,50,20,30,10,30,10,0
             --New Arrow
             0,0,-5,0,-5,15,-10,15,0,25,10,15,5,15,5,0
             }
-        ) --400,80
-        downArrow:setFillColor(1,0,0)
-        downArrow:addEventListener("tap",downArrowListener)
+        )
+        downArrow:setFillColor(0.15,0.15,1)
+        --downArrow:addEventListener("tap",downArrowListener) --moved to extensionRect for better contact area
     end
 
     local textOptions = {
@@ -310,15 +280,16 @@ function generateQuestion()
     --Top Corner Rectangle
     local questionFrame = display.newRect(0,0,10,10)
     questionFrame:setFillColor(0,0,0)
-    scrollView:insert(questionFrame)
 
-    --Insert Text into Scrollview
+    --Insert Into ScrollView:
+    --Top Rectangle
+    scrollView:insert(questionFrame)
+    --Question Text
     scrollView:insert(questionText)
-    
-    --Add Double Tap Listener to Scrollview
+    --Double Tap Listener
     scrollView:addEventListener("tap", myTapListener)
 
-    --scroll to top
+    --And Scroll To Top
     scrollView:scrollToPosition{x=0,y=0,time=250}
 
 
@@ -407,10 +378,8 @@ function generateQuestion()
     Ans4Button.anchorY=0.0
     Ans4Button.anchorX=0.0
 
-
-
-    --Set correct answer
-    correctAns = myData.custom.All[num][7]
+    --Set Numeric correct answer
+    correctAns = tonumber(myData.custom.All[num][7]) --tonumber cast
     
     --Increment question counter, print countText
     questionCounter=questionCounter+1
@@ -418,9 +387,9 @@ function generateQuestion()
         countText:removeSelf()
     end
     if questionCounter > questionsEndIndex then
-        countText = display.newText("Questions Seen: "..questionsEndIndex.." / "..questionsEndIndex, 70, 120, native.systemFontBold, 13)
+        countText = display.newText(""..questionsEndIndex.." / "..questionsEndIndex, 25, 130, native.systemFontBold, 18) --questions seen
     else
-        countText = display.newText("Questions Seen: "..questionCounter.." / "..questionsEndIndex, 70, 120, native.systemFontBold, 13)
+        countText = display.newText(""..questionCounter.." / "..questionsEndIndex, 25, 130, native.systemFontBold, 18) --questions seen
     end
     countText:setFillColor(0,0,0)
 end
@@ -428,60 +397,13 @@ end
 --Function to evaluate the player-selected answer
 function evaluateAnswer()
     print("     Evaluating Answer(). ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
-    --Preparing strings
-    chosenAns = string.gsub(chosenAns, " ", "")
-    correctAns = string.gsub(correctAns, " ", "")
-    chosenAns = string.upper(chosenAns)
-    correctAns = string.upper(correctAns)
-    print("     After Prepared. ChosenAns:"..chosenAns.."; CorrectAns:"..correctAns..";")
-    
-    --string to Number
-    --local x = tonumber("123")
-
-
-    --Print evaluation condition boolean
-    --BETA NOTE) Android Lua does NOT see "A"=="A" as true, so will be converting letters to numbers and then comparing them.
-    print("     Letter Comparison:")
-    print("     chosenAns == correctAns:")
-    print((chosenAns == correctAns))
-
-    --Preparing Numbers
-    local chosenAnsNum = 0
-    local correctAnsNum = 0
-    --Correct Answer Number
-    if correctAns == "A" then
-        correctAnsNum = 1
-    elseif correctAns == "B" then
-        correctAnsNum = 2
-    elseif correctAns == "C" then
-        correctAnsNum = 3
-    elseif correctAns == "D" then
-        correctAnsNum = 4
-    else
-        print("ERROR: Didn't recognize correctAns. Set to 1.")
-        correctAnsNum = 1
-    end
-    -- Chosen Answer Number
-    if chosenAns == "A" then
-        chosenAnsNum = 1
-    elseif chosenAns == "B" then
-        chosenAnsNum = 2
-    elseif chosenAns == "C" then
-        chosenAnsNum = 3
-    elseif chosenAns == "D" then
-        chosenAnsNum = 4
-    else
-        print("ERROR: Didn't recognize chosenAns. Set to 2.")
-        chosenAnsNum = 2
-    end
    
     --Print evaluation condition boolean
     print("     Numeric Comparison:")
-    print("     chosenAnsNum == correctAnsNum:")
-    print(chosenAnsNum == correctAnsNum)
+    print("     chosenAns == correctAns:")
+    print(chosenAns == correctAns)
 
-    --if chosenAns == correctAns then --Letters
-    if chosenAnsNum == correctAnsNum then --Numbers
+    if (chosenAns == correctAns) then --Numbers
         --Print/Sound Correct
         local function playSound()
             audio.play(audioCorrect,{channel=4})
@@ -528,19 +450,20 @@ local function removeAllDisplayObjects()
     Ans3Button:removeSelf()
     Ans4Button:removeSelf()
 
-    display.remove(questionText)
     display.remove(downArrow)
+    display.remove(extensionRect)
+
+    display.remove(questionText)
     scrollView:remove(questionFrame)
     scrollView:remove(questionText)
     scrollView:removeSelf()
 
-    display.remove(gameOverText)
     
     display.remove(menu)
     display.remove(scoreText)
     display.remove(countText)
 
-    display.remove(submitButton)
+    --display.remove(submitButton)
     display.remove(submitText)
 end
 
@@ -567,17 +490,12 @@ function Game4()
     --Now we draw our scene elements.
 
     --Menu Button
+    --Menu now transitions to GameOver function, in order to go to the score screen
     menu = display.newImage("images/Menu.png",menuX,menuY)
     menu:scale(0.45,0.45)
-    menu:addEventListener("tap", goToMenu) 
+    menu:addEventListener("tap", gameOver)
     
-    --Sumbit Score Button
-    submitButton = display.newRoundedRect(450,140,80,40,3)
-    submitButton.strokeWidth = 3
-    submitButton:setFillColor(0.1,0.9,0.3, 0.8)
-    submitButton:setStrokeColor(0,0,0)
-    submitButton:addEventListener("tap",submitListener)
-    submitText = display.newText("Submit Score", 450,140, native.systemFont,11)
+    
 
     --Score Text
     scoreText= display.newText(""..score, scoreTextX, scoreTextY, "Arial", 35)
@@ -594,6 +512,8 @@ end
 function gameOver()
     --Print to Console
     print("GAME OVER")
+    --Decrement questionCounter by 1 to reflect unattempted question they quit on.
+    questionCounter = questionCounter - 1
 
     --Remove All Event Listeners and Display Objects //!@# expand
     Ans1Button:removeEventListener("tap", Ans1Button)
@@ -601,32 +521,36 @@ function gameOver()
     Ans3Button:removeEventListener("tap", Ans3Button)
     Ans4Button:removeEventListener("tap", Ans4Button)
     scrollView:removeEventListener("tap", scrollView)
-    submitButton:removeEventListener("tap",submitButton)
+    --submitButton:removeEventListener("tap",submitButton) --element has been deleted
 
     --down arrow listener removal needed??
     removeAllDisplayObjects()
 
-    --Collect Important Information (along with transition info)
-    local gameOverOptions = {
-        effect = "fade",
-        time = 500,
-        params = {
-            --var1 = "test",
-            retryScene = "game4",
-            gameName = "Dynamic Vocab",
-            finalScore = score,
-            finalScoreUnit = "Correct",
-            finalDescription = "You got "..score.." correct word(s).",
-            var2 = "hi",
-            --app 42 info
-            app42GameName = "Dynamic_Vocab"
+    --If the player wants to leave the game immediately
+    if questionCounter==0 then
+        goToMenu()
+    else
+        --Collect Important Information (along with transition info)
+        local gameOverOptions = {
+            effect = "fade",
+            time = 500,
+            params = {
+                --var1 = "test",
+                retryScene = "game4",
+                gameName = "Sensei's Quiz",
+                finalScore = score,
+                finalScoreUnit = "Correct",
+                finalDescription = "You got "..score.." sentences correct, out of the "..questionCounter.." you attempted!",
+                var2 = "hi",
+                --app 42 info
+                app42GameName = "Dynamic_Vocab"
+            }
         }
-    }
 
-    --Change Scenes and Delay Removal
-    storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
-    delayedSceneRemoval()
-
+        --Change Scenes and Delay Removal
+        storyboard.gotoScene("numbers.numbersScorePage", gameOverOptions)
+        delayedSceneRemoval()
+    end
 end 
 
 -------------------------------------------
@@ -641,7 +565,7 @@ function Ans1BoxListener()
         transition.from(Ans1Button,{time=200,x=Ans1ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "A"
+    chosenAns = 1 --"A"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
@@ -652,7 +576,7 @@ function Ans2BoxListener()
         transition.from(Ans2Button,{time=200,x=Ans2ButtonX,y=Ans12ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "B"
+    chosenAns = 2 --"B"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
@@ -663,7 +587,7 @@ function Ans3BoxListener()
         transition.from(Ans3Button,{time=200,x=Ans3ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "C"
+    chosenAns = 3 --"C"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 
@@ -674,7 +598,7 @@ function Ans4BoxListener()
         transition.from(Ans4Button,{time=200,x=Ans4ButtonX,y=Ans34ButtonY,xScale=0.9,yScale=0.9})
     end
     timer.performWithDelay(50,animate) --timer required to animate properly.
-    chosenAns = "D"
+    chosenAns = 4 --"D"
     timer.performWithDelay(200, evaluateAnswer) --wait for box to animate before eval
 end
 

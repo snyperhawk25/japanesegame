@@ -9,8 +9,15 @@ require ("app42.scoreSaver")
 local myData = require("mydata")
 local widget = require("widget")
 
---Variables
 
+--For Submit Score. Not using scoreSaver.lua
+local App42API = require("App42-Lua-API.App42API")
+local tools=require("app42.App42Tools") --this is for App42:Initialize
+local scoreBoardService = App42API.buildScoreBoardService()   --For Leaderboard
+
+
+
+--Variables
 local centerX = display.contentCenterX
 local centerY = display.contentCenterY
 
@@ -21,6 +28,7 @@ local audioKazoo = audio.loadSound("audio/kazoo1.wav")
 
 
 local bubble, gameDescription, retry
+local statusLight
 
 local finalScore = 0
 local finalScoreUnit = ""
@@ -48,6 +56,9 @@ local menuY = 240--250
 local retryX = 45
 local retryY = 240
 
+local statusLightX = 17
+local statusLightY = 289
+
 --Function to remove all display objects, and listeners
 local function removeAllDisplayObjects()
 	--Listeners
@@ -59,6 +70,7 @@ local function removeAllDisplayObjects()
 	display.remove(gameDescription)
 	display.remove(menu)
 	display.remove(retry)
+	display.remove(statusLight)
 
 end
 
@@ -94,6 +106,34 @@ local function goToReloadScene()
 	goToGivenScene(reloadScene)
 end
 
+--Function to change status light
+local function setStatusLight(stateNum)
+	--Remove if existing
+	if statusLight~=nil then
+		display.remove(statusLight)
+	end
+	--Status Case
+	statusLight = display.newCircle(statusLightX,statusLightY, 5)
+	statusLight.strokeWidth = 1
+	statusLight:setStrokeColor(0,0,0)
+	statusLight.alpha = 0
+	if stateNum==1 then
+		print("(( Status Light: Green ))") --Green Check mark
+		--statusLight = display.newPolygon(statusLightX, statusLightY,{12,0,50,40,50,50,12,25,0,35,0,25})
+		statusLight:setFillColor(0.1,1,0.1)
+	elseif stateNum==0 then
+		print("(( Status Light: Red ))") --Red X
+		--statusLight = display.newPolygon(statusLightX, statusLightY,{12,0,50,40,50,50,12,25,0,35,0,25})
+		statusLight:setFillColor(1,0.1,0.1)
+	else
+		print("(( Status Light: Yellow ))") --Yellow Yeild
+		--statusLight = display.newPolygon(statusLightX, statusLightY,{0,0,0,50,25,50})
+		statusLight:setFillColor(1,0.8,0)
+	end
+	--Add Status Light
+	--self.view:insert(statusLight)
+end
+
 -- Called when the scene's view does not exist:
 function scene:createScene( event )
 	local screenGroup = self.view
@@ -114,9 +154,21 @@ function scene:createScene( event )
 	print("______gameOverOptions Readout:\nName Of Game: "..nameOfGame..".\nFinal Score: "..finalScore..".\nFinal Score Unit: "..finalScoreUnit..".\nFinal Description: "..finalDescription..".\nReload Scene: "..reloadScene..".\n_______END")
 
 	
-	--Submit ALL Scores to App42 (TimeIsNumbered: 100 is a meaningless number)
-	saveUserScore(app42GameName, myData.App42Username, finalScore)	
-	
+	--Auto statusLight to 0
+	--setStatusLight(0)
+
+	--Submit score to App42 (TimeIsNumbered: 100 is a meaningless number)
+	app42ScoreCallBack = {}	
+	function app42ScoreCallBack:onSuccess(object)
+        print("      -Score Saved Successfully: Value="..object:getScoreList():getValue()..";")
+        timer.performWithDelay(10,setStatusLight(1))
+    end
+    function app42ScoreCallBack:onException(exception)
+        print("      -Score FAILED to Saved correctly: Value="..score)
+        print("Score failed to save to App42.")
+        timer.performWithDelay(10,setStatusLight(0))
+    end
+    scoreBoardService:saveUserScore(app42GameName, myData.App42Username, finalScore, app42ScoreCallBack)
 
 	--Draw Background image (rotated and fliped horizontally)
 	bg = display.newImage("images/bg.png", centerX,centerY+30) --yscale
@@ -228,6 +280,9 @@ function scene:enterScene( event )
 	gameDescription = display.newText(descriptionOptions)
 	gameDescription:setFillColor(1)
 	screenGroup:insert(gameDescription)
+	
+	--Appear status light
+	statusLight.alpha = 1
 end
 
 

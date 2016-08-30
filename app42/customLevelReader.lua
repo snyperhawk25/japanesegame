@@ -1,5 +1,7 @@
 --customLevelReader.lua
 --this class will read/update the levels for Game4 (Dynamic_Vocab)
+--//!@#DynamicVocabFix Branch: planning to turn the question answer from a letter to a number (1-4 to correspond to A-D)
+
 local myData = require("mydata")
 ----------------------------------------------------------
 --Variables
@@ -11,9 +13,9 @@ local numQuestions = 0
 myData.custom = {}
 --define custom arras within myData
 myData.custom.All = {}
-myData.custom.Easy = {}
-myData.custom.Medium = {}
-myData.custom.Hard = {}
+--myData.custom.Easy = {}
+--myData.custom.Medium = {}
+--myData.custom.Hard = {}
 
 
 
@@ -102,44 +104,44 @@ function gR_readFile()
 	      			--print("i: "..numQuestions.." Contents: "..contents)
 
 
-	      		--3) A Value
+	      		--3) Value 1
 	      		contents = file:read("*l")
-	      			--Store Question
+	      			--Store
 	      			levels[numQuestions][3]=contents
 	      			fileText=fileText.."\n"..contents
 	      			--print("i: "..numQuestions.." Contents: "..contents)
 
-	      		--4) B Value
+	      		--4) Value 2
 	      		contents = file:read("*l")
-	      			--Store Question
+	      			--Store
 	      			levels[numQuestions][4]=contents
 	      			fileText=fileText.."\n"..contents
 	      			--print("i: "..numQuestions.." Contents: "..contents)
 
-	      		--5) C Value
+	      		--5) Value 3
 	      		contents = file:read("*l")
-	      			--Store Question
+	      			--Store
 	      			levels[numQuestions][5]=contents
 	      			fileText=fileText.."\n"..contents
 	      			--print("i: "..numQuestions.." Contents: "..contents)
 
-	      		--6) D value
+	      		--6) Value 4
 	      		contents = file:read("*l")
-	      			--Store Question
+	      			--Store
 	      			levels[numQuestions][6]=contents
 	      			fileText=fileText.."\n"..contents
 	      			--print("i: "..numQuestions.." Contents: "..contents)
 
-	      		--7) Answer To Question
+	      		--7) NUMERIC Answer To Question
 	      		contents = file:read("*l")
-	      			--Store Question
-	      			levels[numQuestions][7]=contents
+	      			--Store
+	      			levels[numQuestions][7]=tonumber(contents) --tonumber cast
 	      			fileText=fileText.."\n"..contents
 	      			--print("i: "..numQuestions.." Contents: "..contents)
 
 	      		--8) Difficulty
 	      		contents = file:read("*l")
-	      			--Store Question
+	      			--Store
 	      			levels[numQuestions][8]=contents
 	      			fileText=fileText.."\n"..contents
 	      			--print("i: "..numQuestions.." Contents: "..contents)
