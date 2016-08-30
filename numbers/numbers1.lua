@@ -211,31 +211,12 @@ end
 
 local function showAnswers(screenGroup)
 	
-	--b Randomize x,y values, put into "b"
-	--local a={{-200,65},{-200,120},{200,120},{200,65}}
-	--local b = {}
-	--local count = 4
-	--print("\nShowAnswers():")
-	--while (count>0) do --randomize the array of x values
-	--	local r = math.random(1,count)
-	--	b[count] = a[r]
-		--btest TEST PRINT
-	--	print("b["..count.."] is a["..r.."];\t"..a[r][1]..","..a[r][2]..".")
-	--	table.remove(a, r)
-	--	count=count-1
-	--end
-
-
-
-
 	--Shuffle
-	--b = fisherYates({{-170,65},{-170,120},{170,120},{170,65}})
-	b={{-170,65},{-170,120},{170,120},{170,65}} --//!@#Removed Randomizer
+	b = fisherYates({{-170,65},{-170,120},{170,120},{170,65}})
+	--b={{-170,65},{-170,120},{170,120},{170,65}} --//!@#Randomizer
 	 
-	
 
-
-	--b A - Correct
+	-- A - Correct
 	asign = display.newImage("images/bubble.png",centerX+b[1][1],b[1][2])
 	asign:scale(0.24,0.14)
 	local function  myFunction()
@@ -252,7 +233,7 @@ local function showAnswers(screenGroup)
 	atext:setFillColor(0)
 	screenGroup:insert(atext)
 
-	--b B - Incorrect
+	-- B - Incorrect
 	bsign = display.newImage("images/bubble.png",centerX+b[2][1],b[2][2])
 	bsign:scale(0.24,0.14)
 	local function  myFunction()

@@ -185,27 +185,9 @@ end
 local function showAnswers(n)
 	local screenGroup = n
 
-	--local a={-210,-120,95,190}
-	--local b = {}
-	--local count = 4
-
-	-- while (count>0) do --randomize the array of x values
-	-- 	local r = math.random(1,count)
-	-- 	b[count] = a[r]
-	-- 	table.remove(a, r)
-	-- 	count=count-1
-	-- end
-
-	--b Remove Randomization
-	--count=4
-	--a={-210,-120,95,190}
-	--for i=1,count,1 do
-	--	b[i] = a[i]
-	--end	
-
 	--Shuffle
-	--local b = fisherYates({-210,-120,95,190})
-	local b = {-210,-120,95,190} --//!@#Removed Randomizer
+	local b = fisherYates({-210,-120,95,190})
+	--local b = {-210,-120,95,190} --//!@#Randomizer
 
 	--A
 	asign = display.newImage("images/bubble.png",centerX+b[1],65)

@@ -70,14 +70,6 @@ local function restart()
 	storyboard.gotoScene("numbers.numbers1", transitionOptions)
 end
 
---DEPRICATED
---local function goToScorePage()
---	print("\nGoing to score page\n")
---	storyboard.purgeScene("numbers.numbers6")
---	storyboard.removeScene("numbers.numbers6")
---	storyboard.gotoScene("numbers.numbersScorePage","zoomOutInFadeRotate",1000)
---end
-
 local function correct(n)
 	local screenGroup = n
 	screenGroup:remove(myText)
@@ -335,28 +327,9 @@ end
 local function showAnswers(n)
 	local screenGroup = n
 
-	--was a here.
-	--local b = {}
-	--local count = 4
-
-	-- while (count>0) do --randomize the array of x values
-	-- 	local r = math.random(1,count)
-	-- 	b[count] = a[r]
-	-- 	table.remove(a, r)
-	-- 	count=count-1
-	-- end
-
-	--b Override Randomizer
-	--count = 4
-	--a={-200,-90,55,200}
-	--for i=1,count,1 do
-	--	b[i]=a[i]
-	--end	
-
-
 	--Shuffle
-	--local b = fisherYates({-200,-90,55,200})
-	local b = {-200,-90,55,200} --//!@#Removed Randomizer
+	local b = fisherYates({-200,-90,55,200})
+	--local b = {-200,-90,55,200} --//!@#Randomizer
 
 
 	bl1= display.newImage("images/numbers/bomblistener.png",centerX-155,centerY+0)

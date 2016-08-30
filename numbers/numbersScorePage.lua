@@ -282,7 +282,10 @@ function scene:enterScene( event )
 	screenGroup:insert(gameDescription)
 	
 	--Appear status light
-	statusLight.alpha = 1
+	local function myFunk()
+		statusLight.alpha = 1 --beta error
+	end
+	timer.performWithDelay(100, myFunk)
 end
 
 
