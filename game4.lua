@@ -311,9 +311,9 @@ function generateQuestion()
         shape = "roundedRect",
         font = native.systemFont,
         cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 1 } },
+        fillColor = { default={ fillR,fillG,fillB,1 }, over={ fillR,fillG,fillB,1 } }, --removing Opacity on all four buttons
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 1, 1, 1, 1 } },
         strokeWidth = 4,
         onPress = Ans1BoxListener
       }
@@ -330,9 +330,9 @@ function generateQuestion()
         shape = "roundedRect",
         font = native.systemFont,
         cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 1 } },
+        fillColor = { default={ fillR,fillG,fillB,1 }, over={ fillR,fillG,fillB,1 } },
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 1, 1, 1, 1 } },
         strokeWidth = 4,
         onPress = Ans2BoxListener
       }
@@ -349,9 +349,9 @@ function generateQuestion()
         shape = "roundedRect",
         font = native.systemFont,
         cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 1 } },
+        fillColor = { default={ fillR,fillG,fillB,1 }, over={ fillR,fillG,fillB,1 } },
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 1, 1, 1, 1 } },
         strokeWidth = 4,
         onPress = Ans3BoxListener
       }
@@ -368,9 +368,9 @@ function generateQuestion()
         shape = "roundedRect",
         font = native.systemFont,
         cornerRadius = 4,
-        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 0.5 } },
-        fillColor = { default={ fillR,fillG,fillB,0.9 }, over={ fillR,fillG,fillB,0.3 } },
-        strokeColor = { default={ 0, 0, 0, 1 }, over={ 0, 0, 0, 1 } },
+        labelColor = { default={ 0, 0, 0 }, over={ 0, 0, 0, 1 } },
+        fillColor = { default={ fillR,fillG,fillB,1 }, over={ fillR,fillG,fillB,1 } },
+        strokeColor = { default={ 0, 0, 0, 1 }, over={ 1, 1, 1, 1 } },
         strokeWidth = 4,
         onPress = Ans4BoxListener
       }
